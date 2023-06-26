@@ -1,0 +1,71 @@
+#!/usr/bin/env bash
+
+#PBS -N 20230613_bedtools_merge_for_tobias_AMLvsmonocytes
+#PBS -P sbs_liyh
+
+#PBS -q q32
+#PBS -l select=1:ncpus=4:mpiprocs=4:mem=16gb
+#PBS -l walltime=8:00:00
+
+#PBS -m bea
+#PBS -M suffi.azizan@ntu.edu.sg
+
+#PBS -o /home/suffi.azizan/misc_scripts/pbs/pbs_oe
+#PBS -e /home/suffi.azizan/misc_scripts/pbs/pbs_oe
+#PBS -j oe
+
+############################################################################################################
+
+# For TOBIAS, we need to merge individual peak files into a single peak file for each sample.
+
+# The list of selected peak files per samples are:
+# 1. bfilt.narrowPeak true rep
+# 2. idr.conservative.narrowPeak true rep
+# 3. idr.optimal.narrowPeak true rep
+# 4. overlap.optimal.narrowPeak true rep
+# 5. overlap.conservative.narrowPeak true rep
+
+
+module load sbs/bedtools
+
+sample_id="128T8B4-AML"
+
+# process AML vs monocytes for all samples
+for f in /home/suffi.azizan/scratchspace/outputs/tobias-io/"${sample_id}"/merged_peaks/*; do
+	# check if the file is a directory; if it is NOT a directory, skip
+	if [ ! -d "${f}" ]; then
+		continue
+	else
+		# initialize an array to store the peak files
+		peak_files=()
+		# capture the string in the f variable, which is the path to the sample directory
+		path_peaks="${f}"
+		# capture the sample number
+		if [[ $path_peaks =~ (sample[0-9]{1,2}) ]]; then
+  			substring="${BASH_REMATCH[1]}"
+  			echo "Substring: $substring"
+		fi
+		# capture the peak files
+		readarray -t peak_files < <(find "${f}" -type f \( -name "*_chrM_MT.pval0.01.300K.bfilt.narrowPeak.gz" -o -name "idr.*_peak.narrowPeak.gz" -o -name "overlap.*_peak.narrowPeak.gz" \))
+		# check the peak file array for each sample
+		echo "Peak files of sample $substring:" "${peak_files[@]}"
+
+		# unzip the peak files
+		for i in "${peak_files[@]}"; do
+			gunzip "${i}"
+		done
+
+		# update the peak files array to include the unzipped peak files
+		peak_files=()
+		readarray -t peak_files < <(find "${f}" -type f \( -name "*_chrM_MT.pval0.01.300K.bfilt.narrowPeak" -o -name "idr.*_peak.narrowPeak" -o -name "overlap.*_peak.narrowPeak" \))
+		# check the peak file array for each sample
+		echo "Peak files of sample $substring after unzipping:" "${peak_files[@]}"
+
+		# create a directory to store the merged peak files
+		mkdir -p "/home/suffi.azizan/scratchspace/outputs/tobias-io/${sample_id}/merged_peaks/${substring}"
+		
+		# merge the peak files using bedtools
+		cat "${peak_files[@]}" | sort -k1,1 -k2,2n | bedtools merge -c 4 -o distinct -i - > "/home/suffi.azizan/scratchspace/outputs/tobias-io/${sample_id}/merged_peaks/${substring}/merged_peaks_${sample_id}_${substring}.bed"
+
+	fi
+done
