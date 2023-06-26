@@ -6,7 +6,7 @@
 #PBS -N 20230626_tobias_test
 #PBS -P sbs_liyh
 
-#PBS -q q32
+#PBS -q q128
 #PBS -l select=1:ncpus=8:mpiprocs=8:mem=32gb
 #PBS -l walltime=8:00:00
 
