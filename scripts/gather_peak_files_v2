@@ -21,38 +21,25 @@
 
 # check if argument is provided
 if [ $# -eq 0 ]; then
-	echo "No arguments provided. Please provide the path to the croo_root folder."	
+	echo "No arguments provided. Please provide the path to the croo_root folder and the path to the dataset list text file."	
 	exit 1
 fi
 
 croo_root=$1
+dataset_list=$2
 
 # grab the basename of all the datasets based on the subfolders in the current directory
-readarray -t datasets < <(find "${croo_root}" -maxdepth 1 -mindepth 1 -type d -printf '%f\n')
-
-##### EXCLUDING CERTAIN DATASETS #####
-# Input string to exclude
-exclude_array=("ANAB5F7" "S6R691V" "98JKPD8")
-
-# Iterate over the array
-for data in "${exclude_array[@]}"; do
-	for i in "${!datasets[@]}"; do
-		# Check if the element matches the exclude string
-    	if [[ "${datasets[i]}" == "${data}" ]]; then
-			# Remove the element from the array
-			unset "datasets[i]"
-		fi
-	done
-done
-######################################
+readarray -t datasets < "${dataset_list}"
 
 # print the datasets
 echo "${datasets[@]}"
 
 # iterate through each dataset
 for dataset in "${datasets[@]}"; do
-	# iterate through each sample
-	for sample_dir in "${croo_root}/${dataset}"/*; do
+	# get the path of the dataset in the croo_root
+    dataset_path=$(find "${croo_root}" -maxdepth 1 -mindepth 1 -type d -name "${dataset}")
+    # iterate through each sample
+	for sample_dir in "${dataset_path}"/*; do
 		# check if the file is a directory; if it is NOT a directory, skip
 		if [ ! -d "${sample_dir}" ]; then
 			continue
@@ -65,17 +52,24 @@ for dataset in "${datasets[@]}"; do
   				echo "Substring: $substring"
 			fi
 			# make a directory for the merged peaks
-			mkdir -p /home/msazizan/cargospace/encd-atac-pl/expo/peaks_to_merge/raw_peaks/"${dataset}"/sample-"${substring}"
-			# initialize an array to store the peak files
+			mkdir -p /home/msazizan/cargospace/encd-atac-pl/expo/tobias_raw_inputs/input_peaks/"${dataset}"/sample-"${substring}"
+			
+            # initialize an array to store the peak files
 			peak_files=()
-			# find peak files for each dataset and transfer to the raw_peaks folder
-			readarray -t peak_files < <(find "${croo_root}/${dataset}" -type f \( -name "*_chrM_MT.pval0.01.300K.bfilt.narrowPeak.gz" -o -name "idr.*_peak.narrowPeak.gz" -o -name "overlap.*_peak.narrowPeak.gz" -o -name "*_chrM_MT.tn5.pval0.01.300K.bfilt.narrowPeak.gz" \))
+			# find PEAK FILES for each dataset and transfer to the raw_peaks folder
+			readarray -t peak_files < <(find "${dataset_path}" -type f \( -name "*_chrM_MT.pval0.01.300K.bfilt.narrowPeak.gz" -o -name "idr.*_peak.narrowPeak.gz" -o -name "overlap.*_peak.narrowPeak.gz" -o -name "*_chrM_MT.tn5.pval0.01.300K.bfilt.narrowPeak.gz" \))
 			# check the peak file array for each sample
 			echo "Peak files of $dataset sample $substring:" "${peak_files[@]}"
 			# copy the peak files to raw_peaks folder
 			for f in "${peak_files[@]}"; do
-				rsync -avz "${f}" "/home/msazizan/cargospace/encd-atac-pl/expo/peaks_to_merge/raw_peaks/${dataset}/sample-${substring}/"
+				rsync -avz "${f}" "/home/msazizan/cargospace/encd-atac-pl/expo/tobias_raw_inputs/input_peaks/${dataset}/sample-${substring}/"
 			done
+
+            # initialize an array to store the bigwig files
+            bigwig_files=()
+            # find BIGWIG FILES for each dataset and transfer to the raw_peaks folder
+            readarray -t bigwig_files < <(find "${dataset_path}" -type f \( -name "*_chrM_MT.tn5.pval0.01.300K.bfilt.fc.signal.bigwig" -o -name "*_chrM_MT.tn5.pval0.01.300K.bfilt.fc.signal.bw" \))
+
 		fi
 	done
 done
