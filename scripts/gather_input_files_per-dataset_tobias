@@ -28,7 +28,7 @@ fi
 croo_root=$1
 dataset_list=$2
 
-# grab the basename of all the datasets based on the subfolders in the current directory
+# grab the basename of all the datasets listed in the dataset list text file
 readarray -t datasets < "${dataset_list}"
 
 # print the datasets
@@ -56,7 +56,7 @@ for dataset in "${datasets[@]}"; do
   				echo "Substring: $substring of ${dataset}"
 			fi
 			# make a directory for the raw peaks
-			mkdir -p /home/msazizan/cargospace/encd-atac-pl/expo/tobias_raw_inputs/input_peaks/"${dataset}"/sample-"${substring}"
+			mkdir -p /home/msazizan/cargospace/encd-atac-pl/expo/tobias_raw_inputs/input_peaks/"${dataset}"/"${substring}"
             # initialize an array to store the peak files
 			peak_files=()
 			# find PEAK FILES for each dataset and transfer to the raw_peaks folder
@@ -65,10 +65,10 @@ for dataset in "${datasets[@]}"; do
 			echo "Peak files of ${sample_name}:"
 			printf '%s\n' "${peak_files[@]}"
 			# copy the peak files to raw_peaks folder
-			rsync -avz -n "${peak_files[@]}" "/home/msazizan/cargospace/encd-atac-pl/expo/tobias_raw_inputs/input_peaks/${dataset}/${substring}/"
+			rsync -avz "${peak_files[@]}" "/home/msazizan/cargospace/encd-atac-pl/expo/tobias_raw_inputs/input_peaks/${dataset}/${substring}/"
 
 			# make a directory for the raw bigwigs
-			mkdir -p /home/msazizan/cargospace/encd-atac-pl/expo/tobias_raw_inputs/input_bigwigs/"${dataset}"/sample-"${substring}"
+			mkdir -p /home/msazizan/cargospace/encd-atac-pl/expo/tobias_raw_inputs/input_bigwigs/"${dataset}"/"${substring}"
             # initialize an array to store the bigwig files
             bigwig_files=()
             # find BIGWIG FILES for each dataset and transfer to the raw_peaks folder
@@ -77,9 +77,8 @@ for dataset in "${datasets[@]}"; do
 			echo "Bigwig files of ${sample_name}:"
 			printf '%s\n' "${bigwig_files[@]}"
 			# copy the bigwig files to raw_peaks folder
-			rsync -avz -n "${bigwig_files[@]}" "/home/msazizan/cargospace/encd-atac-pl/expo/tobias_raw_inputs/input_bigwigs/${dataset}/${substring}/"
+			rsync -avz "${bigwig_files[@]}" "/home/msazizan/cargospace/encd-atac-pl/expo/tobias_raw_inputs/input_bigwigs/${dataset}/${substring}/"
 		fi
 	done
 done
-
-echo "Done!"
+echo "Done."
