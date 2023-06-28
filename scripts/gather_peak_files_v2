@@ -38,6 +38,10 @@ echo "${datasets[@]}"
 for dataset in "${datasets[@]}"; do
 	# get the path of the dataset in the croo_root
     dataset_path=$(find "${croo_root}" -maxdepth 1 -mindepth 1 -type d -name "${dataset}")
+	# check if the dataset path is empty; if it is empty, skip
+	if [ -z "${dataset_path}" ]; then
+		continue
+	fi
     # iterate through each sample
 	for sample_dir in "${dataset_path}"/*; do
 		# check if the file is a directory; if it is NOT a directory, skip
@@ -51,9 +55,8 @@ for dataset in "${datasets[@]}"; do
   				substring="${BASH_REMATCH[1]}"
   				echo "Substring: $substring"
 			fi
-			# make a directory for the merged peaks
-			mkdir -p /home/msazizan/cargospace/encd-atac-pl/expo/tobias_raw_inputs/input_peaks/"${dataset}"/sample-"${substring}"
-			
+			# make a directory for the raw peaks
+			#mkdir -p /home/msazizan/cargospace/encd-atac-pl/expo/tobias_raw_inputs/input_peaks/"${dataset}"/sample-"${substring}"
             # initialize an array to store the peak files
 			peak_files=()
 			# find PEAK FILES for each dataset and transfer to the raw_peaks folder
@@ -62,14 +65,22 @@ for dataset in "${datasets[@]}"; do
 			echo "Peak files of $dataset sample $substring:" "${peak_files[@]}"
 			# copy the peak files to raw_peaks folder
 			for f in "${peak_files[@]}"; do
-				rsync -avz "${f}" "/home/msazizan/cargospace/encd-atac-pl/expo/tobias_raw_inputs/input_peaks/${dataset}/sample-${substring}/"
+				echo "rsync -avz" "${f}" "/home/msazizan/cargospace/encd-atac-pl/expo/tobias_raw_inputs/input_peaks/${dataset}/sample-${substring}/"
 			done
 
+			# make a directory for the raw bigwigs
+			#mkdir -p /home/msazizan/cargospace/encd-atac-pl/expo/tobias_raw_inputs/input_bigwigs/"${dataset}"/sample-"${substring}"
             # initialize an array to store the bigwig files
             bigwig_files=()
             # find BIGWIG FILES for each dataset and transfer to the raw_peaks folder
-            readarray -t bigwig_files < <(find "${dataset_path}" -type f \( -name "*_chrM_MT.tn5.pval0.01.300K.bfilt.fc.signal.bigwig" -o -name "*_chrM_MT.tn5.pval0.01.300K.bfilt.fc.signal.bw" \))
-
+            readarray -t bigwig_files < <(find "${dataset_path}" -type f \( -name "*trim.srt.nodup.no_chrM_MT.pval.signal.bigwig" -o -name "*trim.srt.nodup.no_chrM_MT.tn5.pval.signal.bigwig" \))
+			# check the bigwig file array for each sample
+			echo "Bigwig files of $dataset sample $substring:" "${bigwig_files[@]}"
+			# copy the bigwig files to raw_peaks folder
+			for f in "${bigwig_files[@]}"; do
+				echo "rsync -avz" "${f}" "/home/msazizan/cargospace/encd-atac-pl/expo/tobias_raw_inputs/input_bigwigs/${dataset}/sample-${substring}/"
+			done
+			
 		fi
 	done
 done
