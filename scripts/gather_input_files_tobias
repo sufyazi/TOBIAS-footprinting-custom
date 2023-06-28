@@ -32,7 +32,7 @@ dataset_list=$2
 readarray -t datasets < "${dataset_list}"
 
 # print the datasets
-echo "${datasets[@]}"
+echo '[' "${datasets[@]}" ']'
 
 # iterate through each dataset
 for dataset in "${datasets[@]}"; do
@@ -53,35 +53,33 @@ for dataset in "${datasets[@]}"; do
 			# capture the sample number
 			if [[ $sample_name =~ (sample[0-9]{1,3}) ]]; then
   				substring="${BASH_REMATCH[1]}"
-  				echo "Substring: $substring"
+  				echo "Substring: $substring of ${dataset}"
 			fi
 			# make a directory for the raw peaks
-			#mkdir -p /home/msazizan/cargospace/encd-atac-pl/expo/tobias_raw_inputs/input_peaks/"${dataset}"/sample-"${substring}"
+			mkdir -p /home/msazizan/cargospace/encd-atac-pl/expo/tobias_raw_inputs/input_peaks/"${dataset}"/sample-"${substring}"
             # initialize an array to store the peak files
 			peak_files=()
 			# find PEAK FILES for each dataset and transfer to the raw_peaks folder
-			readarray -t peak_files < <(find "${dataset_path}" -type f \( -name "*_chrM_MT.pval0.01.300K.bfilt.narrowPeak.gz" -o -name "idr.*_peak.narrowPeak.gz" -o -name "overlap.*_peak.narrowPeak.gz" -o -name "*_chrM_MT.tn5.pval0.01.300K.bfilt.narrowPeak.gz" \))
+			readarray -t peak_files < <(find "${dataset_path}/${sample_name}" -type f \( -name "*_chrM_MT.pval0.01.300K.bfilt.narrowPeak.gz" -o -name "idr.*_peak.narrowPeak.gz" -o -name "overlap.*_peak.narrowPeak.gz" -o -name "*_chrM_MT.tn5.pval0.01.300K.bfilt.narrowPeak.gz" \))
 			# check the peak file array for each sample
-			echo "Peak files of $dataset sample $substring:" "${peak_files[@]}"
+			echo "Peak files of ${sample_name}:"
+			printf '%s\n' "${peak_files[@]}"
 			# copy the peak files to raw_peaks folder
-			for f in "${peak_files[@]}"; do
-				echo "rsync -avz" "${f}" "/home/msazizan/cargospace/encd-atac-pl/expo/tobias_raw_inputs/input_peaks/${dataset}/sample-${substring}/"
-			done
+			rsync -avz -n "${peak_files[@]}" "/home/msazizan/cargospace/encd-atac-pl/expo/tobias_raw_inputs/input_peaks/${dataset}/${substring}/"
 
 			# make a directory for the raw bigwigs
-			#mkdir -p /home/msazizan/cargospace/encd-atac-pl/expo/tobias_raw_inputs/input_bigwigs/"${dataset}"/sample-"${substring}"
+			mkdir -p /home/msazizan/cargospace/encd-atac-pl/expo/tobias_raw_inputs/input_bigwigs/"${dataset}"/sample-"${substring}"
             # initialize an array to store the bigwig files
             bigwig_files=()
             # find BIGWIG FILES for each dataset and transfer to the raw_peaks folder
-            readarray -t bigwig_files < <(find "${dataset_path}" -type f \( -name "*trim.srt.nodup.no_chrM_MT.pval.signal.bigwig" -o -name "*trim.srt.nodup.no_chrM_MT.tn5.pval.signal.bigwig" \))
+            readarray -t bigwig_files < <(find "${dataset_path}/${sample_name}" -type f \( -name "*trim.srt.nodup.no_chrM_MT.pval.signal.bigwig" -o -name "*trim.srt.nodup.no_chrM_MT.tn5.pval.signal.bigwig" \))
 			# check the bigwig file array for each sample
-			echo "Bigwig files of $dataset sample $substring:" "${bigwig_files[@]}"
+			echo "Bigwig files of ${sample_name}:"
+			printf '%s\n' "${bigwig_files[@]}"
 			# copy the bigwig files to raw_peaks folder
-			for f in "${bigwig_files[@]}"; do
-				echo "rsync -avz" "${f}" "/home/msazizan/cargospace/encd-atac-pl/expo/tobias_raw_inputs/input_bigwigs/${dataset}/sample-${substring}/"
-			done
-			
+			rsync -avz -n "${bigwig_files[@]}" "/home/msazizan/cargospace/encd-atac-pl/expo/tobias_raw_inputs/input_bigwigs/${dataset}/${substring}/"
 		fi
 	done
 done
 
+echo "Done!"
