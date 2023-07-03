@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+# shellcheck disable=SC1091
+
+# check if argument is provided
+if [ $# -eq 0 ]; then
+	echo "No arguments provided. Please provide the path to the folder where individual dataset merged peak files are stored."	
+	exit 1
+fi
+
+input_peaks_root=$1
+
+# set counter
+counter=0
+echo "Starting counter: ${counter}"
+
+# iterate through each dataset
+for f in "${input_peaks_root}"/*; do
+	# check counter
+	echo "Entering loop: ${counter}"
+	if [ $counter -eq 0 ]; then
+		first_file="${f}"
+		echo "First file: ${first_file}"
+		# increment counter
+		((counter++))
+		echo "Counter incremented: ${counter}"
+	else
+		# create directory for final merged peaks
+		mkdir -p "final_merged"
+		second_file="${f}"
+		echo "Second file: ${second_file}"
+		# merge the peak files using bedtools
+		cat "${first_file}" "${second_file}" | sort -k1,1 -k2,2n | bedtools merge -d 5 -c 4 -o distinct -i - > "final_merged/ALL-datasets_union_peaks.bed"
+		# reassign first_file
+		first_file="final_merged/ALL-datasets_union_peaks.bed"
+		# increment counter
+		((counter++))
+		echo "Counter incremented: ${counter}"
+	fi 
+done
+echo "Done."
