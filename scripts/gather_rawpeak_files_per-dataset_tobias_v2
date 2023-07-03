@@ -66,18 +66,6 @@ for dataset in "${datasets[@]}"; do
 			printf '%s\n' "${peak_files[@]}"
 			# copy the peak files to raw_peaks folder
 			rsync -avz "${peak_files[@]}" "/home/msazizan/cargospace/encd-atac-pl/expo/tobias_raw_inputs/input_peaks/${dataset}/${substring}/"
-
-			# make a directory for the raw bigwigs
-			mkdir -p /home/msazizan/cargospace/encd-atac-pl/expo/tobias_raw_inputs/input_bigwigs/"${dataset}"/"${substring}"
-            # initialize an array to store the bigwig files
-            bigwig_files=()
-            # find BIGWIG FILES for each dataset and transfer to the raw_peaks folder
-            readarray -t bigwig_files < <(find "${dataset_path}/${sample_name}" -type f \( -name "*trim.srt.nodup.no_chrM_MT.pval.signal.bigwig" -o -name "*trim.srt.nodup.no_chrM_MT.tn5.pval.signal.bigwig" \))
-			# check the bigwig file array for each sample
-			echo "Bigwig files of ${sample_name}:"
-			printf '%s\n' "${bigwig_files[@]}"
-			# copy the bigwig files to raw_peaks folder
-			rsync -avz "${bigwig_files[@]}" "/home/msazizan/cargospace/encd-atac-pl/expo/tobias_raw_inputs/input_bigwigs/${dataset}/${substring}/"
 		fi
 	done
 done

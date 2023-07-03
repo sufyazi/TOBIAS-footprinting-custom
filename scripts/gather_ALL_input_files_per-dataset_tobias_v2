@@ -1,0 +1,84 @@
+#!/usr/bin/env bash
+
+#####################################----RUN THIS ON ODIN----###############################################
+############################################################################################################
+# For TOBIAS, we need to merge individual peak files into a single peak file for each sample.
+
+# The list of selected peak files per samples are:
+# 1. bfilt.narrowPeak true rep
+# 2. idr.conservative.narrowPeak true rep
+# 3. idr.optimal.narrowPeak true rep
+# 4. overlap.optimal.narrowPeak true rep
+# 5. overlap.conservative.narrowPeak true rep
+
+# for bigwigs, we will use the pval.bigwig files
+# for bams, we will use the dedup.bam files
+
+# check if argument is provided
+if [ $# -eq 0 ]; then
+	echo "No arguments provided. Please provide the path to the croo_root folder and the path to the dataset list text file."	
+	exit 1
+fi
+
+croo_root=$1
+dataset_list=$2
+
+# grab the basename of all the datasets listed in the dataset list text file
+readarray -t datasets < "${dataset_list}"
+
+# print the datasets
+echo '[' "${datasets[@]}" ']'
+
+# iterate through each dataset
+for dataset in "${datasets[@]}"; do
+	# get the path of the dataset in the croo_root
+    dataset_path=$(find "${croo_root}" -maxdepth 1 -mindepth 1 -type d -name "${dataset}")
+	# check if the dataset path is empty; if it is empty, skip
+	if [ -z "${dataset_path}" ]; then
+		continue
+	fi
+    # iterate through each sample
+	for sample_dir in "${dataset_path}"/*; do
+		# check if the file is a directory; if it is NOT a directory, skip
+		if [ ! -d "${sample_dir}" ]; then
+			continue
+		else
+			# get the sample name
+			sample_name=$(basename "${sample_dir}")
+			# capture the sample number
+			if [[ $sample_name =~ (sample[0-9]{1,3}) ]]; then
+  				substring="${BASH_REMATCH[1]}"
+  				echo "Substring: $substring of ${dataset}"
+			fi
+			# make a directory for the raw peaks
+			mkdir -p /home/msazizan/cargospace/encd-atac-pl/expo/tobias_raw_input_files/"${dataset}"/"${substring}"
+
+            # initialize an array to store the bigwig files
+            bigwig_files=()
+            # find BIGWIG FILES for each dataset and transfer to the raw_peaks folder
+            readarray -t bigwig_files < <(find "${dataset_path}/${sample_name}" -type f \( -name "*trim.srt.nodup.no_chrM_MT.pval.signal.bigwig" -o -name "*trim.srt.nodup.no_chrM_MT.tn5.pval.signal.bigwig" \))
+			# check the bigwig file array for each sample
+			echo "Bigwig files of ${sample_name}:"
+			printf '%s\n' "${bigwig_files[@]}"
+			# copy the bigwig files to raw_peaks folder
+			rsync -avz "${bigwig_files[@]}" "/home/msazizan/cargospace/encd-atac-pl/expo/tobias_raw_input_files/${dataset}/${substring}/"
+
+			# initializa an array to store the bam files
+			bam_files=()
+			# find BAM FILES for each dataset and transfer to the raw_peaks folder
+			readarray -t bam_files < <(find "${dataset_path}/${sample_name}" -type f \( -name "*.trim.srt.nodup.no_chrM_MT.bam" -o -name "*.nodup.no_chrM_MT.bam" \))
+			# check the bam file array for each sample
+			echo "Bam files of ${sample_name}:"
+			printf '%s\n' "${bam_files[@]}"
+			# copy the bam files to raw_peaks folder
+			rsync -avz "${bam_files[@]}" "/home/msazizan/cargospace/encd-atac-pl/expo/tobias_raw_input_files/${dataset}/${substring}/"
+		fi
+	done
+	# rsync the raw_peaks folder to Gekko
+	if rsync -avPhz --dry-run --remove-source-files /home/msazizan/cargospace/encd-atac-pl/expo/tobias_raw_input_files/"${dataset}" suffi.azizan@gekko.hpc.ntu.edu.sg:/home/suffi.azizan/scratchspace/outputs/tobias-io/tobias_input_files/; then
+		echo "rsync of ${dataset} input files to Gekko for TOBIAS is successful."
+	else
+		echo "rsync of ${dataset} input files to Gekko for TOBIAS is NOT successful."
+	fi
+done
+echo "Input file transfer has been completed."
