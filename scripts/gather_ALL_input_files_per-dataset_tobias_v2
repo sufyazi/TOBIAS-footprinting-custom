@@ -51,7 +51,7 @@ for dataset in "${datasets[@]}"; do
   				echo "Substring: $substring of ${dataset}"
 			fi
 			# make a directory for the raw peaks
-			mkdir -p /home/msazizan/cargospace/encd-atac-pl/expo/tobias_raw_input_files/"${dataset}"/"${substring}"
+			mkdir -p /home/msazizan/cargospace/encd-atac-pl/prod/tobias_raw_input_files/"${dataset}"/"${substring}"
 
             # initialize an array to store the bigwig files
             bigwig_files=()
@@ -61,7 +61,7 @@ for dataset in "${datasets[@]}"; do
 			echo "Bigwig files of ${sample_name}:"
 			printf '%s\n' "${bigwig_files[@]}"
 			# copy the bigwig files to raw_peaks folder
-			rsync -avz "${bigwig_files[@]}" "/home/msazizan/cargospace/encd-atac-pl/expo/tobias_raw_input_files/${dataset}/${substring}/"
+			rsync -avz "${bigwig_files[@]}" "/home/msazizan/cargospace/encd-atac-pl/prod/tobias_raw_input_files/${dataset}/${substring}/"
 
 			# initializa an array to store the bam files
 			bam_files=()
@@ -71,14 +71,14 @@ for dataset in "${datasets[@]}"; do
 			echo "Bam files of ${sample_name}:"
 			printf '%s\n' "${bam_files[@]}"
 			# copy the bam files to raw_peaks folder
-			rsync -avz "${bam_files[@]}" "/home/msazizan/cargospace/encd-atac-pl/expo/tobias_raw_input_files/${dataset}/${substring}/"
+			rsync -avz "${bam_files[@]}" "/home/msazizan/cargospace/encd-atac-pl/prod/tobias_raw_input_files/${dataset}/${substring}/"
 		fi
 	done
 	# rsync the raw_peaks folder to Gekko
-	if rsync -avPhz --dry-run --remove-source-files /home/msazizan/cargospace/encd-atac-pl/expo/tobias_raw_input_files/"${dataset}" suffi.azizan@gekko.hpc.ntu.edu.sg:/home/suffi.azizan/scratchspace/outputs/tobias-io/tobias_input_files/; then
-		echo "rsync of ${dataset} input files to Gekko for TOBIAS is successful."
+	if rsync -avPhz --remove-source-files /home/msazizan/cargospace/encd-atac-pl/prod/tobias_raw_input_files/"${dataset}" suffi.azizan@gekko.hpc.ntu.edu.sg:/home/suffi.azizan/scratchspace/outputs/tobias-io/tobias_raw_input_files/; then
+		printf "Rsync transfer of %s input files to Gekko for TOBIAS is successful. \n" "${dataset}"
 	else
-		echo "rsync of ${dataset} input files to Gekko for TOBIAS is NOT successful."
+		printf "Rsync transfer of %s input files to Gekko for TOBIAS is NOT successful. \n" "${dataset}"
 	fi
 done
 echo "Input file transfer has been completed."
