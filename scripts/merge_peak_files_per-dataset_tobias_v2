@@ -52,7 +52,7 @@ for dataset in "${datasets[@]}"; do
 			# create directory for merged peaks
 			mkdir -p "/home/msazizan/cargospace/encd-atac-pl/expo/tobias_raw_inputs/merged_peaks"
             # merge the peak files using bedtools
-			cat "${sample_dir}"/* | sort -k1,1 -k2,2n | bedtools merge -d 5 -c 4 -o distinct -i - > "/home/msazizan/cargospace/encd-atac-pl/expo/tobias_raw_inputs/merged_peaks/${dataset}_${substring}_peaks_union.bed"
+			cat "${sample_dir}"/* | sort -k1,1 -k2,2n | bedtools merge -c 4 -o distinct -i - > "/home/msazizan/cargospace/encd-atac-pl/expo/tobias_raw_inputs/merged_peaks/${dataset}_${substring}_peaks_union.bed"
         fi
     done
 done
