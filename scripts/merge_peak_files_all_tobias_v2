@@ -17,6 +17,6 @@ output_final_merged=$2
 # create output folder
 mkdir -p "${output_final_merged}"
 
-cat "${input_merged_peaks_root}"/* | sort -k1,1 -k2,2n | bedtools merge -c 4 -o distinct -i - > "${output_final_merged}/ALL_final_merged_peaks.bed"
+cat "${input_merged_peaks_root}"/* | sort -k1,1 -k2,2n | bedtools merge -c 4 -o distinct -i - > "${output_final_merged}/ALL_master_merged_peakset.bed"
 
 echo "Done."
