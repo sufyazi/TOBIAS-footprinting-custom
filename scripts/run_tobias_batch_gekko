@@ -3,11 +3,11 @@
 # shellcheck disable=SC2153
 # This script is used to run the job on the cluster.
 
-#PBS -N 20230704_tobias_batch_run
+#PBS -N 20230705_tobias_batch_run
 #PBS -P sbs_liyh
 
 #PBS -q q128
-#PBS -l select=1:ncpus=32:mpiprocs=32:mem=32gb
+#PBS -l select=1:ncpus=32:mpiprocs=32
 #PBS -l walltime=10:00:00
 
 #PBS -m bea
