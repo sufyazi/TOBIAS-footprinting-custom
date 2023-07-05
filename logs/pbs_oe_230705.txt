@@ -1,0 +1,18 @@
+Current directory: sample1 of JD32HPP
+Bam file: /home/suffi.azizan/scratchspace/outputs/tobias-io/tobias_raw_input_files/JD32HPP/sample1/HGVMWBGXX_lane1_8651_TCCTGAGC_L001_R1.trim.srt.nodup.no_chrM_MT.bam
+Dataset: JD32HPP Experiment Type: atacseq
+[E::idx_find_and_load] Could not retrieve index file for '/home/suffi.azizan/scratchspace/outputs/tobias-io/tobias_raw_input_files/JD32HPP/sample1/HGVMWBGXX_lane1_8651_TCCTGAGC_L001_R1.trim.srt.nodup.no_chrM_MT.bam'
+      ======================================================================================
+      Resource Usage on 2023-07-05 13:36:47.095251:
+      JobId: 1601941.hpc-mn1  				 Project: sbs_liyh 
+      Submission Host: hpc-gekko1 
+      Exit Status: 271
+      NCPUs Requested: 16 				 NCPUs Used: 16
+      Memory Requested: 32gb 				 Memory Used: 150899656kb 
+      Vmem Used: 202839104kb
+      CPU Time Used: 29:01:41 
+      Walltime requested: 08:00:00 			 Walltime Used: 02:19:53
+      Submit Time:  Wed Jul  5 11:16:52 2023 		 Start Time: Wed Jul  5 11:16:52 2023 
+      End Time: Wed Jul  5 13:36:47 2023 
+      Execution Nodes Used: (hpc-amd003:ncpus=16:mem=33554432kb)
+      ======================================================================================
