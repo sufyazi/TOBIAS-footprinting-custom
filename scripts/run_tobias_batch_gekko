@@ -106,6 +106,9 @@ for dataset in "${!dataset_dict[@]}"; do
             fi
         fi
 
+        FILELIMIT=$(ulimit -n)
+        echo "Current file descriptor limit: " "$FILELIMIT"
+
         # run TOBIAS footprinting
         # score bigwigs
         if TOBIAS ScoreBigwig --signal "/home/suffi.azizan/scratchspace/outputs/tobias-io/tobias-analysis-outputs/RUN-${run_num}/${dataset}_${sample_name}/${dataset}_${sample_name}_corrected.bw" --regions /home/suffi.azizan/scratchspace/outputs/tobias-io/master_merged_peakset/ALL_master_merged_peakset.bed --output "/home/suffi.azizan/scratchspace/outputs/tobias-io/tobias-analysis-outputs/RUN-${run_num}/${dataset}_${sample_name}/${dataset}_${sample_name}_footprints.bw" --cores $CORE >> "/home/suffi.azizan/scratchspace/pipeline_scripts/footprinting-workflow-scripts/logs/${dataset}_${sample_name}_${experiment_type}-${CORE}cores-gekko-test.log" && \
