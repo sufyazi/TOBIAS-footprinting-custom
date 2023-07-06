@@ -13,8 +13,8 @@
 #PBS -m bea
 #PBS -M suffi.azizan@ntu.edu.sg
 
-#PBS -o /home/suffi.azizan/scratchspace/pipeline_scripts/footprinting-workflow-scripts/logs/pbs_oe_230706-1104.txt
-#PBS -e /home/suffi.azizan/scratchspace/pipeline_scripts/footprinting-workflow-scripts/logs/pbs_oe_230706-1104.txt
+#PBS -o /home/suffi.azizan/scratchspace/pipeline_scripts/footprinting-workflow-scripts/logs/pbs_oe_230706-1130.txt
+#PBS -e /home/suffi.azizan/scratchspace/pipeline_scripts/footprinting-workflow-scripts/logs/pbs_oe_230706-1130.txt
 #PBS -j oe
 
 # Load modules
