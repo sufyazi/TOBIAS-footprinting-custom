@@ -17,7 +17,14 @@ dataset_rec=$2
 run_num=$3
 
 # Set cores
-CORE=12
+CORE=10
+
+# Check and increase file descriptor limit
+FILELIMIT=$(ulimit -n)
+echo "Current file descriptor limit: " "$FILELIMIT"
+ulimit -n 10000
+FILELIMIT=$(ulimit -n)
+echo "New file descriptor limit: " "$FILELIMIT"
 
 # Declare an associative array to store the dataset and experiment type pairs
 declare -A dataset_dict
@@ -86,9 +93,10 @@ for dataset in "${!dataset_dict[@]}"; do
             fi
         fi
 
+        # run TOBIAS footprinting
         # score bigwigs
         if TOBIAS ScoreBigwig --signal "/home/msazizan/cargospace/tobias-analysis-outputs/RUN-${run_num}/${dataset}_${sample_name}/${dataset}_${sample_name}_corrected.bw" --regions /home/msazizan/cargospace/encd-atac-pl/prod/tobias_input_peaks/master_merged_peakset/ALL_master_merged_peakset.bed --output "/home/msazizan/cargospace/tobias-analysis-outputs/RUN-${run_num}/${dataset}_${sample_name}/${dataset}_${sample_name}_footprints.bw" --cores "$CORE" >> "/home/msazizan/hyperspace/footprinting-workflow-scripts/logs/${dataset}_${sample_name}_${experiment_type}-${CORE}cores-odin-test.log" && \
-            
+
         # call footprints
         TOBIAS BINDetect --motifs /home/msazizan/hyperspace/footprinting-workflow-scripts/motif-guided/joined_filt_combined_motifs.jaspar --signals "/home/msazizan/cargospace/tobias-analysis-outputs/RUN-${run_num}/${dataset}_${sample_name}/${dataset}_${sample_name}_footprints.bw" --genome /home/msazizan/hyperspace/annotations/GRCh38_no_alt_GCA_000001405.15.fasta --peaks /home/msazizan/cargospace/encd-atac-pl/prod/tobias_input_peaks/master_merged_peakset/ALL_master_merged_peakset.bed --outdir "/home/msazizan/cargospace/tobias-analysis-outputs/RUN-${run_num}/${dataset}_${sample_name}/bindetect_outputs" --skip-excel --cores "$CORE" >> "/home/msazizan/hyperspace/footprinting-workflow-scripts/logs/${dataset}_${sample_name}_${experiment_type}-${CORE}cores-odin-test.log"; then
             echo "Successfully ran TOBIAS footprinting for ${dataset}_${sample_name}."
