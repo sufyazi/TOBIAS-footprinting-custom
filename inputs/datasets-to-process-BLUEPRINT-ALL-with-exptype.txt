@@ -1,5 +1,5 @@
 2I1Y0Z9 atacseq
-    AI8K1H6 atacseq
+AI8K1H6 atacseq
 DE7909W atacseq
 50RWL61 atacseq
 YA4JE89 atacseq
@@ -17,7 +17,7 @@ C5J912G atacseq
 ERUH8Y4 atacseq
 I9178W9 atacseq
 F27B011 atacseq
-314Z52D atacseq
+    314Z52D atacseq
 9M7H5EI atacseq
 O697I0L atacseq
 JD32HPP atacseq

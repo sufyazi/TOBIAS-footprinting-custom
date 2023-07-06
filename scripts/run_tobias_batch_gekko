@@ -82,14 +82,14 @@ for dataset in "${!dataset_dict[@]}"; do
             fi
             echo "Bam file: $bam"
             # create the output directory
-            mkdir -p "/scratch/akash.bahai/suffi_tmp/RUN-${run_num}/${dataset}_${sample_name}"
+            mkdir -p "/home/suffi.azizan/scratchspace/outputs/tobias-io/tobias-analysis-outputs/RUN-${run_num}/${dataset}_${sample_name}"
         fi
 
         # check if the experiment type is DNase-seq
         if [[ "$experiment_type" == "dnaseseq" ]]; then
             echo "Dataset: $dataset Experiment Type: $experiment_type"
             # run bias correction
-            if TOBIAS ATACorrect -b "$bam" -g /home/suffi.azizan/scratchspace/inputs/genomes/GRCh38_no_alt_GCA_000001405.15.fasta -p /home/suffi.azizan/scratchspace/outputs/tobias-io/master_merged_peakset/ALL_master_merged_peakset.bed --blacklist /home/suffi.azizan/scratchspace/inputs/genomes/hg38-blacklist.v2.bed --read_shift 0 0 --k_flank 6 --outdir "/scratch/akash.bahai/suffi_tmp/RUN-${run_num}/${dataset}_${sample_name}" --prefix "${dataset}_${sample_name}" --cores $CORE >> "/home/suffi.azizan/scratchspace/pipeline_scripts/footprinting-workflow-scripts/logs/${dataset}_${sample_name}_${experiment_type}-${CORE}cores-gekko-test.log"; then
+            if TOBIAS ATACorrect -b "$bam" -g /home/suffi.azizan/scratchspace/inputs/genomes/GRCh38_no_alt_GCA_000001405.15.fasta -p /home/suffi.azizan/scratchspace/outputs/tobias-io/master_merged_peakset/ALL_master_merged_peakset.bed --blacklist /home/suffi.azizan/scratchspace/inputs/genomes/hg38-blacklist.v2.bed --read_shift 0 0 --k_flank 6 --outdir "/home/suffi.azizan/scratchspace/outputs/tobias-io/tobias-analysis-outputs/RUN-${run_num}/${dataset}_${sample_name}" --prefix "${dataset}_${sample_name}" --cores $CORE >> "/home/suffi.azizan/scratchspace/pipeline_scripts/footprinting-workflow-scripts/logs/${dataset}_${sample_name}_${experiment_type}-${CORE}cores-gekko-test.log"; then
                 echo "Bias correction has been completed for ${dataset}_${sample_name}. Proceeding with footprinting."
             else
                 echo "Bias correction has failed for ${dataset}_${sample_name}. Please check the log file for more details."
@@ -98,7 +98,7 @@ for dataset in "${!dataset_dict[@]}"; do
         elif [[ "$experiment_type" == "atacseq" ]]; then
             echo "Dataset: $dataset Experiment Type: $experiment_type"
             # run bias correction
-            if TOBIAS ATACorrect -b "$bam" -g /home/suffi.azizan/scratchspace/inputs/genomes/GRCh38_no_alt_GCA_000001405.15.fasta -p /home/suffi.azizan/scratchspace/outputs/tobias-io/master_merged_peakset/ALL_master_merged_peakset.bed --blacklist /home/suffi.azizan/scratchspace/inputs/genomes/hg38-blacklist.v2.bed --outdir "/scratch/akash.bahai/suffi_tmp/RUN-${run_num}/${dataset}_${sample_name}" --prefix "${dataset}_${sample_name}" --cores $CORE >> "/home/suffi.azizan/scratchspace/pipeline_scripts/footprinting-workflow-scripts/logs/${dataset}_${sample_name}_${experiment_type}-${CORE}cores-gekko-test.log"; then
+            if TOBIAS ATACorrect -b "$bam" -g /home/suffi.azizan/scratchspace/inputs/genomes/GRCh38_no_alt_GCA_000001405.15.fasta -p /home/suffi.azizan/scratchspace/outputs/tobias-io/master_merged_peakset/ALL_master_merged_peakset.bed --blacklist /home/suffi.azizan/scratchspace/inputs/genomes/hg38-blacklist.v2.bed --outdir "/home/suffi.azizan/scratchspace/outputs/tobias-io/tobias-analysis-outputs/RUN-${run_num}/${dataset}_${sample_name}" --prefix "${dataset}_${sample_name}" --cores $CORE >> "/home/suffi.azizan/scratchspace/pipeline_scripts/footprinting-workflow-scripts/logs/${dataset}_${sample_name}_${experiment_type}-${CORE}cores-gekko-test.log"; then
                 echo "Bias correction has been completed for ${dataset}_${sample_name}. Proceeding with footprinting."
             else
                 echo "Bias correction has failed for ${dataset}_${sample_name}. Please check the log file for more details."
@@ -111,10 +111,10 @@ for dataset in "${!dataset_dict[@]}"; do
 
         # run TOBIAS footprinting
         # score bigwigs
-        if TOBIAS ScoreBigwig --signal "/scratch/akash.bahai/suffi_tmp/RUN-${run_num}/${dataset}_${sample_name}/${dataset}_${sample_name}_corrected.bw" --regions /home/suffi.azizan/scratchspace/outputs/tobias-io/master_merged_peakset/ALL_master_merged_peakset.bed --output "/scratch/akash.bahai/suffi_tmp/RUN-${run_num}/${dataset}_${sample_name}/${dataset}_${sample_name}_footprints.bw" --cores $CORE >> "/home/suffi.azizan/scratchspace/pipeline_scripts/footprinting-workflow-scripts/logs/${dataset}_${sample_name}_${experiment_type}-${CORE}cores-gekko-test.log" && \
+        if TOBIAS ScoreBigwig --signal "/home/suffi.azizan/scratchspace/outputs/tobias-io/tobias-analysis-outputs/RUN-${run_num}/${dataset}_${sample_name}/${dataset}_${sample_name}_corrected.bw" --regions /home/suffi.azizan/scratchspace/outputs/tobias-io/master_merged_peakset/ALL_master_merged_peakset.bed --output "/home/suffi.azizan/scratchspace/outputs/tobias-io/tobias-analysis-outputs/RUN-${run_num}/${dataset}_${sample_name}/${dataset}_${sample_name}_footprints.bw" --cores $CORE >> "/home/suffi.azizan/scratchspace/pipeline_scripts/footprinting-workflow-scripts/logs/${dataset}_${sample_name}_${experiment_type}-${CORE}cores-gekko-test.log" && \
             
         # call footprints
-        TOBIAS BINDetect --motifs /home/suffi.azizan/scratchspace/pipeline_scripts/footprinting-workflow-scripts/motif-guided/joined_filt_combined_motifs.jaspar --signals "/scratch/akash.bahai/suffi_tmp/RUN-${run_num}/${dataset}_${sample_name}/${dataset}_${sample_name}_footprints.bw" --genome /home/suffi.azizan/scratchspace/inputs/genomes/GRCh38_no_alt_GCA_000001405.15.fasta --peaks /home/suffi.azizan/scratchspace/outputs/tobias-io/master_merged_peakset/ALL_master_merged_peakset.bed --outdir "/scratch/akash.bahai/suffi_tmp/RUN-${run_num}/${dataset}_${sample_name}/bindetect_outputs" --skip-excel --cores $CORE >> "/home/suffi.azizan/scratchspace/pipeline_scripts/footprinting-workflow-scripts/logs/${dataset}_${sample_name}_${experiment_type}-${CORE}cores-gekko-test.log"; then
+        TOBIAS BINDetect --motifs /home/suffi.azizan/scratchspace/pipeline_scripts/footprinting-workflow-scripts/motif-guided/joined_filt_combined_motifs.jaspar --signals "/home/suffi.azizan/scratchspace/outputs/tobias-io/tobias-analysis-outputs/RUN-${run_num}/${dataset}_${sample_name}/${dataset}_${sample_name}_footprints.bw" --genome /home/suffi.azizan/scratchspace/inputs/genomes/GRCh38_no_alt_GCA_000001405.15.fasta --peaks /home/suffi.azizan/scratchspace/outputs/tobias-io/master_merged_peakset/ALL_master_merged_peakset.bed --outdir "/home/suffi.azizan/scratchspace/outputs/tobias-io/tobias-analysis-outputs/RUN-${run_num}/${dataset}_${sample_name}/bindetect_outputs" --skip-excel --cores $CORE >> "/home/suffi.azizan/scratchspace/pipeline_scripts/footprinting-workflow-scripts/logs/${dataset}_${sample_name}_${experiment_type}-${CORE}cores-gekko-test.log"; then
             echo "Successfully ran TOBIAS footprinting for ${dataset}_${sample_name}."
         else
             echo "Failed to run TOBIAS footprinting for ${dataset}_${sample_name} due to an error. Please see the log file for more details."
