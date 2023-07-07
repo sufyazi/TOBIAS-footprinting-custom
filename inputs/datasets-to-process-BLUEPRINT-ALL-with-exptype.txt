@@ -20,10 +20,10 @@ F27B011 atacseq
     314Z52D atacseq
 9M7H5EI atacseq
 O697I0L atacseq
-JD32HPP atacseq
+    JD32HPP atacseq
 1KEQR84 atacseq
 GM30XFD atacseq
-91W7C88 atacseq
+    91W7C88 atacseq
 0QJ6J2T dnaseseq
 128T8B4 dnaseseq
 Z9UVZX7 dnaseseq
