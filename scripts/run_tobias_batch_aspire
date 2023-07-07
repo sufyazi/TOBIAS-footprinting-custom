@@ -23,6 +23,10 @@ run_num=$RUN_NUM
 # Set cores
 CORE=64
 
+echo "Gathered input root: $gathered_input_root"
+echo "Dataset record: $dataset_rec"
+echo "Run number: $run_num"
+
 # Declare an associative array to store the dataset and experiment type pairs
 declare -A dataset_dict
 
