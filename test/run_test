@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# shellcheck disable=SC1091
+# shellcheck disable=SC2153
+
+# load conda environment
+conda activate bashATAC
+
+TOBIAS --version
+TOBIAS -h
+echo "TOBIAS is working"
