@@ -9,7 +9,7 @@
 #PBS -j oe
 #PBS -P personal
 #PBS -q normal
-#PBS -o /home/users/ntu/suffiazi/pbs-logs/tobias-test-2.txt
+#PBS -o /home/users/ntu/suffiazi/pbs-logs/tobias-test-3.txt
 
 
 # load conda environment
@@ -22,13 +22,6 @@ run_num=$RUN_NUM
 
 # Set cores
 CORE=64
-
-# Check and increase file descriptor limit
-FILELIMIT=$(ulimit -n)
-echo "Current file descriptor limit: " "$FILELIMIT"
-ulimit -n 20000
-FILELIMIT=$(ulimit -n)
-echo "New file descriptor limit: " "$FILELIMIT"
 
 # Declare an associative array to store the dataset and experiment type pairs
 declare -A dataset_dict
