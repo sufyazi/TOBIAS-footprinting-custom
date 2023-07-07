@@ -5,11 +5,11 @@
 
 #PBS -N tobias-test
 #PBS -l select=1:ncpus=64:mem=64GB
-#PBS -l walltime=4:00:00
+#PBS -l walltime=24:00:00
 #PBS -j oe
 #PBS -P personal
 #PBS -q normal
-#PBS -o /home/users/ntu/suffiazi/pbs-logs/tobias-test-4.txt
+#PBS -o /home/users/ntu/suffiazi/pbs-logs/tobias-run-1.txt
 
 
 # load conda environment
@@ -77,7 +77,8 @@ for dataset in "${!dataset_dict[@]}"; do
         if [[ "$experiment_type" == "dnaseseq" ]]; then
             echo "Dataset: $dataset Experiment Type: $experiment_type"
             # run bias correction
-            if TOBIAS ATACorrect -b "$bam" -g /home/users/ntu/suffiazi/genomes/GRCh38_no_alt_GCA_000001405.15.fasta -p /home/users/ntu/suffiazi/tobias_input_peaks/merged_peaks/314Z52D_sample1_peaks_union.bed --blacklist /home/users/ntu/suffiazi/genomes/hg38-blacklist.v2.bed --read_shift 0 0 --k_flank 6 --outdir "/home/users/ntu/suffiazi/scratch/outputs/tobias-outs/RUN-${run_num}/${dataset}_${sample_name}" --prefix "${dataset}_${sample_name}" --cores $CORE >> "/home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/logfiles/${dataset}_${sample_name}_${experiment_type}-${CORE}cores-aspire-${run_num}.log.txt"; then
+            echo "Running bias correction for ${dataset}_${sample_name}"
+            if TOBIAS ATACorrect -b "$bam" -g /home/users/ntu/suffiazi/genomes/GRCh38_no_alt_GCA_000001405.15.fasta -p /home/users/ntu/suffiazi/tobias_input_peaks/master_merged_peakset/ALL_master_merged_peakset.bed --blacklist /home/users/ntu/suffiazi/genomes/hg38-blacklist.v2.bed --read_shift 0 0 --k_flank 6 --outdir "/home/users/ntu/suffiazi/scratch/outputs/tobias-outs/RUN-${run_num}/${dataset}_${sample_name}" --prefix "${dataset}_${sample_name}" --cores $CORE >> "/home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/logfiles/${dataset}_${sample_name}_${experiment_type}-${CORE}cores-aspire-${run_num}.log.txt"; then
                 echo "Bias correction has been completed for ${dataset}_${sample_name}. Proceeding with footprinting."
             else
                 echo "Bias correction has failed for ${dataset}_${sample_name}. Please check the log file for more details."
@@ -86,7 +87,8 @@ for dataset in "${!dataset_dict[@]}"; do
         elif [[ "$experiment_type" == "atacseq" ]]; then
             echo "Dataset: $dataset Experiment Type: $experiment_type"
             # run bias correction
-            if TOBIAS ATACorrect -b "$bam" -g /home/users/ntu/suffiazi/genomes/GRCh38_no_alt_GCA_000001405.15.fasta -p /home/users/ntu/suffiazi/tobias_input_peaks/merged_peaks/314Z52D_sample1_peaks_union.bed --blacklist /home/users/ntu/suffiazi/genomes/hg38-blacklist.v2.bed --outdir "/home/users/ntu/suffiazi/scratch/outputs/tobias-outs/RUN-${run_num}/${dataset}_${sample_name}" --prefix "${dataset}_${sample_name}" --cores $CORE >> "/home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/logfiles/${dataset}_${sample_name}_${experiment_type}-${CORE}cores-aspire-${run_num}.log.txt"; then
+            echo "Running bias correction for ${dataset}_${sample_name}"
+            if TOBIAS ATACorrect -b "$bam" -g /home/users/ntu/suffiazi/genomes/GRCh38_no_alt_GCA_000001405.15.fasta -p /home/users/ntu/suffiazi/tobias_input_peaks/master_merged_peakset/ALL_master_merged_peakset.bed --blacklist /home/users/ntu/suffiazi/genomes/hg38-blacklist.v2.bed --outdir "/home/users/ntu/suffiazi/scratch/outputs/tobias-outs/RUN-${run_num}/${dataset}_${sample_name}" --prefix "${dataset}_${sample_name}" --cores $CORE >> "/home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/logfiles/${dataset}_${sample_name}_${experiment_type}-${CORE}cores-aspire-${run_num}.log.txt"; then
                 echo "Bias correction has been completed for ${dataset}_${sample_name}. Proceeding with footprinting."
             else
                 echo "Bias correction has failed for ${dataset}_${sample_name}. Please check the log file for more details."
@@ -99,13 +101,16 @@ for dataset in "${!dataset_dict[@]}"; do
 
         # run TOBIAS footprinting
         # score bigwigs
-        if TOBIAS ScoreBigwig --signal "/home/users/ntu/suffiazi/scratch/outputs/tobias-outs/RUN-${run_num}/${dataset}_${sample_name}/${dataset}_${sample_name}_corrected.bw" --regions /home/users/ntu/suffiazi/tobias_input_peaks/merged_peaks/314Z52D_sample1_peaks_union.bed --output "/home/users/ntu/suffiazi/scratch/outputs/tobias-outs/RUN-${run_num}/${dataset}_${sample_name}/${dataset}_${sample_name}_footprints.bw" --cores $CORE >> "/home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/logfiles/${dataset}_${sample_name}_${experiment_type}-${CORE}cores-aspire-${run_num}.log.txt" && \
+        echo "Scoring bigwigs for ${dataset}_${sample_name} and calling footprints..."
+        if TOBIAS ScoreBigwig --signal "/home/users/ntu/suffiazi/scratch/outputs/tobias-outs/RUN-${run_num}/${dataset}_${sample_name}/${dataset}_${sample_name}_corrected.bw" --regions /home/users/ntu/suffiazi/tobias_input_peaks/master_merged_peakset/ALL_master_merged_peakset.bed --output "/home/users/ntu/suffiazi/scratch/outputs/tobias-outs/RUN-${run_num}/${dataset}_${sample_name}/${dataset}_${sample_name}_footprints.bw" --cores $CORE >> "/home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/logfiles/${dataset}_${sample_name}_${experiment_type}-${CORE}cores-aspire-${run_num}.log.txt" && \
             
         # call footprints
-        TOBIAS BINDetect --motifs /home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/motif-guided/joined_filt_combined_motifs.jaspar --signals "/home/users/ntu/suffiazi/scratch/outputs/tobias-outs/RUN-${run_num}/${dataset}_${sample_name}/${dataset}_${sample_name}_footprints.bw" --genome /home/users/ntu/suffiazi/genomes/GRCh38_no_alt_GCA_000001405.15.fasta --peaks /home/users/ntu/suffiazi/tobias_input_peaks/merged_peaks/314Z52D_sample1_peaks_union.bed --outdir "/home/users/ntu/suffiazi/scratch/outputs/tobias-outs/RUN-${run_num}/${dataset}_${sample_name}/bindetect_outputs" --skip-excel --cores $CORE >> "/home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/logfiles/${dataset}_${sample_name}_${experiment_type}-${CORE}cores-aspire-${run_num}.log.txt"; then
+        TOBIAS BINDetect --motifs /home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/motif-guided/joined_filt_combined_motifs.jaspar --signals "/home/users/ntu/suffiazi/scratch/outputs/tobias-outs/RUN-${run_num}/${dataset}_${sample_name}/${dataset}_${sample_name}_footprints.bw" --genome /home/users/ntu/suffiazi/genomes/GRCh38_no_alt_GCA_000001405.15.fasta --peaks /home/users/ntu/suffiazi/tobias_input_peaks/master_merged_peakset/ALL_master_merged_peakset.bed --outdir "/home/users/ntu/suffiazi/scratch/outputs/tobias-outs/RUN-${run_num}/${dataset}_${sample_name}/bindetect_outputs" --skip-excel --cores $CORE >> "/home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/logfiles/${dataset}_${sample_name}_${experiment_type}-${CORE}cores-aspire-${run_num}.log.txt"; then
             echo "Successfully ran TOBIAS footprinting for ${dataset}_${sample_name}."
         else
             echo "Failed to run TOBIAS footprinting for ${dataset}_${sample_name} due to an error. Please see the log file for more details."
         fi   
     done
 done
+
+echo "All done! Check the log files for any errors and the outputs directory for the results."
