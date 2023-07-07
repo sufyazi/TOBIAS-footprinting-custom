@@ -1,9 +1,20 @@
 #!/usr/bin/env bash
 # shellcheck disable=SC1091
 # shellcheck disable=SC2153
+# This script is used to run the job on the NSCC cluster.
+
+#PBS -N tobias-test
+#PBS -l select=1:ncpus=4:mem=4GB
+#PBS -l walltime=1:00:00
+#PBS -j oe
+#PBS -P personal
+#PBS -q normal
+#PBS -o /home/users/ntu/suffiazi/pbs-logs/env-test.txt
+
 
 # load conda environment
-conda activate bashATAC
+module load miniconda3/py38_4.8.3
+conda activate /home/users/ntu/suffiazi/apps/mambaforge/envs/tobias-footprinting
 
 TOBIAS --version
 TOBIAS -h

@@ -4,31 +4,31 @@
 # This script is used to run the job on the NSCC cluster.
 
 #PBS -N tobias-test
-#PBS -l select=1:ncpus=128:mem=64GB
+#PBS -l select=1:ncpus=64:mem=64GB
 #PBS -l walltime=4:00:00
 #PBS -j oe
 #PBS -P personal
 #PBS -q normal
-#PBS -o /home/users/ntu/suffiazi/pbs-logs/tobias-test.txt
+#PBS -o /home/users/ntu/suffiazi/pbs-logs/tobias-test-2.txt
 
 
 # load conda environment
-eval "$(conda shell.bash hook)"
-conda activate tobias-footprinting
+module load miniconda3/py38_4.8.3
+conda activate /home/users/ntu/suffiazi/apps/mambaforge/envs/tobias-footprinting
 
 gathered_input_root=$FILES
 dataset_rec=$REC
 run_num=$RUN_NUM
 
 # Set cores
-CORE=128
+CORE=64
 
 # Check and increase file descriptor limit
 FILELIMIT=$(ulimit -n)
 echo "Current file descriptor limit: " "$FILELIMIT"
-#ulimit -n 10000
-#FILELIMIT=$(ulimit -n)
-#echo "New file descriptor limit: " "$FILELIMIT"
+ulimit -n 20000
+FILELIMIT=$(ulimit -n)
+echo "New file descriptor limit: " "$FILELIMIT"
 
 # Declare an associative array to store the dataset and experiment type pairs
 declare -A dataset_dict
