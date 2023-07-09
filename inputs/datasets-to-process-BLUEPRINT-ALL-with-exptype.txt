@@ -24,7 +24,7 @@ O697I0L atacseq
 1KEQR84 atacseq
 GM30XFD atacseq
     91W7C88 atacseq
-0QJ6J2T dnaseseq
+    0QJ6J2T dnaseseq
 128T8B4 dnaseseq
 Z9UVZX7 dnaseseq
 UYX1M7A dnaseseq

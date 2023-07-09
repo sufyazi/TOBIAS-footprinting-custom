@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+# shellcheck disable=SC1091
+# shellcheck disable=SC2153
+# This script is used to run the job on the NSCC cluster.
+
+#PBS -N tobias-union-run-1
+#PBS -l select=1:ncpus=64:mem=64GB
+#PBS -l walltime=24:00:00
+#PBS -j oe
+#PBS -P personal
+#PBS -q normal
+#PBS -o /home/users/ntu/suffiazi/pbs-logs/tobias-run-union-1.txt
+
+
+# load conda environment
+module load miniconda3/py38_4.8.3
+conda activate /home/users/ntu/suffiazi/apps/mambaforge/envs/tobias-footprinting
+
+gathered_input_root=$FILES
+dataset_rec=$REC
+run_num=$RUN_NUM
+
+# Run the script
+source /home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/scripts/run_tobias_batch_aspire_unionpeaks "$gathered_input_root" "$dataset_rec" "$run_num" >> /home/users/ntu/suffiazi/pbs-logs/tobias-run-union-1.txt
