@@ -98,7 +98,6 @@ for dataset in "${!dataset_dict[@]}"; do
         # score bigwigs
         echo "Scoring bigwigs for ${dataset}_${sample_name} and calling footprints..."
         if TOBIAS ScoreBigwig --signal "/home/users/ntu/suffiazi/scratch/outputs/tobias-outs/RUN-${run_num}/${dataset}_${sample_name}/${dataset}_${sample_name}_corrected.bw" --regions "${UNION_PEAK_FILE}" --output "/home/users/ntu/suffiazi/scratch/outputs/tobias-outs/RUN-${run_num}/${dataset}_${sample_name}/${dataset}_${sample_name}_footprints.bw" --cores $CORE >> "/home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/logfiles/${dataset}_${sample_name}_${experiment_type}-${CORE}cores-aspire-${run_num}.log.txt" && \
-            
         # call footprints
         TOBIAS BINDetect --motifs /home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/motif-guided/joined_filt_combined_motifs.jaspar --signals "/home/users/ntu/suffiazi/scratch/outputs/tobias-outs/RUN-${run_num}/${dataset}_${sample_name}/${dataset}_${sample_name}_footprints.bw" --genome /home/users/ntu/suffiazi/genomes/GRCh38_no_alt_GCA_000001405.15.fasta --peaks "${UNION_PEAK_FILE}" --outdir "/home/users/ntu/suffiazi/scratch/outputs/tobias-outs/RUN-${run_num}/${dataset}_${sample_name}/bindetect_outputs" --skip-excel --cores $CORE >> "/home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/logfiles/${dataset}_${sample_name}_${experiment_type}-${CORE}cores-aspire-${run_num}.log.txt"; then
             echo "Successfully ran TOBIAS footprinting for ${dataset}_${sample_name}."
