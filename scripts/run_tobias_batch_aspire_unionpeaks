@@ -103,7 +103,7 @@ for dataset in "${!dataset_dict[@]}"; do
             echo "Successfully ran TOBIAS footprinting for ${dataset}_${sample_name}."
         else
             echo "Failed to run TOBIAS footprinting for ${dataset}_${sample_name} due to an error. Please see the log file for more details."
-        fi   
+        fi
     done
 done
 
