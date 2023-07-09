@@ -1,6 +1,6 @@
 2I1Y0Z9 atacseq
 AI8K1H6 atacseq
-DE7909W atacseq
+    DE7909W atacseq
 50RWL61 atacseq
 YA4JE89 atacseq
     7F3ZM3T atacseq
@@ -22,7 +22,7 @@ F27B011 atacseq
 O697I0L atacseq
     JD32HPP atacseq
 1KEQR84 atacseq
-GM30XFD atacseq
+    GM30XFD atacseq
     91W7C88 atacseq
     0QJ6J2T dnaseseq
 128T8B4 dnaseseq
