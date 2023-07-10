@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-gathered_input_root=$FILES
-dataset_rec=$REC
-run_num=$RUN
+gathered_input_root=$1
+dataset_rec=$2
+run_num=$3
 
 # Set cores
 cores=64
