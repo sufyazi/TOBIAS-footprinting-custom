@@ -7,8 +7,18 @@ run_num=$3
 # Set cores
 cores=64
 
-# Set union peak file path
-master_peak="/home/users/ntu/suffiazi/tobias_input_peaks/master_merged_peakset/ALL_master_merged_peakset.bed"
+# set run type
+run_type="union"
+
+# Set peak file path based on run type
+if [ "$run_type" == "union" ]; then
+    PEAK_PATH="/home/users/ntu/suffiazi/tobias_input_peaks/merged_peaks"
+elif [ "$run_type" == "master" ]; then
+    peakfile="/home/users/ntu/suffiazi/tobias_input_peaks/master_merged_peakset/ALL_master_merged_peakset.bed"
+else
+    echo "Invalid run type. Please specify either <union> or <master>."
+    exit 1
+fi
 
 echo "Gathered input root: $gathered_input_root"
 echo "Dataset record: $dataset_rec"
@@ -45,6 +55,17 @@ for dataset in "${!dataset_dict[@]}"; do
 			sample_name=$(basename "${sample_dir}")
             echo "Sample name: $sample_name"
 
+            # if the run type is union, then find the merged peak file (sample-specific)
+            if [ "$run_type" == "union" ]; then
+                peakfile=$(find "${PEAK_PATH}" -type f -name "${dataset}_${sample_name}_*.bed")
+                if [ -z "${peakfile}" ]; then
+                    echo "Merged peak file for ${dataset}_${sample_name} does not exist. Skipping..."
+                    continue
+                else
+                    echo "Merged peak file: $peakfile"
+                fi
+            fi
+
             # find input files and assign to variables
             # find the bam file
             readarray -t bam_files < <(find "${sample_dir}" -type f \( -name "*.trim.srt.nodup.no_chrM_MT.bam" -o -name "*.nodup.no_chrM_MT.bam" -o -name "*.rep-merged.bam" \))
@@ -56,10 +77,10 @@ for dataset in "${!dataset_dict[@]}"; do
             fi
             echo "Bam file: $bam"
             # create the output directory
-            mkdir -p "/home/users/ntu/suffiazi/scratch/outputs/tobias-outs/RUN-${run_num}-master/${dataset}_${sample_name}"
+            mkdir -p "/home/users/ntu/suffiazi/scratch/outputs/tobias-outs/RUN-${run_num}-${run_type}/${dataset}_${sample_name}"
 
             # run the script
-            qsub -v ANALYSIS_ID="$dataset",SAMPLE="$sample_name",EXP_TYPE="$experiment_type",RUN="$run_num",CORE="$cores",MASTER_PEAK="$master_peak",FILE="$bam" /home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/scripts/run_tobias_batch_aspire_submit-per-job.pbs
+            qsub -v ANALYSIS_ID="$dataset",SAMPLE="$sample_name",EXP_TYPE="$experiment_type",RUN="$run_num",CORE="$cores",PEAKS="$peakfile",FILE="$bam",TYPES="$run_type" /home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/scripts/run_tobias_batch_aspire_main-per-job.pbs
         fi
     done
 done
