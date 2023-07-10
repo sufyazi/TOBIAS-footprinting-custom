@@ -3,7 +3,7 @@
 # shellcheck disable=SC2153
 # This script is used to run the job on the NSCC cluster.
 
-#PBS -N tobias-union-run-1
+#PBS -N tobias-run
 #PBS -l select=1:ncpus=64:mem=128GB
 #PBS -l walltime=8:00:00
 #PBS -j oe
