@@ -14,6 +14,9 @@
 #PBS -M suffi.azizan@ntu.edu.sg
 #PBS -j oe
 
+# load module files
+module load singularity
+
 # load conda environment
 eval "$(conda shell.bash hook)"
 conda activate rgt-suite
@@ -30,4 +33,5 @@ rgt-hint footprinting --atac-seq --paired-end --organism hg38 --output-prefix "$
 
 # run streme
 #singularity shell --bind /scratch/suffi.azizan:/mnt memesuite.sif
+# /opt/meme/bin/streme
 #streme --verbosity 1 --oc . --dna --totallength 4000000 --time 14399 --minw 8 --maxw 15 --thresh 0.05 --align center --p /mnt/outputs/streme-io/JD32HPP-MCL/mcl-1/fp_paired_mcl-1.bed-for-streme.bed.fa
