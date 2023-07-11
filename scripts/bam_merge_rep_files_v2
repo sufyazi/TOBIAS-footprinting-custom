@@ -81,14 +81,20 @@ for dataset in "${datasets[@]}"; do
 				# assign the bam file to a variable
 				bam_file=$(find "${sample_dir}" -type f \( -name "*.trim.srt.nodup.no_chrM_MT.bam" -o -name "*.nodup.no_chrM_MT.bam" \))
 				if [ -f "${sample_dir}/${dataset}-${sample_name}.trim.srt.nodup.rep-merged.bam.bai" ]; then
-					echo "Index file exists. Skipping..."
+					echo "Merged index file exists. Skipping..."
 					continue
 				else
-					echo "Index file does not exist. Indexing..."
-					if samtools index "${bam_file}"; then
-						echo "Index file has been generated."
+					index_file=$(find "${sample_dir}" -type f -name "*.bai")
+					if [ -z "${index_file}" ]; then
+						echo "Index file does not exist. Indexing..."
+						if samtools index "${bam_file}"; then
+							echo "Index file has been generated."
+						else
+							echo "Index file has NOT been generated. One of the commands has failed."
+						fi
 					else
-						echo "Index file has NOT been generated. One of the commands has failed."
+						echo "Index file ${index_file} exists. Skipping..."
+						continue
 					fi
 				fi	
 			fi
