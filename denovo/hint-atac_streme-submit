@@ -5,7 +5,7 @@ dataset_rec=$2
 run_num=$3
 
 # Set union peak file path
-master_peak="/home/suffi.azizan/scratchspace/outputs/hint-atac/merged_sample-specific_peaks"
+peakset="/home/suffi.azizan/scratchspace/outputs/hint-atac/merged_sample-specific_peaks"
 
 echo "Gathered input root: $gathered_input_root"
 echo "Dataset record: $dataset_rec"
@@ -43,7 +43,7 @@ for dataset in "${!dataset_dict[@]}"; do
             echo "Sample name: $sample_name"
 
             # find the merged peak file (sample-specific)
-            merged_peak_file=$(find "${master_peak}" -type f -name "${dataset}_${sample_name}_*.bed")
+            merged_peak_file=$(find "${peakset}" -type f -name "${dataset}_${sample_name}_*.bed")
             if [ -z "${merged_peak_file}" ]; then
                 echo "Merged peak file for ${dataset}_${sample_name} does not exist. Skipping..."
                 continue

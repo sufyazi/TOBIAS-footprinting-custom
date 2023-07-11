@@ -7,7 +7,7 @@
 #PBS -P sbs_liyh
 
 #PBS -q q128
-#PBS -l select=1:ncpus=16:mpiprocs=16:mem=8gb
+#PBS -l select=1:ncpus=16:mpiprocs=16:mem=10gb
 #PBS -l walltime=6:00:00
 
 #PBS -m bea
@@ -26,11 +26,31 @@ bam=$FILE
 peaks=$MERGED_PEAKS
 path_output=$OUT_PATH
 
+echo "Running rgt-hint..."
+
 # run rgt-hint
-rgt-hint footprinting --atac-seq --paired-end --organism hg38 --output-prefix "${out_prefix}" --output-location "${path_output}" "${bam}" "${peaks}"
+if rgt-hint footprinting --atac-seq --paired-end --organism hg38 --output-prefix "${out_prefix}" --output-location "${path_output}" "${bam}" "${peaks}"; then
+    echo "rgt-hint completed successfully."
+else
+    echo "rgt-hint failed."
+    exit 1
+fi
+
+echo "Running bedtools [getfasta] to get the sequences of the footprints for STREME de novo motif discovery..."
 
 # run bedtools getfasta
-cut -f 1,2,3 "${path_output}"/"${out_prefix}".bed | bedtools getfasta -fi /home/suffi.azizan/scratchspace/inputs/genomes/GRCh38_no_alt_GCA_000001405.15.fasta -bed - -fo /home/suffi.azizan/scratchspace/outputs/streme-io/inputs/"${out_prefix}"_footprints.fa
-
-# run streme
-singularity exec --bind /scratch/suffi.azizan:/mnt /home/suffi.azizan/installs/singularity_sifs/memesuite.sif streme --verbosity 1 --oc /mnt/outputs/streme-io/outputs/"${out_prefix}" --dna --totallength 4000000 --minw 8 --maxw 15 --thresh 0.05 --align center --p /mnt/outputs/streme-io/inputs/"${out_prefix}"_footprints.fa
+if cut -f 1,2,3 "${path_output}"/"${out_prefix}".bed | bedtools getfasta -fi /home/suffi.azizan/scratchspace/inputs/genomes/GRCh38_no_alt_GCA_000001405.15.fasta -bed - -fo /home/suffi.azizan/scratchspace/outputs/streme-io/inputs/"${out_prefix}"_footprints.fa; then
+    echo "bedtools getfasta completed successfully."
+    echo "running streme..."
+    # run streme
+    if singularity exec --bind /scratch/suffi.azizan:/mnt /home/suffi.azizan/installs/singularity_sifs/memesuite.sif streme --verbosity 1 --oc /mnt/outputs/streme-io/outputs/"${out_prefix}" --dna --totallength 4000000 --minw 8 --maxw 15 --thresh 0.05 --align center --p /mnt/outputs/streme-io/inputs/"${out_prefix}"_footprints.fa; then
+        echo "streme completed successfully."
+        echo "Workflow script completed with success."
+    else
+        echo "streme failed. Aborting..."
+        exit 1
+    fi
+else
+    echo "bedtools getfasta failed. Aborting..."
+    exit 1
+fi
