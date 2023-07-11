@@ -27,7 +27,7 @@ peaks=$MERGED_PEAKS
 path_output=$OUT_PATH
 
 # run rgt-hint
-#rgt-hint footprinting --atac-seq --paired-end --organism hg38 --output-prefix "${out_prefix}" --output-location "${path_output}" "${bam}" "${peaks}"
+rgt-hint footprinting --atac-seq --paired-end --organism hg38 --output-prefix "${out_prefix}" --output-location "${path_output}" "${bam}" "${peaks}"
 
 # run bedtools getfasta
 cut -f 1,2,3 "${path_output}"/"${out_prefix}".bed | bedtools getfasta -fi /home/suffi.azizan/scratchspace/inputs/genomes/GRCh38_no_alt_GCA_000001405.15.fasta -bed - -fo /home/suffi.azizan/scratchspace/outputs/streme-io/inputs/"${out_prefix}"_footprints.fa
