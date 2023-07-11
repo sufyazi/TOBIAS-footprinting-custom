@@ -8,7 +8,7 @@
 
 #PBS -q q128
 #PBS -l select=1:ncpus=16:mpiprocs=16:mem=10gb
-#PBS -l walltime=6:00:00
+#PBS -l walltime=4:00:00
 
 #PBS -m bea
 #PBS -M suffi.azizan@ntu.edu.sg
@@ -25,15 +25,25 @@ out_prefix=$OUT_PREF
 bam=$FILE
 peaks=$MERGED_PEAKS
 path_output=$OUT_PATH
+experiment=$EXP_TYPE
 
 echo "Running rgt-hint..."
 
-# run rgt-hint
-if rgt-hint footprinting --atac-seq --paired-end --organism hg38 --output-prefix "${out_prefix}" --output-location "${path_output}" "${bam}" "${peaks}"; then
-    echo "rgt-hint completed successfully."
-else
-    echo "rgt-hint failed."
-    exit 1
+# run rgt-hint based on the experiment type
+if [[ "${experiment}" == "atacseq" ]]; then
+    if rgt-hint footprinting --atac-seq --paired-end --organism=hg38 --output-prefix="${out_prefix}" --output-location="${path_output}" "${bam}" "${peaks}"; then
+        echo "rgt-hint on ATAC-seq mode completed successfully."
+    else
+        echo "rgt-hint failed."
+        exit 1
+    fi
+elif [[ "${experiment}" == "dnaseseq" ]]; then
+    if rgt-hint footprinting --dnase-seq --bias-correction --organism=hg38 --output-prefix="${out_prefix}" --output-location="${path_output}" "${bam}" "${peaks}"; then
+        echo "rgt-hint on DNAse-seq mode completed successfully."
+    else
+        echo "rgt-hint failed."
+        exit 1
+    fi
 fi
 
 echo "Running bedtools [getfasta] to get the sequences of the footprints for STREME de novo motif discovery..."

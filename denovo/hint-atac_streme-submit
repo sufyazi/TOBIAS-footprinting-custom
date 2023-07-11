@@ -68,7 +68,7 @@ for dataset in "${!dataset_dict[@]}"; do
             out_path="/home/suffi.azizan/scratchspace/outputs/hint-atac/hint-atac-outputs/RUN-${run_num}/${dataset}_${sample_name}"
 
             # run the script
-            qsub -v OUT_PREF="${out_prefix}",FILE="${bam}",MERGED_PEAKS="${merged_peak_file}",OUT_PATH="${out_path}" /home/suffi.azizan/scratchspace/pipeline_scripts/footprinting-workflow-scripts/denovo/hint-atac_streme-main.pbs
+            qsub -v OUT_PREF="${out_prefix}",FILE="${bam}",MERGED_PEAKS="${merged_peak_file}",OUT_PATH="${out_path}",EXP_TYPE="${experiment_type}" /home/suffi.azizan/scratchspace/pipeline_scripts/footprinting-workflow-scripts/denovo/hint-atac_streme-main.pbs
         fi
     done
 done
