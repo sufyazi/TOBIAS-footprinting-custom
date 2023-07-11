@@ -41,7 +41,7 @@ for dataset in "${datasets[@]}"; do
 			# get the sample name
 			sample_name=$(basename "${sample_dir}")
 			echo "Current directory: ${sample_name} of ${dataset}"
-			
+
 			# make a directory for the raw bam files
 			mkdir -p /home/msazizan/cargospace/tobias-raw-input-files/"${dataset}"/"${sample_name}"
 
