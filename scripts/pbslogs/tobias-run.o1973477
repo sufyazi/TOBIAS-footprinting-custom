@@ -1,0 +1,22 @@
+Running bias correction for YA4JE89_sample2
+Bias correction has been completed for YA4JE89_sample2. Proceeding with footprinting.
+Current file descriptor limit:  16384
+Scoring bigwigs for YA4JE89_sample2 and calling footprints...
+Successfully ran TOBIAS footprinting for YA4JE89_sample2.
+All done! Check the log files for any errors and the outputs directory for the results.
+======================================================================================
+
+			Resource Usage on 2023-07-11 12:37:08.998331:
+
+	JobId: 1973477.pbs101  
+	Project: personal-suffiazi 
+	Exit Status: 0
+	NCPUs Requested: 64				NCPUs Used: 64
+							CPU Time Used: 06:18:37
+	Memory Requested: 100gb 			Memory Used: 52353940kb
+							Vmem Used: 1159961472kb
+	Walltime requested: 01:00:00 			Walltime Used: 00:13:20
+	
+	Execution Nodes Used: (x1001c1s7b0n1:ncpus=64:mem=104857600kb)
+	
+ ======================================================================================

@@ -1,0 +1,22 @@
+Running bias correction for 50RWL61_sample3
+Bias correction has been completed for 50RWL61_sample3. Proceeding with footprinting.
+Current file descriptor limit:  16384
+Scoring bigwigs for 50RWL61_sample3 and calling footprints...
+Successfully ran TOBIAS footprinting for 50RWL61_sample3.
+All done! Check the log files for any errors and the outputs directory for the results.
+======================================================================================
+
+			Resource Usage on 2023-07-11 13:09:01.585848:
+
+	JobId: 1973481.pbs101  
+	Project: personal-suffiazi 
+	Exit Status: 0
+	NCPUs Requested: 64				NCPUs Used: 64
+							CPU Time Used: 05:27:12
+	Memory Requested: 100gb 			Memory Used: 51302440kb
+							Vmem Used: 1158480596kb
+	Walltime requested: 01:00:00 			Walltime Used: 00:10:15
+	
+	Execution Nodes Used: (x1001c3s1b0n0:ncpus=64:mem=104857600kb)
+	
+ ======================================================================================

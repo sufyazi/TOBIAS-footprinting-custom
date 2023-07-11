@@ -1,0 +1,21 @@
+Current file descriptor limit:  16384
+Scoring bigwigs for 314Z52D_sample1 and calling footprints...
+Successfully ran TOBIAS footprinting for 314Z52D_sample1.
+All done! Check the log files for any errors and the outputs directory for the results.
+======================================================================================
+
+			Resource Usage on 2023-07-11 12:58:57.537299:
+
+	JobId: 1973498.pbs101  
+	Project: personal-suffiazi 
+	Exit Status: 0
+	NCPUs Requested: 64				NCPUs Used: 64
+							CPU Time Used: 40:03:46
+	Memory Requested: 800gb 			Memory Used: 838862852kb
+							Vmem Used: 1040707360kb
+	Walltime requested: 08:00:00 			Walltime Used: 01:00:21
+	
+	Execution Nodes Used: (x1000c4s0b0n0:ncpus=64:mem=838860800kb)
+	
+ ======================================================================================
+Cgroup mem limit exceeded: 
