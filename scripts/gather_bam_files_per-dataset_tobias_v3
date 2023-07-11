@@ -41,9 +41,15 @@ for dataset in "${datasets[@]}"; do
 			# get the sample name
 			sample_name=$(basename "${sample_dir}")
 			echo "Current directory: ${sample_name} of ${dataset}"
-			
+
+			# capture the sample number
+			if [[ $sample_name =~ (sample[0-9]{1,3}) ]]; then
+  				substring="${BASH_REMATCH[1]}"
+  				echo "Current directory: ${substring} of ${dataset}"
+			fi
+
 			# make a directory for the raw bam files
-			mkdir -p /home/msazizan/cargospace/tobias-raw-input-files/"${dataset}"/"${sample_name}"
+			mkdir -p /home/msazizan/cargospace/tobias-raw-input-files/"${dataset}"/"${substring}"
 
 			# initialize an array to store the bam files
 			bam_files=()
@@ -53,7 +59,7 @@ for dataset in "${datasets[@]}"; do
 			echo "Bam files of ${sample_name}:"
 			printf '%s\n' "${bam_files[@]}"
 			# copy the bam files to created folder
-			rsync -avPhz "${bam_files[@]}" "/home/msazizan/cargospace/tobias-raw-input-files/${dataset}/${sample_name}/"
+			rsync -avPhz "${bam_files[@]}" "/home/msazizan/cargospace/tobias-raw-input-files/${dataset}/${substring}/"
 		fi
 	done
 	# # rsync the bam folder to Gekko
