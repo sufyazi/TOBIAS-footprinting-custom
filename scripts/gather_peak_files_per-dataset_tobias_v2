@@ -20,7 +20,7 @@
 # └── raw_peaks
 
 # check if argument is provided
-if [ $# -eq 0 ]; then
+if [ $# -ne 2 ]; then
 	echo "No arguments provided. Please provide the path to the croo_root folder and the path to the dataset list text file."	
 	exit 1
 fi
@@ -56,7 +56,7 @@ for dataset in "${datasets[@]}"; do
   				echo "Substring: $substring of ${dataset}"
 			fi
 			# make a directory for the raw peaks
-			mkdir -p /home/msazizan/cargospace/encd-atac-pl/expo/tobias_raw_inputs/input_peaks/"${dataset}"/"${substring}"
+			mkdir -p /home/msazizan/outerspace/tobias_input_peaks/input_peaks/"${dataset}"/"${substring}"
             # initialize an array to store the peak files
 			peak_files=()
 			# find PEAK FILES for each dataset and transfer to the raw_peaks folder
@@ -65,7 +65,7 @@ for dataset in "${datasets[@]}"; do
 			echo "Peak files of ${sample_name}:"
 			printf '%s\n' "${peak_files[@]}"
 			# copy the peak files to raw_peaks folder
-			rsync -avz "${peak_files[@]}" "/home/msazizan/cargospace/encd-atac-pl/expo/tobias_raw_inputs/input_peaks/${dataset}/${substring}/"
+			rsync -avz "${peak_files[@]}" "/home/msazizan/outerspace/tobias_input_peaks/input_peaks/${dataset}/${substring}/"
 		fi
 	done
 done
