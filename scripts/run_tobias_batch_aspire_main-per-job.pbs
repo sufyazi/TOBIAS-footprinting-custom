@@ -2,17 +2,18 @@
 # shellcheck disable=SC1091
 # shellcheck disable=SC2153
 # This script is used to run the job on the NSCC cluster.
-# for master peakset: use 200GB memory and 64 cores; for union peakset: use 80GB memory and 64 cores
+# for master peakset: use 380GB memory and 64 cores for 8h; for union peakset: use 100GB memory and 64 cores for 2h
 
 #PBS -N tobias-run
-#PBS -l select=1:ncpus=64:mem=80GB
-#PBS -l walltime=2:00:00
+#PBS -l select=1:ncpus=64:mem=100GB
+#PBS -l walltime=1:00:00
 #PBS -j oe
 #PBS -P personal
 #PBS -q normal
 
 # load conda environment
 module load miniconda3/py38_4.8.3
+
 conda activate /home/users/ntu/suffiazi/apps/mambaforge/envs/tobias-footprinting
 
 dataset=$ANALYSIS_ID

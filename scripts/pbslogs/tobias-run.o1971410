@@ -1,0 +1,18 @@
+=>> PBS: job killed: walltime 28807 exceeded limit 28800
+======================================================================================
+
+			Resource Usage on 2023-07-11 02:45:27.452399:
+
+	JobId: 1971410.pbs101  
+	Project: personal-suffiazi 
+	Exit Status: 271
+	NCPUs Requested: 64				NCPUs Used: 64
+							CPU Time Used: 08:05:34
+	Memory Requested: 380gb 			Memory Used: 398458880kb
+							Vmem Used: 1002760128kb
+	Walltime requested: 08:00:00 			Walltime Used: 08:00:18
+	
+	Execution Nodes Used: (x1001c7s7b1n0:ncpus=64:mem=398458880kb)
+	
+ ======================================================================================
+Cgroup mem limit exceeded: oom-kill:constraint=CONSTRAINT_MEMCG,nodemask=(null),cpuset=1971410.pbs101,mems_allowed=0-7,oom_memcg=/pbs_jobs.service/jobid/1971410.pbs101,task_memcg=/pbs_jobs.service/jobid/1971410.pbs101,task=TOBIAS,pid=3857591,uid=30093

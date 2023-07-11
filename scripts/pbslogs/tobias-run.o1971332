@@ -1,0 +1,22 @@
+Running bias correction for 0QJ6J2T_sample1
+Bias correction has been completed for 0QJ6J2T_sample1. Proceeding with footprinting.
+Current file descriptor limit:  16384
+Scoring bigwigs for 0QJ6J2T_sample1 and calling footprints...
+Successfully ran TOBIAS footprinting for 0QJ6J2T_sample1.
+All done! Check the log files for any errors and the outputs directory for the results.
+======================================================================================
+
+			Resource Usage on 2023-07-10 18:53:46.319716:
+
+	JobId: 1971332.pbs101  
+	Project: personal-suffiazi 
+	Exit Status: 0
+	NCPUs Requested: 64				NCPUs Used: 64
+							CPU Time Used: 03:58:10
+	Memory Requested: 80gb 			Memory Used: 47074548kb
+							Vmem Used: 1158630732kb
+	Walltime requested: 02:00:00 			Walltime Used: 00:08:26
+	
+	Execution Nodes Used: (x1001c6s0b0n0:ncpus=64:mem=83886080kb)
+	
+ ======================================================================================

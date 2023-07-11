@@ -1,0 +1,19 @@
+Current file descriptor limit:  16384
+Scoring bigwigs for 314Z52D_sample1 and calling footprints...
+======================================================================================
+
+			Resource Usage on 2023-07-11 11:54:14.635779:
+
+	JobId: 1973431.pbs101  
+	Project: personal-suffiazi 
+	Exit Status: 271
+	NCPUs Requested: 64				NCPUs Used: 64
+							CPU Time Used: 09:01:32
+	Memory Requested: 420gb 			Memory Used: 440402052kb
+							Vmem Used: 1049469620kb
+	Walltime requested: 10:00:00 			Walltime Used: 00:13:33
+	
+	Execution Nodes Used: (x1001c7s3b1n0:ncpus=64:mem=440401920kb)
+	
+ ======================================================================================
+Cgroup mem limit exceeded: oom-kill:constraint=CONSTRAINT_MEMCG,nodemask=(null),cpuset=1973431.pbs101,mems_allowed=0-7,oom_memcg=/pbs_jobs.service/jobid/1973431.pbs101,task_memcg=/pbs_jobs.service/jobid/1973431.pbs101,task=TOBIAS,pid=705952,uid=30093
