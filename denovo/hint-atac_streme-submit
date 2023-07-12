@@ -1,13 +1,19 @@
 #!/usr/bin/env bash
 
-gathered_input_root=$1
+# Check if the number of arguments is correct
+if [ "$#" -ne 3 ]; then
+    echo "Usage: $0 <gathered_bam_root> <dataset_record> <run_number>"
+    exit 1
+fi
+
+gathered_bam_root=$1
 dataset_rec=$2
 run_num=$3
 
 # Set union peak file path
-peakset="/home/suffi.azizan/scratchspace/outputs/hint-atac/merged_sample-specific_peaks"
+peakset="/home/suffi.azizan/scratchspace/outputs/hint-atac_streme-io/misc/hint-ins/merged_sample-specific_peaks"
 
-echo "Gathered input root: $gathered_input_root"
+echo "Gathered bam input root: $gathered_bam_root"
 echo "Dataset record: $dataset_rec"
 echo "Run number: $run_num"
 
@@ -22,7 +28,7 @@ done < "$dataset_rec"
 # Print the dataset and experiment type pairs
 for dataset in "${!dataset_dict[@]}"; do
     # get the path of the dataset in the gathered_input_root
-    dataset_path=$(find "${gathered_input_root}" -maxdepth 1 -mindepth 1 -type d -name "${dataset}")
+    dataset_path=$(find "${gathered_bam_root}" -maxdepth 1 -mindepth 1 -type d -name "${dataset}")
 	# check if the dataset path is empty; if it is empty, skip
 	if [ -z "${dataset_path}" ]; then
         echo "Dataset ${dataset} does not exist in input path. Skipping..."
@@ -62,10 +68,10 @@ for dataset in "${!dataset_dict[@]}"; do
             fi
             echo "Bam file: $bam"
             # create the output directory
-            mkdir -p "/home/suffi.azizan/scratchspace/outputs/hint-atac/hint-atac-outputs/RUN-${run_num}/${dataset}_${sample_name}"
+            mkdir -p "/home/suffi.azizan/scratchspace/outputs/hint-atac_streme-io/hint-atac-outputs/RUN-${run_num}/${dataset}_${sample_name}"
 
             out_prefix="${dataset}_${sample_name}_${experiment_type}_RUN-${run_num}"
-            out_path="/home/suffi.azizan/scratchspace/outputs/hint-atac/hint-atac-outputs/RUN-${run_num}/${dataset}_${sample_name}"
+            out_path="/home/suffi.azizan/scratchspace/outputs/hint-atac_streme-io/hint-atac-outputs/RUN-${run_num}/${dataset}_${sample_name}"
 
             # run the script
             qsub -v OUT_PREF="${out_prefix}",FILE="${bam}",MERGED_PEAKS="${merged_peak_file}",OUT_PATH="${out_path}",EXP_TYPE="${experiment_type}" /home/suffi.azizan/scratchspace/pipeline_scripts/footprinting-workflow-scripts/denovo/hint-atac_streme-main.pbs
