@@ -1,30 +1,30 @@
-2I1Y0Z9 atacseq
-    AI8K1H6 atacseq
-    DE7909W atacseq
- 50RWL61 atacseq
-    YA4JE89 atacseq
+   2I1Y0Z9 atacseq
+   AI8K1H6 atacseq
+   DE7909W atacseq
+   50RWL61 atacseq
+   YA4JE89 atacseq
  7F3ZM3T atacseq
- 77SHGAG atacseq
+   77SHGAG atacseq
 2W5JG33 atacseq
- ZF8WDFS atacseq
- 5OCQITY atacseq
- 3CA9B3H atacseq
- 7UV42I3 atacseq
-    BYPLWTE atacseq
-    IO8L3WL atacseq
-    IYRVLF5 atacseq
-    C5J912G atacseq
-    ERUH8Y4 atacseq
-    I9178W9 atacseq
-    F27B011 atacseq
-    314Z52D atacseq
- 9M7H5EI atacseq
-    O697I0L atacseq
-    JD32HPP atacseq
- 1KEQR84 atacseq
-    GM30XFD atacseq
-91W7C88 atacseq
-0QJ6J2T dnaseseq
+   ZF8WDFS atacseq
+   5OCQITY atacseq
+   3CA9B3H atacseq
+   7UV42I3 atacseq
+   BYPLWTE atacseq
+   IO8L3WL atacseq
+   IYRVLF5 atacseq
+   C5J912G atacseq
+   ERUH8Y4 atacseq
+   I9178W9 atacseq
+   F27B011 atacseq
+   314Z52D atacseq
+   9M7H5EI atacseq
+   O697I0L atacseq
+   JD32HPP atacseq
+   1KEQR84 atacseq
+   GM30XFD atacseq
+   91W7C88 atacseq
+   0QJ6J2T dnaseseq
 128T8B4 dnaseseq
 Z9UVZX7 dnaseseq
 UYX1M7A dnaseseq
