@@ -1,0 +1,22 @@
+Running bias correction for 1KEQR84_sample3
+Bias correction has been completed for 1KEQR84_sample3. Proceeding with footprinting.
+Current file descriptor limit:  16384
+Scoring bigwigs for 1KEQR84_sample3 and calling footprints...
+Successfully ran TOBIAS footprinting for 1KEQR84_sample3.
+All done! Check the log files for any errors and the outputs directory for the results.
+======================================================================================
+
+			Resource Usage on 2023-07-12 07:32:30.579996:
+
+	JobId: 1977984.pbs101  
+	Project: personal-suffiazi 
+	Exit Status: 0
+	NCPUs Requested: 64				NCPUs Used: 64
+							CPU Time Used: 128:01:41
+	Memory Requested: 1240gb 			Memory Used: 960691180kb
+							Vmem Used: 1491140516kb
+	Walltime requested: 05:00:00 			Walltime Used: 03:22:37
+	
+	Execution Nodes Used: (x1000c4s2b0n0:ncpus=64:mem=1300234240kb)
+	
+ ======================================================================================

@@ -2,10 +2,10 @@
 # shellcheck disable=SC1091
 # shellcheck disable=SC2153
 # This script is used to run the job on the NSCC cluster.
-# for master peakset: use 1240GB memory and 64 cores for 5h; for union peakset: use 100GB memory and 64 cores for 1h
+# for master peakset: use 1800GB memory and 64 cores for 5h; for union peakset: use 300GB memory and 64 cores for 1h
 
 #PBS -N tobias-run
-#PBS -l select=1:ncpus=64:mem=1240GB
+#PBS -l select=1:ncpus=64:mem=1500GB
 #PBS -l walltime=5:00:00
 #PBS -j oe
 #PBS -P personal
