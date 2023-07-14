@@ -56,6 +56,9 @@ if TOBIAS ScoreBigwig --signal "/home/users/ntu/suffiazi/scratch/outputs/tobias-
 # call footprints
 TOBIAS BINDetect --motifs /home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/motif-guided/joined_filt_combined_motifs.jaspar --signals "/home/users/ntu/suffiazi/scratch/outputs/tobias-outs/RUN-${run_num}-${run_type}/${dataset}_${sample_name}/${dataset}_${sample_name}_footprints.bw" --genome /home/users/ntu/suffiazi/genomes/GRCh38_no_alt_GCA_000001405.15.fasta --peaks "${masterpeaks}" --outdir "/home/users/ntu/suffiazi/scratch/outputs/tobias-outs/RUN-${run_num}-${run_type}/${dataset}_${sample_name}/bindetect_outputs" --skip-excel --cores "${cores}" >> "/home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/logfiles/${dataset}_${sample_name}_${experiment_type}-${cores}cores-aspire-${run_num}-${run_type}.log"; then
     echo "Successfully ran TOBIAS footprinting for ${dataset}_${sample_name}."
+    # run post-processing module
+    echo "Running post-processing module for ${dataset}_${sample_name}..."
+    
 else
     echo "ERROR: Failed to run TOBIAS footprinting for ${dataset}_${sample_name} due to an error. Please see the log file for more details."
     exit 1
