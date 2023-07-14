@@ -1,0 +1,22 @@
+Running bias correction for GM30XFD_sample1
+Bias correction has been completed for GM30XFD_sample1. Proceeding with footprinting.
+Current file descriptor limit:  16384
+Scoring bigwigs for GM30XFD_sample1 and calling footprints...
+Successfully ran TOBIAS footprinting for GM30XFD_sample1.
+All done! Check the log files for any errors and the outputs directory for the results.
+======================================================================================
+
+			Resource Usage on 2023-07-12 22:52:55.736982:
+
+	JobId: 1982425.pbs101  
+	Project: personal-suffiazi 
+	Exit Status: 0
+	NCPUs Requested: 64				NCPUs Used: 64
+							CPU Time Used: 128:50:33
+	Memory Requested: 1800gb 			Memory Used: 882885984kb
+							Vmem Used: 1491712796kb
+	Walltime requested: 05:00:00 			Walltime Used: 03:22:35
+	
+	Execution Nodes Used: (x1000c4s1b0n1:ncpus=64:mem=1887436800kb)
+	
+ ======================================================================================

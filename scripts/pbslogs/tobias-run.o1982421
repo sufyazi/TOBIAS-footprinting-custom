@@ -1,0 +1,22 @@
+Running bias correction for 91W7C88_sample1
+Bias correction has been completed for 91W7C88_sample1. Proceeding with footprinting.
+Current file descriptor limit:  16384
+Scoring bigwigs for 91W7C88_sample1 and calling footprints...
+Successfully ran TOBIAS footprinting for 91W7C88_sample1.
+All done! Check the log files for any errors and the outputs directory for the results.
+======================================================================================
+
+			Resource Usage on 2023-07-12 19:26:41.109056:
+
+	JobId: 1982421.pbs101  
+	Project: personal-suffiazi 
+	Exit Status: 0
+	NCPUs Requested: 64				NCPUs Used: 64
+							CPU Time Used: 120:11:54
+	Memory Requested: 1800gb 			Memory Used: 958853060kb
+							Vmem Used: 1491164968kb
+	Walltime requested: 05:00:00 			Walltime Used: 03:10:49
+	
+	Execution Nodes Used: (x1000c4s1b1n0:ncpus=64:mem=1887436800kb)
+	
+ ======================================================================================
