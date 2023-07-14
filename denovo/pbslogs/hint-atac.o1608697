@@ -1,0 +1,30 @@
+Running rgt-hint...
+
+[total time: 0h 33m 1s]
+rgt-hint on ATAC-seq mode completed successfully.
+Running bedtools [getfasta] to get the sequences of the footprints for STREME de novo motif discovery...
+bedtools getfasta completed successfully.
+running streme...
+perl: warning: Setting locale failed.
+perl: warning: Please check that your locale settings:
+	LANGUAGE = (unset),
+	LC_ALL = (unset),
+	LANG = "en_US.UTF-8"
+    are supported and installed on your system.
+perl: warning: Falling back to the standard locale ("C").
+streme completed successfully.
+Workflow script completed with success.
+      ======================================================================================
+      Resource Usage on 2023-07-13 16:38:23.353948:
+      JobId: 1608697.hpc-mn1  				 Project: sbs_liyh 
+      Submission Host: hpc-gekko1 
+      Exit Status: 0
+      NCPUs Requested: 16 				 NCPUs Used: 16
+      Memory Requested: 16gb 				 Memory Used: 3372268kb 
+      Vmem Used: 4501584kb
+      CPU Time Used: 08:04:07 
+      Walltime requested: 04:00:00 			 Walltime Used: 02:06:54
+      Submit Time:  Thu Jul 13 14:31:27 2023 		 Start Time: Thu Jul 13 14:31:27 2023 
+      End Time: Thu Jul 13 16:38:23 2023 
+      Execution Nodes Used: (hpc-amd001:ncpus=16:mem=16777216kb)
+      ======================================================================================

@@ -8,7 +8,7 @@
 
 #PBS -q q128
 #PBS -l select=1:ncpus=16:mpiprocs=16:mem=16gb
-#PBS -l walltime=4:00:00
+#PBS -l walltime=6:00:00
 
 #PBS -m bea
 #PBS -M suffi.azizan@ntu.edu.sg
