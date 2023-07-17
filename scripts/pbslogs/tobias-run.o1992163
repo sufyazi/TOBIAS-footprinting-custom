@@ -1,0 +1,20 @@
+Current file descriptor limit:  16384
+Bam file:  /home/users/ntu/suffiazi/scratch/inputs/tobias-raw-input-files/1KEQR84/sample3/HNFWNBGXX_lane1_9854_TAGGCATG_L001_R1.trim.srt.nodup.no_chrM_MT.bam
+Successfully ran TOBIAS footprinting for 1KEQR84_sample3.
+All done! Check the log files for any errors and the outputs directory for the results.
+======================================================================================
+
+			Resource Usage on 2023-07-14 12:38:46.351191:
+
+	JobId: 1992163.pbs101  
+	Project: personal-suffiazi 
+	Exit Status: 0
+	NCPUs Requested: 64				NCPUs Used: 64
+							CPU Time Used: 35:45:56
+	Memory Requested: 1800gb 			Memory Used: 887212008kb
+							Vmem Used: 985670112kb
+	Walltime requested: 03:00:00 			Walltime Used: 00:56:05
+	
+	Execution Nodes Used: (x1000c4s1b0n1:ncpus=64:mem=1887436800kb)
+	
+ ======================================================================================
