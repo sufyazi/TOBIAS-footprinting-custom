@@ -8,7 +8,7 @@
 
 #PBS -q q128
 #PBS -l select=1:ncpus=16:mpiprocs=16:mem=16gb
-#PBS -l walltime=6:00:00
+#PBS -l walltime=4:00:00
 
 #PBS -m bea
 #PBS -M suffi.azizan@ntu.edu.sg
@@ -53,7 +53,7 @@ if cut -f 1,2,3 "${path_output}"/"${out_prefix}".bed | bedtools getfasta -fi /ho
     echo "bedtools getfasta completed successfully."
     echo "running streme..."
     # run streme
-    if singularity exec --bind /scratch/suffi.azizan:/mnt /home/suffi.azizan/installs/singularity_sifs/memesuite.sif streme --verbosity 1 --oc /mnt/outputs/hint-atac_streme-io/streme/outputs/"${out_prefix}" --dna --totallength 4000000 --minw 8 --maxw 15 --thresh 0.05 --align center --p /mnt/outputs/hint-atac_streme-io/streme/inputs/"${out_prefix}"_footprints.fa; then
+    if singularity exec --bind /scratch/suffi.azizan:/mnt /home/suffi.azizan/installs/singularity_sifs/memesuite.sif streme --verbosity 1 --oc /mnt/outputs/hint-atac_streme-io/streme/outputs/"${out_prefix}" --dna --totallength 4000000 --minw 8 --maxw 15 --thresh 0.05 --align center --p /mnt/outputs/hint-atac_streme-io/streme/inputs/"${out_prefix}"_footprints.fa 2> /dev/null; then
         echo "streme completed successfully."
         echo "Workflow script completed with success."
     else
