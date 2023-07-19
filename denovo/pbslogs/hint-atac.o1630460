@@ -1,0 +1,23 @@
+Running rgt-hint...
+
+[total time: 1h 20m 1s]
+rgt-hint on DNAse-seq mode completed successfully.
+Running bedtools [getfasta] to get the sequences of the footprints for STREME de novo motif discovery...
+bedtools getfasta completed successfully.
+running streme...
+streme completed successfully.
+Workflow script completed with success.
+      ======================================================================================
+      Resource Usage on 2023-07-18 16:37:38.286076:
+      JobId: 1630460.hpc-mn1  				 Project: sbs_liyh 
+      Submission Host: hpc-gekko1 
+      Exit Status: 0
+      NCPUs Requested: 16 				 NCPUs Used: 16
+      Memory Requested: 16gb 				 Memory Used: 1062088kb 
+      Vmem Used: 2794932kb
+      CPU Time Used: 19:56:43 
+      Walltime requested: 04:00:00 			 Walltime Used: 01:34:46
+      Submit Time:  Tue Jul 18 15:02:49 2023 		 Start Time: Tue Jul 18 15:02:51 2023 
+      End Time: Tue Jul 18 16:37:38 2023 
+      Execution Nodes Used: (hpc-amd006:ncpus=16:mem=16777216kb)
+      ======================================================================================

@@ -1,0 +1,22 @@
+Running rgt-hint...
+
+[total time: 1h 51m 0s]
+rgt-hint on DNAse-seq mode completed successfully.
+Running bedtools [getfasta] to get the sequences of the footprints for STREME de novo motif discovery...
+bedtools getfasta completed successfully.
+running streme...
+=>> PBS: job killed: walltime 14503 exceeded limit 14400
+      ======================================================================================
+      Resource Usage on 2023-07-18 19:04:44.622060:
+      JobId: 1630455.hpc-mn1  				 Project: sbs_liyh 
+      Submission Host: hpc-gekko1 
+      Exit Status: 271
+      NCPUs Requested: 16 				 NCPUs Used: 16
+      Memory Requested: 16gb 				 Memory Used: 3265880kb 
+      Vmem Used: 4593616kb
+      CPU Time Used: 25:07:24 
+      Walltime requested: 04:00:00 			 Walltime Used: 04:01:54
+      Submit Time:  Tue Jul 18 15:02:49 2023 		 Start Time: Tue Jul 18 15:02:49 2023 
+      End Time: Tue Jul 18 19:04:44 2023 
+      Execution Nodes Used: (hpc-amd003:ncpus=16:mem=16777216kb)
+      ======================================================================================
