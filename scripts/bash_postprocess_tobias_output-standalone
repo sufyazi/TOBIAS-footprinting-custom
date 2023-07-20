@@ -38,10 +38,29 @@ for run in "${runs[@]}"; do
             sample_id=$(echo "${sample_dir_name}" | cut -d'_' -f2)
             echo "Analysis ID: ${analysis_id}" "Sample ID: ${sample_id}"
             # find specific files in the sample directory and put them in an array
-            readarray -t files < <(find "${sample_dir[i]}" -type f \( -name "*_corrected.bw" -o -name "*_footprints.bw" -o -name "*_all.bed" -o -name "*_overview.txt" \))
+            readarray -t files < <(find "${sample_dir[i]}" -type f \( -name "*_corrected.bw" -o -name "*_footprints.bw" -o -name "*_overview.txt" \))
             # transfer the files to a new directory
             if rsync -avPhz "${files[@]}" /home/users/ntu/suffiazi/scratch/outputs/filtered-tobias/"${analysis_id}"_"${sample_id}"; then
                 echo "Select output files have been copied to a new location."
+                # truncate necessary overview.txt file
+                for file in /home/users/ntu/suffiazi/scratch/outputs/filtered-tobias/"${analysis_id}"_"${sample_id}"/*_overview.txt; do
+                    echo "Truncating ${file}..."
+                    # truncate with awk by dropping the 10th column
+                    awk 'BEGIN {OFS="\t"} {$10=""; sub("\t\t", "\t"); print}' "${file}" > "${file}".tmp && mv "${file}".tmp "${file}"
+                    echo "Truncation of ${file} is done."
+                    # rename the file
+                    if mv "${file}" "${file%.txt}"_trunc.txt; then
+                        echo "File ${file} has been renamed."
+                    else
+                        echo "File ${file} failed to be renamed!"
+                    fi
+                done
+                # remove the *all.bed file
+                # if rm /home/users/ntu/suffiazi/scratch/outputs/filtered-tobias/"${analysis_id}"_"${sample_id}"/*_all.bed; then
+                #     echo "File *all.bed has been removed."
+                # else
+                #     echo "File *all.bed failed to be removed!"
+                # fi
             else
                 echo "Select output files failed to be copied!"
             fi 
