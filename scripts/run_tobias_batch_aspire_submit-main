@@ -19,7 +19,7 @@ cores=64
 if [ "$run_type" == "union" ]; then
     PEAK_PATH="/home/users/ntu/suffiazi/tobias_input_peaks/merged_sample-specific_peaks"
 elif [ "$run_type" == "master" ]; then
-    peakfile="/home/users/ntu/suffiazi/tobias_input_peaks/master_merged_peakset/ALL_master_merged_peakset-v2.bed"
+    peakfile="/home/users/ntu/suffiazi/tobias_input_peaks/master_merged_peakset/ALL_master_merged_peakset-v3.bed"
 else
     echo "Invalid run type. Please specify either <union> or <master>."
     exit 1
@@ -85,7 +85,7 @@ for dataset in "${!dataset_dict[@]}"; do
             mkdir -p "/home/users/ntu/suffiazi/scratch/outputs/tobias-outs/RUN-${run_num}-${run_type}/${dataset}_${sample_name}"
 
             # run the script
-            qsub -v ANALYSIS_ID="$dataset",SAMPLE="$sample_name",EXP_TYPE="$experiment_type",RUN="$run_num",CORE="$cores",PEAKS="$peakfile",FILE="$bam",TYPES="$run_type" /home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/scripts/run_tobias_batch_aspire_main-per-job-BINDetect.pbs
+            qsub -v ANALYSIS_ID="$dataset",SAMPLE="$sample_name",EXP_TYPE="$experiment_type",RUN="$run_num",CORE="$cores",PEAKS="$peakfile",FILE="$bam",TYPES="$run_type" /home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/scripts/run_tobias_batch_aspire_main-per-job.pbs
         fi
     done
 done
