@@ -46,31 +46,32 @@ for run in "${runs[@]}"; do
                     echo "Checking the number of columns in ${file}..."
                     # get the number of columns
                     num_cols=$(awk '{print NF; exit}' "${file}")
-                    if [[ "$num_cols" -eq 11 ]]; then
-                        echo "Number of columns in ${file} is ${num_cols}."
-                        echo "This means that the file has been truncated already. Skipping..."
-                    elif [[ "$num_cols" -eq 12 ]]; then
-                        echo "Number of columns in ${file} is ${num_cols}."
-                        echo "Column number is 12. Truncating the ${file}..."
-                        echo "Printing the header first..."
-                        # print header with awk
-                        awk -F'\t' 'NR == 1' "${file}"
-                        # truncate with awk by dropping the 10th column
-                        awk 'BEGIN {OFS="\t"} {$10=""; sub("\t\t", "\t"); print}' "${file}" > "${file}".tmp && mv "${file}".tmp "${file}"
-                        echo "Truncation of ${file} is done."
-                    # check if the number of columns is less than 11
-                    elif [[ "$num_cols" -lt 11 ]]; then
-                        echo "Number of columns in ${file} is ${num_cols}."
-                        echo "Column number is less than 11. Check the problematic ${file}."
-                        echo "Printing the header..."
-                        # print header with awk
-                        awk -F'\t' 'NR == 1' "${file}"
-                    fi 
+                    echo "Number of columns in ${file} is ${num_cols}."
+                    # if [[ "$num_cols" -eq 11 ]]; then
+                    #     echo "Number of columns in ${file} is ${num_cols}."
+                    #     echo "This means that the file has been truncated already. Skipping..."
+                    # elif [[ "$num_cols" -eq 12 ]]; then
+                    #     echo "Number of columns in ${file} is ${num_cols}."
+                    #     echo "Column number is 12. Truncating the ${file}..."
+                    #     echo "Printing the header first..."
+                    #     # print header with awk
+                    #     awk -F'\t' 'NR == 1' "${file}"
+                    #     # truncate with awk by dropping the 10th column
+                    #     awk 'BEGIN {OFS="\t"} {$10=""; sub("\t\t", "\t"); print}' "${file}" > "${file}".tmp && mv "${file}".tmp "${file}"
+                    #     echo "Truncation of ${file} is done."
+                    # # check if the number of columns is less than 11
+                    # elif [[ "$num_cols" -lt 11 ]]; then
+                    #     echo "Number of columns in ${file} is ${num_cols}."
+                    #     echo "Column number is less than 11. Check the problematic ${file}."
+                    #     echo "Printing the header..."
+                    #     # print header with awk
+                    #     awk -F'\t' 'NR == 1' "${file}"
+                    #fi 
                 fi
             done
 
             # transfer the files to a new directory
-            if rsync -avPhz "${files[@]}" /home/users/ntu/suffiazi/scratch/outputs/filtered-tobias/"${analysis_id}"_"${sample_id}"; then
+            if rsync -avPhz "${files[@]}" /home/users/ntu/suffiazi/scratch/outputs/filtered-tobias/"${analysis_id}"/"${analysis_id}"_"${sample_id}"; then
                 echo "Select output files have been copied to a new location."
             else
                 echo "Select output files failed to be copied!"

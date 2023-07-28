@@ -1,0 +1,23 @@
+Running bias correction for DE7909W_sample1
+Bias correction has been completed for DE7909W_sample1. Proceeding with footprinting.
+Current file descriptor limit:  16384
+Scoring bigwigs for DE7909W_sample1 and calling footprints...
+Successfully ran TOBIAS footprinting for DE7909W_sample1.
+Running post-processing module for DE7909W_sample1...
+All done! Check the log files for any errors and the outputs directory for the results.
+======================================================================================
+
+			Resource Usage on 2023-07-21 22:11:10.868994:
+
+	JobId: 2025981.pbs101  
+	Project: personal-suffiazi 
+	Exit Status: 0
+	NCPUs Requested: 64				NCPUs Used: 64
+							CPU Time Used: 113:25:59
+	Memory Requested: 1800gb 			Memory Used: 406096072kb
+							Vmem Used: 1343522900kb
+	Walltime requested: 05:00:00 			Walltime Used: 03:01:45
+	
+	Execution Nodes Used: (x1000c4s0b0n0:ncpus=64:mem=1887436800kb)
+	
+ ======================================================================================
