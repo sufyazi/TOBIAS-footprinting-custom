@@ -69,9 +69,9 @@ for run in "${runs[@]}"; do
                     #fi 
                 fi
             done
-
+            mkdir -p /home/users/ntu/suffiazi/scratch/outputs/filtered-tobias/"${analysis_id}"/"${analysis_id}"_"${sample_id}"/
             # transfer the files to a new directory
-            if rsync -avPhz "${files[@]}" /home/users/ntu/suffiazi/scratch/outputs/filtered-tobias/"${analysis_id}"/"${analysis_id}"_"${sample_id}"; then
+            if rsync -avPhz "${files[@]}" /home/users/ntu/suffiazi/scratch/outputs/filtered-tobias/"${analysis_id}"/"${analysis_id}"_"${sample_id}"/; then
                 echo "Select output files have been copied to a new location."
             else
                 echo "Select output files failed to be copied!"
