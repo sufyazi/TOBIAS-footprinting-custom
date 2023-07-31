@@ -2,20 +2,14 @@
 # This script is used to run the job on the NSCC cluster.
 
 #PBS -N transfer-tobias-output
-#PBS -l select=1:ncpus=4:mem=10GB
+#PBS -l select=1:ncpus=4:mem=24GB
 #PBS -l walltime=24:00:00
 #PBS -j oe
 #PBS -P personal
 #PBS -q normal
 
-# check if argument is provided
-if [ $# -ne 2 ]; then
-	echo "No arguments provided. Please provide the path to the tobias_out_root folder and the path to the run list text file."	
-	exit 1
-fi
-
-tobias_out_root=$1
-run_list=$2
+tobias_out_root=$OUT_ROOT
+run_list=$RUN_FILE
 
 
 # grab the run listed in the run list text file and put it in an array
@@ -47,45 +41,26 @@ for run in "${runs[@]}"; do
             echo "Analysis ID: ${analysis_id}" "Sample ID: ${sample_id}"
             # find specific files in the sample directory and put them in an array
             readarray -t files < <(find "${sample_dir[i]}" -type f \( -name "*_corrected.bw" -o -name "*_footprints.bw" -o -name "*_overview.txt" -o -name "bindetect_results.txt" \))
+            # create copy directory
+            mkdir -p /home/users/ntu/suffiazi/scratch/outputs/filtered-tobias/"${analysis_id}"/"${analysis_id}"_"${sample_id}"/
             for file in "${files[@]}"; do
                 echo "File: ${file}"
                 if [[ "$file" == *_overview.txt ]]; then
-                    # check the number of columns
-                    echo "Checking the number of columns in ${file}..."
-                    # get the number of columns
-                    num_cols=$(awk '{print NF; exit}' "${file}")
-                    echo "Number of columns in ${file} is ${num_cols}."
-                    # if [[ "$num_cols" -eq 11 ]]; then
-                    #     echo "Number of columns in ${file} is ${num_cols}."
-                    #     echo "This means that the file has been truncated already. Skipping..."
-                    # elif [[ "$num_cols" -eq 12 ]]; then
-                    #     echo "Number of columns in ${file} is ${num_cols}."
-                    #     echo "Column number is 12. Truncating the ${file}..."
-                    #     echo "Printing the header first..."
-                    #     # print header with awk
-                    #     awk -F'\t' 'NR == 1' "${file}"
-                    #     # truncate with awk by dropping the 10th column
-                    #     awk 'BEGIN {OFS="\t"} {$10=""; sub("\t\t", "\t"); print}' "${file}" > "${file}".tmp && mv "${file}".tmp "${file}"
-                    #     echo "Truncation of ${file} is done."
-                    # # check if the number of columns is less than 11
-                    # elif [[ "$num_cols" -lt 11 ]]; then
-                    #     echo "Number of columns in ${file} is ${num_cols}."
-                    #     echo "Column number is less than 11. Check the problematic ${file}."
-                    #     echo "Printing the header..."
-                    #     # print header with awk
-                    #     awk -F'\t' 'NR == 1' "${file}"
-                    #fi 
+                    if rsync -avPhz "${file}" /home/users/ntu/suffiazi/scratch/outputs/filtered-tobias/"${analysis_id}"/"${analysis_id}"_"${sample_id}"/overview_files/ >> "/home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/logfiles/rsync-transfer/rsync_log_${analysis_id}_${sample_id}.log"; then
+                        echo "$file has been copied to a new location."
+                    else
+                        echo "File failed to be copied! Check logs."
+                    fi
+                else
+                    if rsync -avPhz "${file}" /home/users/ntu/suffiazi/scratch/outputs/filtered-tobias/"${analysis_id}"/"${analysis_id}"_"${sample_id}"/ >> "/home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/logfiles/rsync-transfer/rsync_log_${analysis_id}_${sample_id}.log"; then
+                        echo "$file has been copied to a new location."
+                    else
+                        echo "File failed to be copied! Check logs."
+                    fi
                 fi
             done
-            mkdir -p /home/users/ntu/suffiazi/scratch/outputs/filtered-tobias/"${analysis_id}"/"${analysis_id}"_"${sample_id}"/
-            # transfer the files to a new directory
-            if rsync -avPhz "${files[@]}" /home/users/ntu/suffiazi/scratch/outputs/filtered-tobias/"${analysis_id}"/"${analysis_id}"_"${sample_id}"/ >> "/home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/logfiles/rsync-transfer/rsync_log_${analysis_id}_${sample_id}.log"; then
-                echo "Select output files have been copied to a new location."
-            else
-                echo "Select output files failed to be copied!"
-            fi
         done
     fi
 done
 
-echo "Done!"
+echo "Transfer done!"
