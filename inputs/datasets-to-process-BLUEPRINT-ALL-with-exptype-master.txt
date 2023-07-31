@@ -15,25 +15,25 @@
     IYRVLF5 atacseq
     C5J912G atacseq
     ERUH8Y4 atacseq
-I9178W9 atacseq
-F27B011 atacseq
-314Z52D atacseq
-9M7H5EI atacseq
-O697I0L atacseq
+    I9178W9 atacseq
+    F27B011 atacseq
+    314Z52D atacseq
+    9M7H5EI atacseq
+    O697I0L atacseq
     JD32HPP atacseq
     1KEQR84 atacseq
     GM30XFD atacseq
     91W7C88 atacseq
-0QJ6J2T dnaseseq
-128T8B4 dnaseseq
-Z9UVZX7 dnaseseq
-UYX1M7A dnaseseq
-P7IG2M6 dnaseseq
-2DZJ8RE dnaseseq
-O3F124I dnaseseq
-3WR61X3 dnaseseq
-37F102B dnaseseq
-LPHTEXM dnaseseq
+    0QJ6J2T dnaseseq
+    128T8B4 dnaseseq
+    Z9UVZX7 dnaseseq
+    UYX1M7A dnaseseq
+    P7IG2M6 dnaseseq
+    2DZJ8RE dnaseseq
+    O3F124I dnaseseq
+    3WR61X3 dnaseseq
+    37F102B dnaseseq
+    LPHTEXM dnaseseq
 U05HLZY dnaseseq
 413FM0J dnaseseq
 3RGFT20 dnaseseq
