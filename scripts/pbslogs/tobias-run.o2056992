@@ -1,0 +1,24 @@
+Running bias correction for F27B011_sample1
+Bias correction has been completed for F27B011_sample1. Proceeding with footprinting.
+Current file descriptor limit:  16384
+Scoring bigwigs for F27B011_sample1 and calling footprints...
+Matplotlib is building the font cache; this may take a moment.
+Successfully ran TOBIAS footprinting for F27B011_sample1.
+Running post-processing module for F27B011_sample1...
+All done! Check the log files for any errors and the outputs directory for the results.
+======================================================================================
+
+			Resource Usage on 2023-07-29 17:20:12.487544:
+
+	JobId: 2056992.pbs101  
+	Project: personal-suffiazi 
+	Exit Status: 0
+	NCPUs Requested: 64				NCPUs Used: 64
+							CPU Time Used: 128:03:27
+	Memory Requested: 800gb 			Memory Used: 412785740kb
+							Vmem Used: 1343526764kb
+	Walltime requested: 05:00:00 			Walltime Used: 03:26:50
+	
+	Execution Nodes Used: (x1000c4s0b1n0:ncpus=64:mem=838860800kb)
+	
+ ======================================================================================

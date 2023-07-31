@@ -1,0 +1,23 @@
+Running bias correction for JD32HPP_sample5
+Bias correction has been completed for JD32HPP_sample5. Proceeding with footprinting.
+Current file descriptor limit:  16384
+Scoring bigwigs for JD32HPP_sample5 and calling footprints...
+Successfully ran TOBIAS footprinting for JD32HPP_sample5.
+Running post-processing module for JD32HPP_sample5...
+All done! Check the log files for any errors and the outputs directory for the results.
+======================================================================================
+
+			Resource Usage on 2023-07-29 13:09:43.024926:
+
+	JobId: 2056949.pbs101  
+	Project: personal-suffiazi 
+	Exit Status: 0
+	NCPUs Requested: 64				NCPUs Used: 64
+							CPU Time Used: 123:43:15
+	Memory Requested: 800gb 			Memory Used: 410886600kb
+							Vmem Used: 1343511928kb
+	Walltime requested: 05:00:00 			Walltime Used: 03:18:00
+	
+	Execution Nodes Used: (x1000c4s0b1n0:ncpus=64:mem=838860800kb)
+	
+ ======================================================================================

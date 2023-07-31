@@ -1,0 +1,23 @@
+Running bias correction for ZF8WDFS_sample6
+Bias correction has been completed for ZF8WDFS_sample6. Proceeding with footprinting.
+Current file descriptor limit:  16384
+Scoring bigwigs for ZF8WDFS_sample6 and calling footprints...
+Successfully ran TOBIAS footprinting for ZF8WDFS_sample6.
+Running post-processing module for ZF8WDFS_sample6...
+All done! Check the log files for any errors and the outputs directory for the results.
+======================================================================================
+
+			Resource Usage on 2023-07-29 03:11:04.809340:
+
+	JobId: 2056930.pbs101  
+	Project: personal-suffiazi 
+	Exit Status: 0
+	NCPUs Requested: 64				NCPUs Used: 64
+							CPU Time Used: 113:47:35
+	Memory Requested: 800gb 			Memory Used: 406091748kb
+							Vmem Used: 1343488044kb
+	Walltime requested: 05:00:00 			Walltime Used: 03:04:03
+	
+	Execution Nodes Used: (x1000c4s2b0n0:ncpus=64:mem=838860800kb)
+	
+ ======================================================================================
