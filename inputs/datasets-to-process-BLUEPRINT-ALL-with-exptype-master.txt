@@ -34,12 +34,12 @@
     3WR61X3 dnaseseq
     37F102B dnaseseq
     LPHTEXM dnaseseq
-U05HLZY dnaseseq
-413FM0J dnaseseq
-3RGFT20 dnaseseq
-H84559E dnaseseq
-BV5W979 dnaseseq
-K5LA59U dnaseseq
-C18HPI3 dnaseseq
-Q15VFHB dnaseseq
-T04OBGX dnaseseq
+    U05HLZY dnaseseq
+    413FM0J dnaseseq
+    3RGFT20 dnaseseq
+    H84559E dnaseseq
+    BV5W979 dnaseseq
+    K5LA59U dnaseseq
+    C18HPI3 dnaseseq
+    Q15VFHB dnaseseq
+    T04OBGX dnaseseq

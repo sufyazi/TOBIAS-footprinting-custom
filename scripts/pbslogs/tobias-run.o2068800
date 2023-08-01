@@ -1,0 +1,25 @@
+Commencing run number 6 for O3F124I_sample1 with 64 cores...
+Entering DNAse-seq mode
+Running bias correction for O3F124I_sample1
+Bias correction has been completed for O3F124I_sample1. Proceeding with footprinting.
+Current file descriptor limit:  16384
+Scoring bigwigs for O3F124I_sample1 and calling footprints...
+Successfully ran TOBIAS footprinting for O3F124I_sample1.
+Running post-processing module for O3F124I_sample1...
+All done! Check the log files for any errors and the outputs directory for the results.
+======================================================================================
+
+			Resource Usage on 2023-07-31 23:21:29.164403:
+
+	JobId: 2068800.pbs101  
+	Project: personal-suffiazi 
+	Exit Status: 0
+	NCPUs Requested: 64				NCPUs Used: 64
+							CPU Time Used: 111:29:57
+	Memory Requested: 800gb 			Memory Used: 410561436kb
+							Vmem Used: 1343517972kb
+	Walltime requested: 05:00:00 			Walltime Used: 03:01:28
+	
+	Execution Nodes Used: (x1000c4s2b0n0:ncpus=64:mem=838860800kb)
+	
+ ======================================================================================

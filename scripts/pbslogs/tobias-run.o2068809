@@ -1,0 +1,25 @@
+Commencing run number 6 for 128T8B4_sample17 with 64 cores...
+Entering DNAse-seq mode
+Running bias correction for 128T8B4_sample17
+Bias correction has been completed for 128T8B4_sample17. Proceeding with footprinting.
+Current file descriptor limit:  16384
+Scoring bigwigs for 128T8B4_sample17 and calling footprints...
+Successfully ran TOBIAS footprinting for 128T8B4_sample17.
+Running post-processing module for 128T8B4_sample17...
+All done! Check the log files for any errors and the outputs directory for the results.
+======================================================================================
+
+			Resource Usage on 2023-08-01 00:37:17.016149:
+
+	JobId: 2068809.pbs101  
+	Project: personal-suffiazi 
+	Exit Status: 0
+	NCPUs Requested: 64				NCPUs Used: 64
+							CPU Time Used: 113:04:36
+	Memory Requested: 800gb 			Memory Used: 409572952kb
+							Vmem Used: 1343503072kb
+	Walltime requested: 05:00:00 			Walltime Used: 03:05:28
+	
+	Execution Nodes Used: (x1000c4s0b1n0:ncpus=64:mem=838860800kb)
+	
+ ======================================================================================

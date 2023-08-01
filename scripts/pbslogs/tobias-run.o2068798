@@ -1,0 +1,25 @@
+Commencing run number 6 for 37F102B_sample1 with 64 cores...
+Entering DNAse-seq mode
+Running bias correction for 37F102B_sample1
+Bias correction has been completed for 37F102B_sample1. Proceeding with footprinting.
+Current file descriptor limit:  16384
+Scoring bigwigs for 37F102B_sample1 and calling footprints...
+Successfully ran TOBIAS footprinting for 37F102B_sample1.
+Running post-processing module for 37F102B_sample1...
+All done! Check the log files for any errors and the outputs directory for the results.
+======================================================================================
+
+			Resource Usage on 2023-07-31 23:36:34.803032:
+
+	JobId: 2068798.pbs101  
+	Project: personal-suffiazi 
+	Exit Status: 0
+	NCPUs Requested: 64				NCPUs Used: 64
+							CPU Time Used: 122:25:31
+	Memory Requested: 800gb 			Memory Used: 407994560kb
+							Vmem Used: 1343729280kb
+	Walltime requested: 05:00:00 			Walltime Used: 03:17:40
+	
+	Execution Nodes Used: (x1000c4s1b1n0:ncpus=64:mem=838860800kb)
+	
+ ======================================================================================
