@@ -1,0 +1,25 @@
+Commencing run number 7 for 3RGFT20_sample3 with 64 cores...
+Entering DNAse-seq mode
+Running bias correction for 3RGFT20_sample3
+Bias correction has been completed for 3RGFT20_sample3. Proceeding with footprinting.
+Current file descriptor limit:  16384
+Scoring bigwigs for 3RGFT20_sample3 and calling footprints...
+Successfully ran TOBIAS footprinting for 3RGFT20_sample3.
+Running post-processing module for 3RGFT20_sample3...
+All done! Check the log files for any errors and the outputs directory for the results.
+======================================================================================
+
+			Resource Usage on 2023-08-01 21:42:33.858790:
+
+	JobId: 2076714.pbs101  
+	Project: personal-suffiazi 
+	Exit Status: 0
+	NCPUs Requested: 64				NCPUs Used: 64
+							CPU Time Used: 102:08:12
+	Memory Requested: 800gb 			Memory Used: 406547272kb
+							Vmem Used: 1343536588kb
+	Walltime requested: 05:00:00 			Walltime Used: 02:49:17
+	
+	Execution Nodes Used: (x1000c4s0b0n0:ncpus=64:mem=838860800kb)
+	
+ ======================================================================================

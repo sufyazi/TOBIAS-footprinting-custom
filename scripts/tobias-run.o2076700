@@ -1,0 +1,25 @@
+Commencing run number 7 for T04OBGX_sample25 with 64 cores...
+Entering DNAse-seq mode
+Running bias correction for T04OBGX_sample25
+Bias correction has been completed for T04OBGX_sample25. Proceeding with footprinting.
+Current file descriptor limit:  16384
+Scoring bigwigs for T04OBGX_sample25 and calling footprints...
+Successfully ran TOBIAS footprinting for T04OBGX_sample25.
+Running post-processing module for T04OBGX_sample25...
+All done! Check the log files for any errors and the outputs directory for the results.
+======================================================================================
+
+			Resource Usage on 2023-08-01 21:26:30.695395:
+
+	JobId: 2076700.pbs101  
+	Project: personal-suffiazi 
+	Exit Status: 0
+	NCPUs Requested: 64				NCPUs Used: 64
+							CPU Time Used: 109:40:56
+	Memory Requested: 800gb 			Memory Used: 407418496kb
+							Vmem Used: 1343524532kb
+	Walltime requested: 05:00:00 			Walltime Used: 03:00:12
+	
+	Execution Nodes Used: (x1000c4s2b0n0:ncpus=64:mem=838860800kb)
+	
+ ======================================================================================

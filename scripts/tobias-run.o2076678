@@ -1,0 +1,25 @@
+Commencing run number 7 for C18HPI3_sample1 with 64 cores...
+Entering DNAse-seq mode
+Running bias correction for C18HPI3_sample1
+Bias correction has been completed for C18HPI3_sample1. Proceeding with footprinting.
+Current file descriptor limit:  16384
+Scoring bigwigs for C18HPI3_sample1 and calling footprints...
+Successfully ran TOBIAS footprinting for C18HPI3_sample1.
+Running post-processing module for C18HPI3_sample1...
+All done! Check the log files for any errors and the outputs directory for the results.
+======================================================================================
+
+			Resource Usage on 2023-08-01 15:48:11.638695:
+
+	JobId: 2076678.pbs101  
+	Project: personal-suffiazi 
+	Exit Status: 0
+	NCPUs Requested: 64				NCPUs Used: 64
+							CPU Time Used: 112:48:33
+	Memory Requested: 800gb 			Memory Used: 408149884kb
+							Vmem Used: 1343739524kb
+	Walltime requested: 05:00:00 			Walltime Used: 03:13:18
+	
+	Execution Nodes Used: (asp2a-mem001:ncpus=64:mem=838860800kb)
+	
+ ======================================================================================
