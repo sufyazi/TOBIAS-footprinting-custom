@@ -1,0 +1,25 @@
+Commencing run number 9 for 2W5JG33-batch2_sample93 with 64 cores...
+Entering ATAC-seq mode
+Running bias correction for 2W5JG33-batch2_sample93
+Bias correction has been completed for 2W5JG33-batch2_sample93. Proceeding with footprinting.
+Current file descriptor limit:  16384
+Scoring bigwigs for 2W5JG33-batch2_sample93 and calling footprints...
+Successfully ran TOBIAS footprinting for 2W5JG33-batch2_sample93.
+Running post-processing module for 2W5JG33-batch2_sample93...
+All done! Check the log files for any errors and the outputs directory for the results.
+======================================================================================
+
+			Resource Usage on 2023-08-04 03:45:13.548054:
+
+	JobId: 2107175.pbs101  
+	Project: personal-suffiazi 
+	Exit Status: 0
+	NCPUs Requested: 64				NCPUs Used: 64
+							CPU Time Used: 115:16:03
+	Memory Requested: 800gb 			Memory Used: 406136024kb
+							Vmem Used: 1343522984kb
+	Walltime requested: 05:00:00 			Walltime Used: 03:05:45
+	
+	Execution Nodes Used: (x1000c4s0b1n1:ncpus=64:mem=838860800kb)
+	
+ ======================================================================================
