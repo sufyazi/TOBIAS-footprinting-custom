@@ -3,7 +3,7 @@
 
 #PBS -N transfer-tobias-output
 #PBS -l select=1:ncpus=4:mem=30GB
-#PBS -l walltime=36:00:00
+#PBS -l walltime=50:00:00
 #PBS -j oe
 #PBS -P personal
 #PBS -q normal
