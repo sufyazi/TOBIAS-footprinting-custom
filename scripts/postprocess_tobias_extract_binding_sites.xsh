@@ -14,6 +14,7 @@ filtered_root = $ARG1
 
 folders_list = []
 sample_folder_count = 0
+file_count = 0
 
 for analysis_id in glob.glob(f"{filtered_root}/*"):
     if os.path.isdir(analysis_id):
@@ -30,18 +31,7 @@ for analysis_id in glob.glob(f"{filtered_root}/*"):
             print(f"Sample directory total: {len(sample_dirs)}")
 
             for i, sample_dir in enumerate(sample_dirs):
-                # check sample_folder_sum modulo to prevent overloading
                 sample_folder_count += 1
-                if sample_folder_count % 50 == 0:
-                    print(f"Total sample subdirectories processed: {sample_folder_count}")
-                    print(f"Current sample directory: {sample_dir}")
-                    
-                    print("Sleeping for 30 minutes...")
-                    print("")
-                    # sleep for 15 minutes
-                    sleep 15m
-
-                # continue with the rest of the script
                 print(f"Sample directory {i+1}: {sample_dir}")
                 sample_dir_name = os.path.basename(sample_dir)
                 sample_id = sample_dir_name.split('_')[1]
@@ -54,6 +44,17 @@ for analysis_id in glob.glob(f"{filtered_root}/*"):
                     continue
                 else:
                     for file in files:
+                        file_count += 1
+                        # check file_count modulo to prevent overloading
+                        if file_count % 50 == 0:
+                            print(f"Total sample subdirectories already processed: {sample_folder_count}")
+                            print(f"Current file count: {file_count}")
+                            print(f"WARNING: Currently processing {file_count} files.")
+                            print("Sleeping for 2 minutes to avoid overloading the cluster...")
+                            print("")
+                            # sleep for 2 minutes
+                            sleep 2m
+                        
                         print(f"File: {file}")
                         # extract motif_id from file name
                         motif_id = os.path.splitext(os.path.basename(file))[0].replace("_overview", "")
