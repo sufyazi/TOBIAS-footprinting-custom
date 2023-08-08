@@ -19,8 +19,8 @@ file_count = 0
 for analysis_id in glob.glob(f"{filtered_root}/*"):
     if os.path.isdir(analysis_id):
         folders_list.append(analysis_id)
-
         print(f"Current analysis directory: {analysis_id}")
+        # find sample directories in the analysis directory
         sample_dirs = [sample_dir for sample_dir in glob.glob(f"{analysis_id}/*sample*") if os.path.isdir(sample_dir)]
         
         if not sample_dirs:
@@ -35,8 +35,8 @@ for analysis_id in glob.glob(f"{filtered_root}/*"):
                 print(f"Sample directory {i+1}: {sample_dir}")
                 sample_dir_name = os.path.basename(sample_dir)
                 sample_id = sample_dir_name.split('_')[1]
-                print(f"Analysis ID: {analysis_id}")
-                print(f"Sample ID: {sample_id}")
+                analysis_dir_name = os.path.basename(analysis_id)
+                print(f"Analysis & sample ID: {analysis_dir_name}_{sample_id}")
                 # find overview files in the sample directory
                 files = glob.glob(f"{sample_dir}/**/*_overview.txt", recursive=True)
                 if not files:
@@ -54,20 +54,18 @@ for analysis_id in glob.glob(f"{filtered_root}/*"):
                         if not os.path.exists(motif_dir):
                             print("Motif directory does not exist. Creating directory...")
                             os.makedirs(motif_dir)
-                        analysis_dir_name = os.path.basename(analysis_id)
+                        # create new file name
                         new_file_name = f"{analysis_dir_name}_{sample_id}_{motif_id}_binding-sites.txt"
                         new_file_dir = os.path.join(motif_dir, new_file_name)
-
                         # check if the output file already exists
                         if os.path.exists(new_file_dir):
                             print(f"Output file {new_file_name} already exists. Skipping...")
                             continue
                         else:
                             print("Output file does not exist. Proceeding with extraction...")
-                            print(f"Analysis & sample ID: {analysis_dir_name}_{sample_id}")
                             print(f"Output file: {new_file_dir}")
                             # check file_count modulo to prevent overloading
-                            if file_count % 30 == 0:
+                            if file_count % 40 == 0:
                                 print(f"Total sample subdirectories already processed: {sample_folder_count}")
                                 print(f"Current file count: {file_count}")
                                 print(f"WARNING: Currently processing {file_count} files.")
@@ -102,3 +100,4 @@ for analysis_id in glob.glob(f"{filtered_root}/*"):
 print("This script has finished running. Check output files and logs for errors.")
 print(f"Total analysis directories processed: {len(folders_list)}")
 print(f"Total sample subdirectories processed: {sample_folder_count}")
+print(f"Total files processed: {file_count}")

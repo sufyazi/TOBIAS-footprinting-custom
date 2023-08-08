@@ -3,8 +3,8 @@
 # This script is used to run the job on the NSCC cluster.
 
 #PBS -N extract-tfbs-tobias-output
-#PBS -l select=1:ncpus=8:mem=32GB
-#PBS -l walltime=4:00:00
+#PBS -l select=1:ncpus=12:mem=32GB
+#PBS -l walltime=24:00:00
 #PBS -j oe
 #PBS -P personal
 #PBS -q normal
@@ -16,8 +16,8 @@ conda activate /home/users/ntu/suffiazi/apps/mambaforge/envs/xonsh-cli
 
 filtered_root=$FILT_ROOT
 
-date +"%Y-%m-%d-%H:%M:%S" >> /home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/logfiles/postprocess_tobias_extract_binding_sites_"$(date +"%Y-%m-%d-%H-%M-%S")".log
+date +"%Y-%m-%d-%H:%M:%S" >> /home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/logfiles/tobias_extract_binding_sites_pbs_"$(date +"%Y-%m-%d-%H-%M-%S")".log
 
-xonsh /home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/scripts/postprocess_tobias_extract_binding_sites.xsh "${filtered_root}" >> /home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/logfiles/postprocess_tobias_extract_binding_sites_"$(date +"%Y-%m-%d-%H-%M-%S")".log
+xonsh /home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/scripts/postprocess_tobias_extract_binding_sites.xsh "${filtered_root}" >> /home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/logfiles/tobias_extract_binding_sites_pbs_"$(date +"%Y-%m-%d-%H-%M-%S")".log
 
 
