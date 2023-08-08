@@ -18,6 +18,6 @@ filtered_root=$FILT_ROOT
 
 date +"%Y-%m-%d-%H:%M:%S" >> /home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/logfiles/postprocess_tobias_extract_binding_sites_"$(date +"%Y-%m-%d-%H-%M-%S")".log
 
-. /home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/scripts/postprocess_tobias_extract_binding_sites.xsh "${filtered_root}" >> /home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/logfiles/postprocess_tobias_extract_binding_sites_"$(date +"%Y-%m-%d-%H-%M-%S")".log
+xonsh /home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/scripts/postprocess_tobias_extract_binding_sites.xsh "${filtered_root}" >> /home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/logfiles/postprocess_tobias_extract_binding_sites_"$(date +"%Y-%m-%d-%H-%M-%S")".log
 
 

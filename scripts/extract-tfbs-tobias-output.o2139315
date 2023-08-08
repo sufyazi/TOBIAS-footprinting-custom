@@ -1,0 +1,21 @@
+/home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/scripts/postprocess_tobias_extract_binding_sites.xsh: line 3: import: command not found
+/home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/scripts/postprocess_tobias_extract_binding_sites.xsh: line 4: import: command not found
+/home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/scripts/postprocess_tobias_extract_binding_sites.xsh: line 5: import: command not found
+/home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/scripts/postprocess_tobias_extract_binding_sites.xsh: line 9: syntax error near unexpected token `"Please provide the path to the filtered root directory."'
+/home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/scripts/postprocess_tobias_extract_binding_sites.xsh: line 9: `    print("Please provide the path to the filtered root directory.")'
+======================================================================================
+
+			Resource Usage on 2023-08-08 19:26:42.613726:
+
+	JobId: 2139315.pbs101  
+	Project: personal-suffiazi 
+	Exit Status: 1
+	NCPUs Requested: 8				NCPUs Used: 8
+							CPU Time Used: 00:00:00
+	Memory Requested: 32gb 			Memory Used: 26952kb
+							Vmem Used: 76476kb
+	Walltime requested: 04:00:00 			Walltime Used: 00:00:13
+	
+	Execution Nodes Used: (x1001c0s2b0n1:ncpus=8:mem=33554432kb)
+	
+ ======================================================================================
