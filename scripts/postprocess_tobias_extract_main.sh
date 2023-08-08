@@ -2,7 +2,7 @@
 # This script is used to run the job on the NSCC cluster.
 
 #PBS -N extract-tfbs-tobias-output
-#PBS -l select=1:ncpus=12:mem=32GB
+#PBS -l select=1:ncpus=4:mem=32GB
 #PBS -l walltime=1:00:00
 #PBS -j oe
 #PBS -P personal

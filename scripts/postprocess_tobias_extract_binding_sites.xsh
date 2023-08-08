@@ -46,14 +46,14 @@ for analysis_id in glob.glob(f"{filtered_root}/*"):
                     for file in files:
                         file_count += 1
                         # check file_count modulo to prevent overloading
-                        if file_count % 50 == 0:
+                        if file_count % 30 == 0:
                             print(f"Total sample subdirectories already processed: {sample_folder_count}")
                             print(f"Current file count: {file_count}")
                             print(f"WARNING: Currently processing {file_count} files.")
-                            print("Sleeping for 2 minutes to avoid overloading the cluster...")
+                            print("Sleeping for 3 minutes to avoid overloading the cluster...")
                             print("")
-                            # sleep for 2 minutes
-                            sleep 2m
+                            # sleep for 3 minutes
+                            sleep 3m
                         
                         print(f"File: {file}")
                         # extract motif_id from file name
