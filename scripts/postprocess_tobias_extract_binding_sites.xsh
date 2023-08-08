@@ -45,16 +45,6 @@ for analysis_id in glob.glob(f"{filtered_root}/*"):
                 else:
                     for file in files:
                         file_count += 1
-                        # check file_count modulo to prevent overloading
-                        if file_count % 30 == 0:
-                            print(f"Total sample subdirectories already processed: {sample_folder_count}")
-                            print(f"Current file count: {file_count}")
-                            print(f"WARNING: Currently processing {file_count} files.")
-                            print("Sleeping for 3 minutes to avoid overloading the cluster...")
-                            print("")
-                            # sleep for 3 minutes
-                            sleep 3m
-                        
                         print(f"File: {file}")
                         # extract motif_id from file name
                         motif_id = os.path.splitext(os.path.basename(file))[0].replace("_overview", "")
@@ -76,7 +66,15 @@ for analysis_id in glob.glob(f"{filtered_root}/*"):
                             print("Output file does not exist. Proceeding with extraction...")
                             print(f"Analysis & sample ID: {analysis_dir_name}_{sample_id}")
                             print(f"Output file: {new_file_dir}")
-
+                            # check file_count modulo to prevent overloading
+                            if file_count % 30 == 0:
+                                print(f"Total sample subdirectories already processed: {sample_folder_count}")
+                                print(f"Current file count: {file_count}")
+                                print(f"WARNING: Currently processing {file_count} files.")
+                                print("Sleeping for 3 minutes to avoid overloading the cluster...")
+                                print("")
+                                # sleep for 3 minutes
+                                sleep 3m
                             # run bash script to extract binding sites
                             subprocess.run(f"qsub -v FILE_INP={file},FILE_OUT={new_file_dir} /home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/scripts/postprocess_tobias_extract_main.sh", shell=True, check=True)
                 
