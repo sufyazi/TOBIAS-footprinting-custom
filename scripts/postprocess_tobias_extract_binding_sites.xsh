@@ -77,7 +77,7 @@ for analysis_id in glob.glob(f"{filtered_root}/*"):
                             print(f"Output file: {new_file_dir}")
 
                             # run bash script to extract binding sites
-                            subprocess.run(f"qsub -v FILE_INP={file},FILE_OUT={new_file_dir} /home/msazizan/hyperspace/footprinting-workflow-scripts/scripts/postprocess_tobias_extract_main.sh", shell=True, check=True)
+                            subprocess.run(f"qsub -v FILE_INP='{file}',FILE_OUT='{new_file_dir}' /home/msazizan/hyperspace/footprinting-workflow-scripts/scripts/postprocess_tobias_extract_main.sh", shell=True, check=True)
                 
                             # try:
                             #     # start the extraction process
