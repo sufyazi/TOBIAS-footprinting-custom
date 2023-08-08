@@ -12,7 +12,7 @@ if not $ARG1:
 filtered_root = $ARG1
 
 folders_list = []
-sample_folder_sum = 0
+sample_folder_count = 0
 
 for analysis_id in glob.glob(f"{filtered_root}/*"):
     if os.path.isdir(analysis_id):
@@ -26,16 +26,27 @@ for analysis_id in glob.glob(f"{filtered_root}/*"):
             continue
         else:
             print(f"Sample directories: {sample_dirs}")
-            print(f"Sample directory count: {len(sample_dirs)}")
-            sample_folder_sum += len(sample_dirs)
+            print(f"Sample directory total: {len(sample_dirs)}")
 
             for i, sample_dir in enumerate(sample_dirs):
+                # check sample_folder_sum modulo to prevent overloading
+                sample_folder_count += 1
+                if sample_folder_count % 50 == 0:
+                    print(f"Total sample subdirectories processed: {sample_folder_count}")
+                    print(f"Current sample directory: {sample_dir}")
+                    
+                    print("Sleeping for 30 minutes...")
+                    print("")
+                    # sleep for 15 minutes
+                    sleep 15m
+
+                # continue with the rest of the script
                 print(f"Sample directory {i+1}: {sample_dir}")
                 sample_dir_name = os.path.basename(sample_dir)
                 sample_id = sample_dir_name.split('_')[1]
                 print(f"Analysis ID: {analysis_id}")
                 print(f"Sample ID: {sample_id}")
-
+                # find overview files in the sample directory
                 files = glob.glob(f"{sample_dir}/**/*_overview.txt", recursive=True)
                 if not files:
                     print(f"Overview files are non-existent in the {sample_dir} directory. Skipping...")
@@ -57,35 +68,37 @@ for analysis_id in glob.glob(f"{filtered_root}/*"):
 
                         # check if the output file already exists
                         if os.path.exists(new_file_dir):
-                            print("Output file already exists. Skipping...")
+                            print(f"Output file {new_file_name} already exists. Skipping...")
                             continue
                         else:
                             print("Output file does not exist. Proceeding with extraction...")
                             print(f"Analysis & sample ID: {analysis_dir_name}_{sample_id}")
                             print(f"Output file: {new_file_dir}")
 
-                            try:
-                                # start the extraction process
-                                print("Extracting binding sites...")
-                                # use Python's csv module to extract the binding sites
-                                with open(file, 'r') as infile, open(new_file_dir, 'w', newline='') as outfile:
-                                    reader = csv.reader(infile, delimiter='\t')
-                                    writer = csv.writer(outfile, delimiter='\t')
-                                    # no need to use next(header) if the header is required in the output
-                                    for row in reader:
-                                        # Process the row as needed, e.g., select specific columns
-                                        writer.writerow([row[0], row[1], row[2], row[5], row[4], row[9]])
-                                print("Extraction done!")
-                                print("")
-                            except Exception as e:
-                                print(f"An error occurred. Check logs. Error: {e}")
-                                print("")
-                                continue
-                            finally:
-                                print("Anyways, moving on to the next file...")
-                                print("")
-                            
+                            # run bash script to extract binding sites
+                            subprocess.run(f"qsub -v FILE_INP={file},FILE_OUT={new_file_dir} /home/msazizan/hyperspace/footprinting-workflow-scripts/scripts/postprocess_tobias_extract_main.sh", shell=True, check=True)
+                
+                            # try:
+                            #     # start the extraction process
+                            #     print("Extracting binding sites...")
+                            #     # use Python's csv module to extract the binding sites
+                            #     with open(file, 'r') as infile, open(new_file_dir, 'w', newline='') as outfile:
+                            #         reader = csv.reader(infile, delimiter='\t')
+                            #         writer = csv.writer(outfile, delimiter='\t')
+                            #         # no need to use next(header) if the header is required in the output
+                            #         for row in reader:
+                            #             # Process the row as needed, e.g., select specific columns
+                            #             writer.writerow([row[0], row[1], row[2], row[5], row[4], row[9]])
+                            #     print("Extraction done!")
+                            #     print("")
+                            # except Exception as e:
+                            #     print(f"An error occurred. Check logs. Error: {e}")
+                            #     print("")
+                            #     continue
+                            # finally:
+                            #     print("Anyways, moving on to the next file...")
+                            #     print("")
 
 print("This script has finished running. Check output files and logs for errors.")
 print(f"Total analysis directories processed: {len(folders_list)}")
-print(f"Total sample subdirectories processed: {sample_folder_sum}")
+print(f"Total sample subdirectories processed: {sample_folder_count}")
