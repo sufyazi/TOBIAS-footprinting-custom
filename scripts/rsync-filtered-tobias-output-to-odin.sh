@@ -43,12 +43,15 @@ for DIREC in ./*; do
         echo "Analysis ID: $ANALYSIS_ID"
         echo "$DIREC"
         # Find associated files
-        #mapfile -t FILES < <(find ./"$DIREC" -name "$ANALYSIS_ID*.txt" -type f)
+        mapfile -t FILES < <(find "$DIREC" -name "$ANALYSIS_ID*.txt" -type f)
 
         # Check the found files
-        #echo "Found files:" "${FILES[@]}"
-        #echo "Number of files found: ${#FILES[@]}"
-        #echo ""
-    
+        echo "Found files:" "${FILES[@]}"
+        echo "Number of files found: ${#FILES[@]}"
+        echo ""
+
+        # transfer
+        # rsync -haPvz --include="*/" --include="*.txt" --exclude="*" "${FILES[@]}" "/home/users/ntu/suffiazi/scratch/outputs/extracted-tobias-tfbs-subset/"
+
     done < "$DATASET_LIST"
 done
