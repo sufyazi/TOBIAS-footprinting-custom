@@ -14,9 +14,11 @@ SOURCE_DIR="/home/users/ntu/suffiazi/scratch/outputs/extracted-tobias-tfbs"
 if [[ "$1" == "--dry-run" ]]
 then
   RUN="$1"
+  echo "Current run parameter: $RUN"
   echo -e "Running in dry mode\n"
 else
   RUN="--live-run"
+  echo "Current run parameter: $RUN"
   echo -e "Running in live mode\n"
 fi
 
