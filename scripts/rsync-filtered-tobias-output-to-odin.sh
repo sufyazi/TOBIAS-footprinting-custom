@@ -28,23 +28,27 @@ DATASET_LIST="$2" #ensure that the input is the analysis_id_list.txt file
 # Initialize counters
 COUNTER_DIR=0
 
-# Loop through the subdirectories in the file
-while read -r ANALYSIS_ID
-do
-    echo "Analysis ID: $ANALYSIS_ID"
-    for DIREC in "$SOURCE_DIR"/*; do
-        # Increment the counter
-        ((COUNTER_DIR++))
+cd "$SOURCE_DIR"
 
-        echo "Copying files from directory no. $COUNTER_DIR..."
-        echo "Directory: $DIREC"
+for DIREC in ./*; do
+    # Increment the counter
+    ((COUNTER_DIR++))
 
+    echo "Copying files from directory no. $COUNTER_DIR..."
+    echo "Directory: $DIREC"
+
+    # Find associated files
+    # Loop through the id list
+    while read -r ANALYSIS_ID; do
+        echo "Analysis ID: $ANALYSIS_ID"
+        echo "$DIREC"
         # Find associated files
-        mapfile -t FILES < <(find "$SOURCE_DIR/$DIREC" -name "$ANALYSIS_ID*.txt" -type f)
+        #mapfile -t FILES < <(find ./"$DIREC" -name "$ANALYSIS_ID*.txt" -type f)
 
         # Check the found files
-        echo "Found files:" "${FILES[@]}"
-        echo "Number of files found: ${#FILES[@]}"
+        #echo "Found files:" "${FILES[@]}"
+        #echo "Number of files found: ${#FILES[@]}"
+        #echo ""
     
-    done
-done < "$DATASET_LIST"
+    done < "$DATASET_LIST"
+done
