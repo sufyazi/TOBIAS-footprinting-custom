@@ -1,0 +1,18 @@
+Extracting binding sites...
+Extraction done!
+======================================================================================
+
+			Resource Usage on 2023-08-08 22:34:59.278804:
+
+	JobId: 2140351.pbs101  
+	Project: personal-suffiazi 
+	Exit Status: 0
+	NCPUs Requested: 12				NCPUs Used: 12
+							CPU Time Used: 00:00:01
+	Memory Requested: 32gb 			Memory Used: 56440kb
+							Vmem Used: 60052kb
+	Walltime requested: 01:00:00 			Walltime Used: 00:00:02
+	
+	Execution Nodes Used: (x1001c0s5b0n1:ncpus=12:mem=33554432kb)
+	
+ ======================================================================================
