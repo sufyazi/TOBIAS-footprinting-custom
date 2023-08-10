@@ -28,7 +28,7 @@ DATASET_LIST="$2" #ensure that the input is the analysis_id_list.txt file
 # Initialize counters
 COUNTER_DIR=0
 
-cd "$SOURCE_DIR"
+cd "$SOURCE_DIR" || exit 1
 
 for DIREC in ./*; do
     # Increment the counter
@@ -51,7 +51,13 @@ for DIREC in ./*; do
         echo ""
 
         # transfer
-        # rsync -haPvz --include="*/" --include="*.txt" --exclude="*" "${FILES[@]}" "/home/users/ntu/suffiazi/scratch/outputs/extracted-tobias-tfbs-subset/"
+        echo "Transferring files..."
+        if [[ "$RUN" == "--dry-run" ]]
+        then
+          rsync -haPvz --dry-run --relative "${FILES[@]}" "/home/users/ntu/suffiazi/scratch/outputs/extracted-tobias-tfbs-subset/"
+        else
+          rsync -haPvz --relative "${FILES[@]}" "/home/users/ntu/suffiazi/scratch/outputs/extracted-tobias-tfbs-subset/"
+        fi
 
     done < "$DATASET_LIST"
 done
