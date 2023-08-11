@@ -159,6 +159,6 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 
-/home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/scripts/pbslogs/transfer-tobias-output.o2136734
 scripts/pbslogs/transfer-tobias-output.o2136734
-/home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/scripts/pbslogs/
+scripts/pbslogs/transfer-tobias-output.o2136734
+scripts/pbslogs/
