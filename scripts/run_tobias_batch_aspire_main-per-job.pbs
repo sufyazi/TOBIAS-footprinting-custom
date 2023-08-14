@@ -3,9 +3,10 @@
 # shellcheck disable=SC2153
 # This script is used to run the job on the NSCC cluster.
 # for master peakset: use 1800GB memory and 64 cores for 5h; for union peakset: use 300GB memory and 64 cores for 1h
+# UPDATE: for master peakset v3: use 800GB memory and 64 cores for 5h
 
 #PBS -N tobias-run
-#PBS -l select=1:ncpus=64:mem=1800GB
+#PBS -l select=1:ncpus=64:mem=800GB
 #PBS -l walltime=5:00:00
 #PBS -j oe
 #PBS -P personal
@@ -25,9 +26,12 @@ masterpeaks=$PEAKS
 bam=$FILE
 run_type=$TYPES
 
+echo "Commencing run number ${run_num} for ${dataset}_${sample_name} with ${cores} cores..."
+
 # check if the experiment type is DNase-seq
 if [[ "$experiment_type" == "dnaseseq" ]]; then
     # run bias correction
+    echo "Entering DNAse-seq mode"
     echo "Running bias correction for ${dataset}_${sample_name}"
     if TOBIAS ATACorrect -b "$bam" -g /home/users/ntu/suffiazi/genomes/GRCh38_no_alt_GCA_000001405.15.fasta -p "${masterpeaks}" --blacklist /home/users/ntu/suffiazi/genomes/hg38-blacklist.v2.bed --read_shift 0 0 --k_flank 6 --outdir "/home/users/ntu/suffiazi/scratch/outputs/tobias-outs/RUN-${run_num}-${run_type}/${dataset}_${sample_name}" --prefix "${dataset}_${sample_name}" --cores "${cores}" >> "/home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/logfiles/${dataset}_${sample_name}_${experiment_type}-${cores}cores-aspire-${run_num}-${run_type}.log"; then
         echo "Bias correction has been completed for ${dataset}_${sample_name}. Proceeding with footprinting."
@@ -37,6 +41,7 @@ if [[ "$experiment_type" == "dnaseseq" ]]; then
     fi
 elif [[ "$experiment_type" == "atacseq" ]]; then
     # run bias correction
+    echo "Entering ATAC-seq mode"
     echo "Running bias correction for ${dataset}_${sample_name}"
     if TOBIAS ATACorrect -b "$bam" -g /home/users/ntu/suffiazi/genomes/GRCh38_no_alt_GCA_000001405.15.fasta -p "${masterpeaks}" --blacklist /home/users/ntu/suffiazi/genomes/hg38-blacklist.v2.bed --outdir "/home/users/ntu/suffiazi/scratch/outputs/tobias-outs/RUN-${run_num}-${run_type}/${dataset}_${sample_name}" --prefix "${dataset}_${sample_name}" --cores "${cores}" >> "/home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/logfiles/${dataset}_${sample_name}_${experiment_type}-${cores}cores-aspire-${run_num}-${run_type}.log"; then
         echo "Bias correction has been completed for ${dataset}_${sample_name}. Proceeding with footprinting."
