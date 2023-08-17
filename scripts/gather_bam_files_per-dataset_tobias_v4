@@ -61,7 +61,7 @@ for dataset in "${datasets[@]}"; do
 			if rsync -avPhz --dry-run "${bam_files[@]}" "/home/msazizan/cargospace/tobias-raw-input-files/${dataset}/${substring}/"; then
 				cd /home/msazizan/cargospace/tobias-raw-input-files || exit 1
 				# rsync the folder to Aspire
-				rsync -havPz --dry-run -e"ssh -i ~/.ssh/nscc_id_rsa" --relative "${dataset}/${substring}"/ suffiazi@aspire2antu.nscc.sg:/home/users/ntu/suffiazi/scratch/inputs/atac-croo-out/
+				rsync -havPz --dry-run --relative "${dataset}/${substring}"/ suffiazi@aspire2antu.nscc.sg:/home/users/ntu/suffiazi/scratch/inputs/atac-croo-out/
 			fi
 		fi
 	done
