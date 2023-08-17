@@ -46,16 +46,18 @@ for run in "${runs[@]}"; do
             for file in "${files[@]}"; do
                 echo "File: ${file}"
                 if [[ "$file" == *_overview.txt ]]; then
-                    if rsync -avPhz "${file}" /home/users/ntu/suffiazi/scratch/outputs/filtered-tobias/"${analysis_id}"/"${analysis_id}"_"${sample_id}"/overview_files/ >> "/home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/logfiles/rsync-transfer/rsync_log_${analysis_id}_${sample_id}.log"; then
+                    if rsync -avPhz "${file}" /home/users/ntu/suffiazi/scratch/outputs/filtered-tobias/"${analysis_id}"/"${analysis_id}"_"${sample_id}"/overview_files/; then
                         echo "$file has been copied to a new location."
                     else
                         echo "File failed to be copied! Check logs."
+                        exit 1
                     fi
                 else
-                    if rsync -avPhz "${file}" /home/users/ntu/suffiazi/scratch/outputs/filtered-tobias/"${analysis_id}"/"${analysis_id}"_"${sample_id}"/ >> "/home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/logfiles/rsync-transfer/rsync_log_${analysis_id}_${sample_id}.log"; then
+                    if rsync -avPhz "${file}" /home/users/ntu/suffiazi/scratch/outputs/filtered-tobias/"${analysis_id}"/"${analysis_id}"_"${sample_id}"/; then
                         echo "$file has been copied to a new location."
                     else
                         echo "File failed to be copied! Check logs."
+                        exit 1
                     fi
                 fi
             done
@@ -63,4 +65,4 @@ for run in "${runs[@]}"; do
     fi
 done
 
-echo "Transfer done!"
+echo "Transfer ALL done!"
