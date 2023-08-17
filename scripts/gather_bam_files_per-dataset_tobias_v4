@@ -50,7 +50,6 @@ for dataset in "${datasets[@]}"; do
 
 			# make a directory for the raw bam files
 			mkdir -p /home/msazizan/cargospace/tobias-raw-input-files/"${dataset}"/"${substring}"
-
 			# initialize an array to store the bam files
 			bam_files=()
 			# find BAM FILES for each dataset and transfer to the raw_peaks folder
@@ -59,7 +58,11 @@ for dataset in "${datasets[@]}"; do
 			echo "Bam files of ${sample_name}:"
 			printf '%s\n' "${bam_files[@]}"
 			# copy the bam files to created folder
-			rsync -avPhz --dry-run "${bam_files[@]}" "/home/msazizan/cargospace/tobias-raw-input-files/${dataset}/${substring}/"
+			if rsync -avPhz --dry-run "${bam_files[@]}" "/home/msazizan/cargospace/tobias-raw-input-files/${dataset}/${substring}/"; then
+				cd /home/msazizan/cargospace/tobias-raw-input-files || exit 1
+				# rsync the folder to Aspire
+				rsync -havPz --dry-run -e"ssh -i ~/.ssh/nscc_id_rsa" --relative "${dataset}/${substring}"/ suffiazi@aspire2antu.nscc.sg:/home/users/ntu/suffiazi/scratch/inputs/atac-croo-out/
+			fi
 		fi
 	done
 	# # rsync the bam folder to Gekko
