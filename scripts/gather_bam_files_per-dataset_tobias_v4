@@ -40,7 +40,6 @@ for dataset in "${datasets[@]}"; do
 		else
 			# get the sample name
 			sample_name=$(basename "${sample_dir}")
-			echo "Current directory: ${sample_name} of ${dataset}"
 
 			# capture the sample number
 			if [[ $sample_name =~ (sample[0-9]{1,3}) ]]; then
@@ -58,10 +57,10 @@ for dataset in "${datasets[@]}"; do
 			echo "Bam files of ${sample_name}:"
 			printf '%s\n' "${bam_files[@]}"
 			# copy the bam files to created folder
-			if rsync -avPhz --dry-run "${bam_files[@]}" "/home/msazizan/cargospace/tobias-raw-input-files/${dataset}/${substring}/"; then
+			if rsync -avPhz "${bam_files[@]}" "/home/msazizan/cargospace/tobias-raw-input-files/${dataset}/${substring}/"; then
 				cd /home/msazizan/cargospace/tobias-raw-input-files || exit 1
 				# rsync the folder to Aspire
-				rsync -havPz --dry-run --relative "${dataset}/${substring}"/ suffiazi@aspire2antu.nscc.sg:/home/users/ntu/suffiazi/scratch/inputs/atac-croo-out/
+				rsync -havPz --relative "${dataset}/${substring}"/ suffiazi@aspire2antu.nscc.sg:/home/users/ntu/suffiazi/scratch/inputs/atac-croo-out/
 			fi
 		fi
 	done
