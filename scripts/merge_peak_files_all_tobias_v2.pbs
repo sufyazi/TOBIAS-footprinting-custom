@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+# shellcheck disable=SC1091
+
+#PBS -N merged-peaks-master-v4.5-S6R691V
+#PBS -l select=1:ncpus=64:mem=100GB
+#PBS -l walltime=3:00:00
+#PBS -j oe
+#PBS -P personal
+#PBS -q normal
+
+# load conda environment
+module load miniconda3/py38_4.8.3
+
+conda activate /home/users/ntu/suffiazi/apps/mambaforge/envs/tobias-footprinting
+
+input_merged_peaks_root=$PEAK_ROOT
+output_final_merged=$OUT_PATH
+
+# create output folder
+mkdir -p "${output_final_merged}"
+
+cat "${input_merged_peaks_root}"/* "${output_final_merged}/ALL_master_merged_peakset-v4.4.bed" | sort -k1,1 -k2,2n | bedtools merge -i - > "${output_final_merged}/ALL_master_merged_peakset-v4.5.bed"
+
+echo "Done."

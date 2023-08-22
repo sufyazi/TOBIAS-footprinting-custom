@@ -19,7 +19,7 @@ cores=64
 if [ "$run_type" == "union" ]; then
     PEAK_PATH="/home/users/ntu/suffiazi/tobias_input_peaks/merged_sample-specific_peaks"
 elif [ "$run_type" == "master" ]; then
-    peakfile="/home/users/ntu/suffiazi/tobias_input_peaks/master_merged_peakset/ALL_master_merged_peakset-v3.bed"
+    peakfile="/scratch/users/ntu/suffiazi/inputs/peak_files/master_merged_peakset/ALL_master_merged_peakset-v4.5.bed"
 else
     echo "Invalid run type. Please specify either <union> or <master>."
     exit 1
