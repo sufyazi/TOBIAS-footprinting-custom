@@ -6,8 +6,8 @@
 # UPDATE: for master peakset v3 and v4: use 800GB memory and 64 cores for 5h
 
 #PBS -N tobias-BRCA-merged-run
-#PBS -l select=1:ncpus=4:mem=10GB
-#PBS -l walltime=1:00:00
+#PBS -l select=1:ncpus=64:mem=900GB
+#PBS -l walltime=9:00:00
 #PBS -j oe
 #PBS -P personal
 #PBS -q normal
@@ -35,14 +35,12 @@ done
 
 echo "Initializing footprinting run..."
 
-echo TOBIAS BINDetect --motifs /home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/motif-guided/joined_filt_combined_motifs.jaspar --signals "${filepaths[@]}" --genome /home/users/ntu/suffiazi/genomes/GRCh38_no_alt_GCA_000001405.15.fasta --peaks /scratch/users/ntu/suffiazi/inputs/peak_files/brca_subtype_merged/master_BRCA_merged_peaks/master_BRCA_merged_peaks-v1.bed --outdir "/home/users/ntu/suffiazi/scratch/outputs/tobias-outs/RUN-${run_num}-${run_type}-BRCA/bindetect_outputs" --skip-excel --cond_names Her2 Basal LumA LumB Normal-like --cores 64 #>> "/home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/logfiles/BRCA-merged-differential-footprinting-${run_num}-${run_type}.log"
-
 # call footprints
-# if TOBIAS BINDetect --motifs /home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/motif-guided/joined_filt_combined_motifs.jaspar "${signals_arg}" --genome /home/users/ntu/suffiazi/genomes/GRCh38_no_alt_GCA_000001405.15.fasta --peaks /scratch/users/ntu/suffiazi/inputs/peak_files/brca_subtype_merged/master_BRCA_merged_peaks/master_BRCA_merged_peaks-v1.bed --outdir "/home/users/ntu/suffiazi/scratch/outputs/tobias-outs/RUN-${run_num}-${run_type}-BRCA/bindetect_outputs" --skip-excel --cond_names Her2 Basal LumA LumB Normal-like --cores 64 >> "/home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/logfiles/BRCA-merged-differential-footprinting-${run_num}-${run_type}.log"; then
-#     echo "Successfully ran TOBIAS footprinting for TCGA-BRCA merged data."
-# else
-#     echo "ERROR: Failed to run TOBIAS footprinting for TCGA-BRCA merged data due to an error. Please see the log file for more details."
-#     exit 1
-# fi
+if TOBIAS BINDetect --motifs /home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/motif-guided/joined_filt_combined_motifs.jaspar --signals "${filepaths[@]}" --genome /home/users/ntu/suffiazi/genomes/GRCh38_no_alt_GCA_000001405.15.fasta --peaks /scratch/users/ntu/suffiazi/inputs/peak_files/brca_subtype_merged/master_BRCA_merged_peaks/master_BRCA_merged_peaks-v1.bed --outdir "/home/users/ntu/suffiazi/scratch/outputs/tobias-outs/RUN-${run_num}-${run_type}-BRCA/bindetect_outputs" --skip-excel --cond_names Her2 Basal LumA LumB Normal-like --cores 64 >> "/home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/logfiles/BRCA-merged-differential-footprinting-${run_num}-${run_type}.log"; then
+    echo "Successfully ran TOBIAS footprinting for TCGA-BRCA merged data."
+else
+    echo "ERROR: Failed to run TOBIAS footprinting for TCGA-BRCA merged data due to an error. Please see the log file for more details."
+    exit 1
+fi
 
 echo "All done! Check the log files for any errors and the outputs directory for the results."
