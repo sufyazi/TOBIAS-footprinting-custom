@@ -1,0 +1,72 @@
+#!/usr/bin/env bash
+# shellcheck disable=SC1091
+# shellcheck disable=SC2153
+# This script is used to run the job on the NSCC cluster.
+# for master peakset: use 1800GB memory and 64 cores for 5h; for union peakset: use 300GB memory and 64 cores for 1h
+# UPDATE: for master peakset v3 and v4: use 800GB memory and 64 cores for 5h
+
+#PBS -N tobias-run
+#PBS -l select=1:ncpus=64:mem=800GB
+#PBS -l walltime=8:00:00
+#PBS -j oe
+#PBS -P personal
+#PBS -q normal
+
+# load conda environment
+module load miniconda3/py38_4.8.3
+
+conda activate /home/users/ntu/suffiazi/apps/mambaforge/envs/tobias-footprinting
+
+dataset=$ANALYSIS_ID
+experiment_type=$EXP_TYPE
+run_num=$RUN
+cores=$CORE
+masterpeaks=$PEAKS
+bam=$FILE
+run_type=$TYPES
+
+echo "Commencing run number ${run_num} for ${dataset} with ${cores} cores..."
+
+# check if the experiment type is DNase-seq
+if [[ "$experiment_type" == "dnaseseq" ]]; then
+    # run bias correction
+    # echo "Entering DNAse-seq mode"
+    # echo "Running bias correction for ${dataset}"
+    # if TOBIAS ATACorrect -b "$bam" -g /home/users/ntu/suffiazi/genomes/GRCh38_no_alt_GCA_000001405.15.fasta -p "${masterpeaks}" --blacklist /home/users/ntu/suffiazi/genomes/hg38-blacklist.v2.bed --read_shift 0 0 --k_flank 6 --outdir "/home/users/ntu/suffiazi/scratch/outputs/tobias-outs/RUN-${run_num}-${run_type}/${dataset}" --prefix "${dataset}-merged" --cores "${cores}" >> "/home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/logfiles/${dataset}_${experiment_type}-${cores}cores-${run_num}-${run_type}.log"; then
+    #     echo "Bias correction has been completed for ${dataset}. Proceeding with footprinting."
+    # else
+    #     echo "ERROR: Bias correction has failed for ${dataset}. Please check the log file for more details."
+    #     exit 1
+    # fi
+    exit 1
+elif [[ "$experiment_type" == "atacseq" ]]; then
+    # run bias correction
+    echo "Entering ATAC-seq mode"
+    echo "Running bias correction for ${dataset}_merged"
+    echo "Bam file path: ${bam}"
+    echo "Peak file path: ${masterpeaks}"
+    echo "Output directory: /home/users/ntu/suffiazi/scratch/outputs/tobias-outs/RUN-${run_num}-${run_type}-BRCA/${dataset}"
+    echo "Cores: ${cores}"
+    if TOBIAS ATACorrect -b "$bam" -g /home/users/ntu/suffiazi/genomes/GRCh38_no_alt_GCA_000001405.15.fasta -p "${masterpeaks}" --blacklist /home/users/ntu/suffiazi/genomes/hg38-blacklist.v2.bed --outdir "/home/users/ntu/suffiazi/scratch/outputs/tobias-outs/RUN-${run_num}-${run_type}-BRCA/${dataset}" --prefix "${dataset}_merged" --cores "${cores}" >> "/home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/logfiles/${dataset}_merged_${experiment_type}-${cores}cores-${run_num}-${run_type}.log"; then
+        echo "Bias correction has been completed for ${dataset}_merged. Proceeding with footprinting."
+    else
+        echo "ERROR: Bias correction has failed for ${dataset}_merged. Please check the log file for more details."
+        exit 1
+    fi
+fi
+
+FILELIMIT=$(ulimit -n)
+echo "Current file descriptor limit: " "$FILELIMIT"
+
+# run TOBIAS
+# score bigwigs
+echo "Scoring bigwigs for ${dataset}_merged..."
+
+if TOBIAS ScoreBigwig --signal "/home/users/ntu/suffiazi/scratch/outputs/tobias-outs/RUN-${run_num}-${run_type}-BRCA/${dataset}/${dataset}_merged_corrected.bw" --regions "${masterpeaks}" --output "/home/users/ntu/suffiazi/scratch/outputs/tobias-outs/RUN-${run_num}-${run_type}-BRCA/${dataset}/${dataset}_merged_footprints.bw" --cores "${cores}" >> "/home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/logfiles/${dataset}_merged_${experiment_type}-${cores}cores-${run_num}-${run_type}.log"; then
+    echo "Successfully ran TOBIAS scorebigwigs for ${dataset}_merged." 
+else
+    echo "ERROR: Failed to run TOBIAS footprinting for ${dataset}_merged due to an error. Please see the log file for more details."
+    exit 1
+fi
+
+echo "All done! Check the log files for any errors and the outputs directory for the results."

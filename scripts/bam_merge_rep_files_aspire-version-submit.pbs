@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+# shellcheck disable=SC1091
+
+#PBS -l select=1:ncpus=64:mem=100GB
+#PBS -l walltime=5:00:00
+#PBS -j oe
+#PBS -P personal
+#PBS -q normal
+
+# load conda environment
+module load miniconda3/py38_4.8.3
+
+conda activate /home/users/ntu/suffiazi/apps/mambaforge/envs/tobias-footprinting
+
+bam_file_str=$BAM
+dataset=$DATA
+
+# load string into arrays
+read -ra bam_files <<< "$bam_file_str"
+
+echo "Bam files to be merged:" "${bam_files[@]}"
+echo "Dataset:" "${dataset}"
+
+echo "Merging bam files..."
+if samtools merge -@ 64 -o "/home/users/ntu/suffiazi/scratch/outputs/merged_bams/${dataset}.trim.srt.nodup.merged.bam" "${bam_files[@]}"; then
+	echo "Bam files have been merged. Indexing..."
+	# index the merged bam file if not already
+    if [ ! -f "/home/users/ntu/suffiazi/scratch/outputs/merged_bams/${dataset}.trim.srt.nodup.merged.bam.bai" ]; then
+	    if samtools index -@ 64 -o "/home/users/ntu/suffiazi/scratch/outputs/merged_bams/${dataset}.trim.srt.nodup.merged.bam.bai" "/home/users/ntu/suffiazi/scratch/outputs/merged_bams/${dataset}.trim.srt.nodup.merged.bam"; then
+		    echo "Merged bam file has been indexed."
+	    else
+            echo "Merged bam file failed to be merged due to samtools error."
+        fi
+    else
+        echo "Merged bam file has already been indexed. Skipping..."
+    fi
+fi

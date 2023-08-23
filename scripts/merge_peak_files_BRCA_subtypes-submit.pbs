@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+# shellcheck disable=SC1091
+
+#PBS -l select=1:ncpus=12:mem=50GB
+#PBS -l walltime=2:00:00
+#PBS -j oe
+#PBS -P personal
+#PBS -q normal
+
+# load conda environment
+module load miniconda3/py38_4.8.3
+
+conda activate /home/users/ntu/suffiazi/apps/mambaforge/envs/tobias-footprinting
+
+input_merged_peaks_root=$PEAK_ROOT
+output_final_merged=$OUT_PATH
+dataset=$DATA
+flag=$FLAG_TERM
+
+
+if [[ "${flag}" == "done" ]]; then
+    echo "Merging merged subtypes peaks..."
+    mkdir -p "${output_final_merged}/master_BRCA_merged_peaks"
+    cat "${output_final_merged}"/*.bed | sort -k1,1 -k2,2n | bedtools merge -i - > "${output_final_merged}/master_BRCA_merged_peaks/master_BRCA_merged_peaks-v1.bed"
+    echo "Done."
+else
+    cat "${input_merged_peaks_root}"/*.bed | sort -k1,1 -k2,2n | bedtools merge -i - > "${output_final_merged}/${dataset}_merged_peakset.bed"
+fi
+
+echo "Done."

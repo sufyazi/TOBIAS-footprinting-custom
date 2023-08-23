@@ -85,7 +85,7 @@ for dataset in "${!dataset_dict[@]}"; do
             mkdir -p "/home/users/ntu/suffiazi/scratch/outputs/tobias-outs/RUN-${run_num}-${run_type}/${dataset}_${sample_name}"
 
             # run the script
-            qsub -v ANALYSIS_ID="$dataset",SAMPLE="$sample_name",EXP_TYPE="$experiment_type",RUN="$run_num",CORE="$cores",PEAKS="$peakfile",FILE="$bam",TYPES="$run_type" /home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/scripts/run_tobias_batch_aspire_main-per-job.pbs
+            qsub -v ANALYSIS_ID="$dataset",SAMPLE="$sample_name",EXP_TYPE="$experiment_type",RUN="$run_num",CORE="$cores",PEAKS="$peakfile",FILE="$bam",TYPES="$run_type" /home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/scripts/run_tobias_batch_aspire_main-submit.pbs
         fi
     done
 done

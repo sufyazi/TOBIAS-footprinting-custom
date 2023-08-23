@@ -1,0 +1,60 @@
+#!/usr/bin/env bash
+# shellcheck disable=SC1091
+
+
+# check if the number of arguments is correct
+if [ "$#" -ne 2 ]; then
+	echo "Usage: bash merge_peak_files_BRCA_subtypes <output_peakfile_root> <dataset_list>"
+	exit 1
+fi
+
+peak_root=$1
+dataset_list=$2
+
+# grab the basename of all the datasets listed in the dataset list text file
+readarray -t datasets < "${dataset_list}"
+
+# print the datasets
+echo '[' "${datasets[@]}" ']'
+length_datasets=${#datasets[@]}
+echo "Length of datasets: ${length_datasets}"
+counter=1
+
+output_final_merged="/scratch/users/ntu/suffiazi/inputs/peak_files/brca_subtype_merged"
+
+# iterate through each dataset
+for dataset in "${datasets[@]}"; do
+    # get the path of the dataset in the gathered_input_root
+    dataset_path=$(find "${peak_root}" -maxdepth 1 -mindepth 1 -type d -name "${dataset}")
+	echo "Dataset path: ${dataset_path}"
+	# check if the dataset path is empty; if it is empty, skip
+	if [ -z "${dataset_path}" ]; then
+		echo "Dataset directory is non-existent. Skipping..."
+		continue
+	fi
+    
+    echo "Counter: ${counter}"
+    if [[ "${counter}" -le "${length_datasets}" ]]; then
+        echo "Submitting merging job for ${dataset}..."
+        # submit the job to the cluster
+        qsub -v PEAK_ROOT="${dataset_path}",OUT_PATH="${output_final_merged}",DATA="${dataset}",FLAG_TERM=no -N merge-peaks-"${dataset}"-subtype /home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/scripts/merge_peak_files_BRCA_subtypes-submit.pbs
+        # increment the counter
+        counter=$((counter+1))
+    fi
+done
+
+
+# wait for 30 minutes
+sleep 30m
+
+flag="done"
+# count how many bed files are in the output_final_merged directory
+num_bed_files=$(find "${output_final_merged}" -type f -name "*.bed" | wc -l)
+echo "Number of bed files in ${output_final_merged}: ${num_bed_files}"
+# compare the number of bed files to the number of datasets
+if [[ "${num_bed_files}" -eq "${length_datasets}" ]]; then        
+    echo "Submitting merging job for BRCA subtypes..."
+    echo "Flag: ${flag}"
+    # submit the job to the cluster
+    qsub -v PEAK_ROOT=no,OUT_PATH="${output_final_merged}",DATA=no,FLAG_TERM="${flag}" -N merge-all-BRCA-subtypes /home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/scripts/merge_peak_files_BRCA_subtypes-submit.pbs
+fi
