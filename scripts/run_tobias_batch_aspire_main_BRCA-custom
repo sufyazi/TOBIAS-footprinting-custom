@@ -37,6 +37,9 @@ while read -r dataset experiment; do
     dataset_dict["$dataset"]="$experiment"
 done < "$dataset_rec"
 
+echo array key "${!dataset_dict[@]}"
+echo array val "${dataset_dict[@]}"
+
 # Print the dataset and experiment type pairs
 for dataset in "${!dataset_dict[@]}"; do
     # get the path of the dataset in the gathered_input_root
