@@ -1,0 +1,26 @@
+Commencing run number 12 for PU24GB8_sample17 with 64 cores...
+Entering ATAC-seq mode
+Running bias correction for PU24GB8_sample17
+[E::idx_find_and_load] Could not retrieve index file for '/home/users/ntu/suffiazi/scratch/inputs/atac-croo-out/PU24GB8/sample17/430a0179-12b4-4e9a-bcd1-85861283cd98.nodup.no_chrM_MT.bam'
+Bias correction has been completed for PU24GB8_sample17. Proceeding with footprinting.
+Current file descriptor limit:  16384
+Scoring bigwigs for PU24GB8_sample17 and calling footprints...
+Successfully ran TOBIAS footprinting for PU24GB8_sample17.
+Running post-processing module for PU24GB8_sample17...
+All done! Check the log files for any errors and the outputs directory for the results.
+======================================================================================
+
+			Resource Usage on 2023-08-25 10:15:06.998262:
+
+	JobId: 2578943.pbs101  
+	Project: personal-suffiazi 
+	Exit Status: 0
+	NCPUs Requested: 64				NCPUs Used: 64
+							CPU Time Used: 144:44:22
+	Memory Requested: 800gb 			Memory Used: 467912080kb
+							Vmem Used: 1344657872kb
+	Walltime requested: 06:00:00 			Walltime Used: 03:52:09
+	
+	Execution Nodes Used: (x1000c4s2b0n1:ncpus=64:mem=838860800kb)
+	
+ ======================================================================================

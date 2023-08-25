@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 ######
-# For certain samples, there are replicated data so these bam files need to be merged. NOTE THAT A BIGWIG FILE IS NOT NEEDED FOR TOBIAS ANALYSIS.
+# For certain samples, there are replicated data so these bam files need to be merged before running TOBIAS footprinting. NOTE THAT A BIGWIG FILE IS NOT NEEDED FOR TOBIAS ANALYSIS.
 ###### MAKE SURE THAT THIS IS RUN ON WHERE THE GATHERED INPUT FOLDER IS LOCATED ######
 
 set -e
