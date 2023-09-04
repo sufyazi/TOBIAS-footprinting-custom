@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+# shellcheck disable=SC1091
+
+#PBS -l select=1:ncpus=12:mem=50GB
+#PBS -l walltime=2:00:00
+#PBS -j oe
+#PBS -P personal
+#PBS -q normal
+
+# load conda environment
+module load miniconda3/py38_4.8.3
+
+conda activate /home/users/ntu/suffiazi/apps/mambaforge/envs/tobias-footprinting
+
+input_prefix=$INPUT_ROOT
+target_dir=$TARG_DIR
+output_dir=$OUT_DIR
+
+
+if bash /home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/scripts/extract_binding_sites_TF-shortlist.sh "${input_prefix}" "${target_dir}" "${output_dir}"; then
+    echo "Region extraction complete."
+    if [[ ! -f "${output_dir}/concatenated_basal-TF-UP_binding_sites.bed" ]]; then
+        echo "The concatenated binding sites file does not exist. Creating it now..."
+        indexer=0
+        for file in "${output_dir}"/*.txt; do
+            indexer=$((indexer+1))
+            # remove header
+            tail -n +2 "${file}" > "${output_dir}/${indexer}.tmp"
+        done
+        cat "${output_dir}"/*.tmp | sort -k1,1 -k2,2n > "${output_dir}/concatenated_basal-TF-UP_binding_sites.bed"
+        echo "Done."
+    fi
+else
+    echo "Region extraction failed."
+fi
