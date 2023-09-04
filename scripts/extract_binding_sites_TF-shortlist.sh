@@ -13,6 +13,13 @@ output_dir=$3
 
 # Loop through each prefix in the input file
 while IFS= read -r prefix; do
-    # Use find to search for files with the given prefix and .txt suffix
-    find "$target_dir" -name "${prefix}_overview.txt" -type f -exec awk -v OFS='\t' '{print $1, $2, $3, $4, $5, $6}' {} \; >> "$output_dir"/"$prefix"_binding_sites-basal-UP.txt
+    # check if the output file exists
+    if [ -f "$output_dir"/"$prefix"_binding_sites-basal-UP.txt ]; then
+        echo "Output file ${output_dir}/${prefix}_binding_sites-basal-UP.txt already exists. Skipping..."
+        continue
+    else
+        echo "Processing $prefix..."
+        # Use find to search for files with the given prefix and .txt suffix
+        find "$target_dir" -name "${prefix}_overview.txt" -type f -exec awk -v OFS='\t' '{print $1, $2, $3, $4, $5, $6}' {} \; >> "$output_dir"/"$prefix"_binding_sites-basal-UP.txt && awk -v OFS='\t' '{print $1, $2, $3, $4}' "$output_dir"/"$prefix"_binding_sites-basal-UP.txt >> "$output_dir"/"$prefix"_binding_sites-basal-UP_4col.bed
+    fi
 done < "$input_prefix"

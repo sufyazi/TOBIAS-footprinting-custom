@@ -19,7 +19,7 @@ output_dir=$OUT_DIR
 
 if bash /home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/scripts/extract_binding_sites_TF-shortlist.sh "${input_prefix}" "${target_dir}" "${output_dir}"; then
     echo "Region extraction complete."
-    if [[ ! -f "${output_dir}/concatenated_basal-TF-UP_binding_sites.bed" ]]; then
+    if [[ ! -f "${output_dir}/concatenated_binding_sites/concat_basal-TF-UP_binding_sites-ALL.bed" ]]; then
         echo "The concatenated binding sites file does not exist. Creating it now..."
         indexer=0
         for file in "${output_dir}"/*.txt; do
@@ -27,7 +27,7 @@ if bash /home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/scripts/e
             # remove header
             tail -n +2 "${file}" > "${output_dir}/${indexer}.tmp"
         done
-        cat "${output_dir}"/*.tmp | sort -k1,1 -k2,2n > "${output_dir}/concatenated_basal-TF-UP_binding_sites.bed"
+        cat "${output_dir}"/*.tmp | sort -k1,1 -k2,2n > "${output_dir}/concatenated_binding_sites/concat_basal-TF-UP_binding_sites-ALL.bed"
         echo "Done."
     fi
 else
