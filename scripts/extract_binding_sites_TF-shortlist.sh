@@ -20,6 +20,6 @@ while IFS= read -r prefix; do
     else
         echo "Processing $prefix..."
         # Use find to search for files with the given prefix and .txt suffix
-        find "$target_dir" -name "${prefix}_overview.txt" -type f -exec awk -v OFS='\t' '{print $1, $2, $3, $4, $5, $6}' {} \; >> "$output_dir"/"$prefix"_binding_sites-basal-UP.txt && awk -v OFS='\t' '{print $1, $2, $3, $4}' "$output_dir"/"$prefix"_binding_sites-basal-UP.txt >> "$output_dir"/"$prefix"_binding_sites-basal-UP_4col.bed
+        find "$target_dir" -name "${prefix}_overview.txt" -type f -exec awk -v OFS='\t' '{print $1, $2, $3, $4, $5, $6}' {} \; >> "$output_dir"/"$prefix"_binding_sites-basal-UP.txt && awk -v OFS='\t' '{print $1, $2, $3, $4}' "$output_dir"/"$prefix"_binding_sites-basal-UP.txt | tail -n +2 | sort -k1,1V -k2,2n >> "$output_dir"/"$prefix"_binding_sites-basal-UP_4col.bed
     fi
 done < "$input_prefix"
