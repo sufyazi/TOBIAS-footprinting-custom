@@ -18,14 +18,14 @@ readarray -t files < <(find "${sample_dir}" -type f \( -name "*_corrected.bw" -o
 for file in "${files[@]}"; do
     echo "File: ${file}"
     if [[ "$file" == *_overview.txt ]]; then
-        if rsync -avPhz "${file}" /home/users/ntu/suffiazi/scratch/outputs/filtered-tobias/"${analysis_id}"/"${analysis_id}"_"${sample_id}"/overview_files/; then
+        if rsync -avPhz -ii "${file}" /home/users/ntu/suffiazi/scratch/outputs/filtered-tobias/"${analysis_id}"/"${analysis_id}"_"${sample_id}"/overview_files/; then
             echo "$file has been copied to a new location."
         else
             echo "File failed to be copied! Check logs."
             exit 1
         fi
     else
-        if rsync -avPhz "${file}" /home/users/ntu/suffiazi/scratch/outputs/filtered-tobias/"${analysis_id}"/"${analysis_id}"_"${sample_id}"/; then
+        if rsync -avPhz -ii "${file}" /home/users/ntu/suffiazi/scratch/outputs/filtered-tobias/"${analysis_id}"/"${analysis_id}"_"${sample_id}"/; then
             echo "$file has been copied to a new location."
         else
             echo "File failed to be copied! Check logs."
