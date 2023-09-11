@@ -74,7 +74,7 @@ for analysis_id in id_list:
                                 print("")
                                 sleep 1m
                             # run bash script to extract binding sites
-                            subprocess.run(f"qsub -v FILE_INP={file},FILE_OUT={new_file_dir} /home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/scripts/postprocess_tobias_extract_tfbs-submit.pbs", shell=True, check=True)
+                            subprocess.run(f"qsub -v FILE_INP={file},FILE_OUT={new_file_path} /home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/scripts/postprocess_tobias_extract_tfbs-submit.pbs", shell=True, check=True)
     else:
         print(f"Analysis directory {analysis_id} does not exist. Skipping...")
         continue
