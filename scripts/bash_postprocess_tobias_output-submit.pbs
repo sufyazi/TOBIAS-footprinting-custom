@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+# This script is used to run the job on the NSCC cluster.
+
+#PBS -N transfer-tobias-output
+#PBS -l select=1:ncpus=4:mem=30GB
+#PBS -l walltime=8:00:00
+#PBS -j oe
+#PBS -P personal
+#PBS -q normal
+
+sample_dir="$SAMP_DIR"
+analysis_id="$ANAL_ID"
+sample_id="$SAMP_ID"
+
+# find specific files in the sample directory and put them in an array
+readarray -t files < <(find "${sample_dir}" -type f \( -name "*_corrected.bw" -o -name "*_footprints.bw" -o -name "*_overview.txt" -o -name "bindetect_results.txt" \))
+
+for file in "${files[@]}"; do
+    echo "File: ${file}"
+    if [[ "$file" == *_overview.txt ]]; then
+        if rsync -avPhz "${file}" /home/users/ntu/suffiazi/scratch/outputs/filtered-tobias/"${analysis_id}"/"${analysis_id}"_"${sample_id}"/overview_files/; then
+            echo "$file has been copied to a new location."
+        else
+            echo "File failed to be copied! Check logs."
+            exit 1
+        fi
+    else
+        if rsync -avPhz "${file}" /home/users/ntu/suffiazi/scratch/outputs/filtered-tobias/"${analysis_id}"/"${analysis_id}"_"${sample_id}"/; then
+            echo "$file has been copied to a new location."
+        else
+            echo "File failed to be copied! Check logs."
+            exit 1
+        fi
+    fi
+done

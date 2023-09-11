@@ -12,5 +12,12 @@ TOBIAS FormatMotifs --input combined-filt-individual-motifs/* --task join --outp
     (a) run `gather_peak_files_per-dataset_tobias_v2` to gather all the raw peak files from each dataset in one place. Run this on Odin, where the raw outputs from the pipeline are stored.
     (b) run `merge_peak_files_per-dataset_tobias_v2` to merge all the sample-specific raw peak files from each dataset into one file. Run this on Odin, where the raw outputs from step (a) are stored.
     (c) run `merge_peak_files_all_tobias_v2` to merge all the sample-specific raw peak files from all datasets into one file. Run this on Odin, where the raw outputs from step (b) are stored. For now, we have a merged master set from BLUEPRINT.
-    (d) run `gather_bam_files_per-dataset_tobias_v3` to gather all the raw bam files from each dataset in one place. Run this on Odin, where the raw outputs from the pipeline are stored.
+    (d) run `gather_bam_files_per-dataset_tobias_v4` to gather all the raw bam files from each dataset in one place. Run this on Odin, where the raw outputs from the pipeline are stored.
     (e) run `bam_merge_rep_files_v2` to merge all the replicated bam files if there are replicates. Additionally, a corresponding merged bigwig file is generated. Run this on Odin, where the outputs from step (d) are stored.
+
+2. Motif-guided footprinting workflow
+    (a) run `run_tobias_batch_aspire_main` script on the terminal to submit individual footprinting job with `run_tobias_batch_aspire_main-submit.pbs` to the scheduler.
+
+3. Post-processing of raw footprint data from TOBIAS
+    (a) run `bash_postprocess_tobias_output.sh` directly on the terminal to filter the raw output directory to keep only the most important raw output files. This script will loop through the target tobias-out directory to grab only raw files we want to keep, and then submit the actual `rsync` process as a job to the scheduler using the `bash_postprocess_tobias_output-submit.pbs` script.
+    (b)
