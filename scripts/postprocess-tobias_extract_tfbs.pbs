@@ -7,7 +7,6 @@
 #PBS -j oe
 #PBS -P personal
 #PBS -q normal
-#PBS -wd /home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/scripts/pbslogs/purge-site
 
 
 # Define the input file and new file directory
