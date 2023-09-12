@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-
+######## RUN ON ODIN ########
 ############################################################################################################
 # For TOBIAS, we need to merge individual peak files into a single peak file for each sample.
 

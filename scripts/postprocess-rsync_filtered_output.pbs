@@ -1,29 +1,31 @@
 #!/usr/bin/env bash
+# This script is used to run the job on the NSCC cluster.
 
-# Check if the correct number of arguments were provided
-if [[ "$#" -ne 2 ]]
-then
-  echo -e "Usage: $0 [--dry-run|--live-run] <analysis_id_list.txt>\n"
-  exit 1
-fi
+#PBS -N transfer-tfbs-to-odin
+#PBS -l select=1:ncpus=4:mem=32GB
+#PBS -l walltime=24:00:00
+#PBS -j oe
+#PBS -P personal
+#PBS -q normal
+
 
 # Set the source directory to traverse
 SOURCE_DIR="/home/users/ntu/suffiazi/scratch/outputs/extracted-tobias-tfbs"
 
+RUNMODE="$RUN"
+
+DATASET_LIST="$ID"
+
 # Check if the --dry-run option is provided
-if [[ "$1" == "--dry-run" ]]
+if [[ "${RUNMODE}" == "--dry-run" ]]
 then
-  RUN="$1"
-  echo "Current run parameter: $RUN"
+  echo "Current run parameter: $RUNMODE"
   echo -e "Running in dry mode\n"
 else
-  RUN="--live-run"
-  echo "Current run parameter: $RUN"
+  RUNMODE="--live-run"
+  echo "Current run parameter: $RUNMODE"
   echo -e "Running in live mode\n"
 fi
-
-# Process the analysis_id_list.txt file
-DATASET_LIST="$2" #ensure that the input is the analysis_id_list.txt file
 
 # Initialize counters
 COUNTER_DIR=0

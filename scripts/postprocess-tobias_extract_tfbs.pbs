@@ -1,12 +1,13 @@
 #!/usr/bin/env bash
 # This script is used to run the job on the NSCC cluster.
 
-#PBS -N extract-tfbs-tobias-output
+#PBS -N extract-tfbs
 #PBS -l select=1:ncpus=2:mem=10GB
 #PBS -l walltime=3:00:00
 #PBS -j oe
 #PBS -P personal
 #PBS -q normal
+#PBS -wd /home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/scripts/pbslogs/purge-site
 
 
 # Define the input file and new file directory

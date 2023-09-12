@@ -61,6 +61,6 @@ for dataset in "${datasets[@]}"; do
 	echo "Total number of bam files for ${dataset}:" "${#bam_files[@]}"
 	echo "Merging the bam files..."
 	bam_files_str="${bam_files[*]}"
-	qsub -v BAM="${bam_files_str}",DATA="${dataset}" -N "${dataset}"-bam-merge /home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/scripts/bam_merge_rep_files_aspire-version-submit.pbs
+	qsub -v BAM="${bam_files_str}",DATA="${dataset}" -N "${dataset}"-bam-merge /home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/scripts/preprocess-bam_merge_reps_aspire.pbs
 done			
 echo "Queue submission completed."

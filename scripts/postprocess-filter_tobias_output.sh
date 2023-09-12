@@ -34,7 +34,7 @@ for run in "${runs[@]}"; do
             # find specific files in the sample directory and put them in an array
             # submit the job to the cluster
             echo "Submitting job to the cluster..."
-            qsub -v SAMP_DIR="${sample_dir[i]}",ANAL_ID="${analysis_id}",SAMP_ID="${sample_id}" /home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/scripts/bash_postprocess_tobias_output-submit.pbs
+            qsub -v SAMP_DIR="${sample_dir[i]}",ANAL_ID="${analysis_id}",SAMP_ID="${sample_id}" /home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/scripts/postprocess-filter_tobias_output.pbs
         done
     fi
 done
