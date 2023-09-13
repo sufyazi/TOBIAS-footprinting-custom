@@ -74,6 +74,7 @@ for analysis_id in id_list:
                             except subprocess.CalledProcessError as e:
                                 print("An error occurred. Check logs.")
                                 print(e)
+                                break
                             else:
                                 print("Extraction done!")
     else:
