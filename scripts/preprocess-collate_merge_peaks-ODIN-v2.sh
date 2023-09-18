@@ -77,11 +77,11 @@ for dataset in "${datasets[@]}"; do
             fi
 
 			# create directory for merged peaks
-			mkdir -p "/data5/msazizan/tobias_input_peaks/merged_sample-specific_peaks/${dataset}"
+			mkdir -p "/data5/msazizan/tobias_input_peaks/merged_sample-spec-IDR-overlap_peaks/${dataset}"
 
 			# merge the peak files using bedtools
 			ls "/home/msazizan/outerspace/tobias_input_peaks/input_peaks/${dataset}/${substring}"/
-			cat "/home/msazizan/outerspace/tobias_input_peaks/input_peaks/${dataset}/${substring}"/* | sort -k1,1 -k2,2n | bedtools merge -i - > "/data5/msazizan/tobias_input_peaks/merged_sample-specific_peaks/${dataset}/${dataset}_${substring}_peaks_union.bed"
+			cat "/home/msazizan/outerspace/tobias_input_peaks/input_peaks/${dataset}/${substring}"/* | sort -k1,1 -k2,2n | bedtools merge -i - > "/data5/msazizan/tobias_input_peaks/merged_sample-spec-IDR-overlap_peaks/${dataset}/${dataset}_${substring}_peaks_filtered.bed"
 		fi
 	done
 done
