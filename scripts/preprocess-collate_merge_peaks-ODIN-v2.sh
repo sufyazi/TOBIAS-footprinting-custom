@@ -20,13 +20,16 @@
 # └── raw_peaks
 
 # check if argument is provided
-if [ $# -ne 2 ]; then
-	echo "No arguments provided. Please provide the path to the croo_root folder and the path to the dataset list text file."	
+if [ $# -ne 5 ]; then
+	echo "No arguments provided. Please provide the path to the croo_root folder, input_peak folder to gather narrowPeak files to, merged_peak folder to save bed files to, output folder to save master_merged bed file to, and the path to the dataset list text file."	
 	exit 1
 fi
 
 croo_root=$1
-dataset_list=$2
+input_peak_root=$2
+merged_peak_root=$3
+output_master_merged=$4
+dataset_list=$5
 
 # grab the basename of all the datasets listed in the dataset list text file
 readarray -t datasets < "${dataset_list}"
@@ -58,7 +61,7 @@ for dataset in "${datasets[@]}"; do
   				echo "Substring: $substring of ${dataset}"
 			fi
 			# make a directory for the raw peaks
-			mkdir -p /home/msazizan/outerspace/tobias_input_peaks/input_peaks/"${dataset}"/"${substring}"
+			mkdir -p "${input_peak_root}"/"${dataset}"/"${substring}"
             # initialize an array to store the peak files
 			peak_files=()
 			# find PEAK FILES for each dataset and transfer to the raw_peaks folder
@@ -67,22 +70,46 @@ for dataset in "${datasets[@]}"; do
 			echo "Peak files of ${sample_name}:"
 			printf '%s\n' "${peak_files[@]}"
 			# copy the peak files to raw_peaks folder
-			rsync -avhPz "${peak_files[@]}" "/home/msazizan/outerspace/tobias_input_peaks/input_peaks/${dataset}/${substring}/"
+			rsync -avhPz "${peak_files[@]}" "${input_peak_root}/${dataset}/${substring}/"
 
             # unzip the peak files
-            if gunzip "/home/msazizan/outerspace/tobias_input_peaks/input_peaks/${dataset}/${substring}"/*.gz; then
-                echo "Unzipped all peak files in /home/msazizan/outerspace/tobias_input_peaks/input_peaks/${dataset}/${substring}"
+            if gunzip "${input_peak_root}/${dataset}/${substring}"/*.gz; then
+                echo "Unzipped all peak files in ${input_peak_root}/${dataset}/${substring}"
             else
-                echo "No peak files to unzip in /home/msazizan/outerspace/tobias_input_peaks/input_peaks/${dataset}/${substring}"
+                echo "No peak files to unzip in ${input_peak_root}/${dataset}/${substring}"
             fi
 
 			# create directory for merged peaks
-			mkdir -p "/data5/msazizan/tobias_input_peaks/merged_sample-spec-IDR-overlap_peaks/${dataset}"
+			mkdir -p "${merged_peak_root}/${dataset}"
 
 			# merge the peak files using bedtools
-			ls "/home/msazizan/outerspace/tobias_input_peaks/input_peaks/${dataset}/${substring}"/
-			cat "/home/msazizan/outerspace/tobias_input_peaks/input_peaks/${dataset}/${substring}"/* | sort -k1,1 -k2,2n | bedtools merge -i - > "/data5/msazizan/tobias_input_peaks/merged_sample-spec-IDR-overlap_peaks/${dataset}/${dataset}_${substring}_peaks_filtered.bed"
+			ls "${input_peak_root}/${dataset}/${substring}"/
+			if cat "${input_peak_root}/${dataset}/${substring}"/*.narrowPeak | sort -k1,1 -k2,2n | bedtools merge -i - > "${merged_peak_root}/${dataset}/${dataset}_${substring}_peaks_filtered.bed"; then
+				echo "Merged all peak files in ${input_peak_root}/${dataset}/${substring}"
+			else
+				echo "Merge error occurred in ${input_peak_root}/${dataset}/${substring}. Please check."
+			fi
 		fi
 	done
+
+	# merge the filtered peaks for each dataset
+	if cat "${merged_peak_root}/${dataset}"/*filtered.bed | sort -k1,1 -k2,2n | bedtools merge -i - > "${output_master_merged}/${dataset}_rep_merged_peakset.tmp"; then
+		echo "Merged all filtered peaks for ${dataset}."
+	else
+		echo "Merge error occurred for ${dataset}. Please check."
+	fi
 done
-echo "Done."
+
+# merge the tmp files into a master peakset file 
+if cat "${output_master_merged}"/*rep_merged_peakset.tmp | sort -k1,1 -k2,2n | bedtools merge -i - > "${output_master_merged}/BRCA-master-peakset.bed"; then
+	echo "Merged all tmp files into a master peakset file."
+	# clean up the tmp files
+	if find "${output_master_merged}" -name "*_rep_merged_peakset.tmp" -type f -delete; then
+		echo "Cleaned up all tmp files."
+		echo "Done!"
+	else
+		echo "Error occurred while cleaning up tmp files."
+	fi
+else
+	echo "Merge error occurred for the tmp files. Please check."
+fi
