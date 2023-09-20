@@ -84,7 +84,7 @@ for dataset in "${datasets[@]}"; do
 
 			# merge the peak files using bedtools
 			ls "${input_peak_root}/${dataset}/${substring}"/
-			if cat "${input_peak_root}/${dataset}/${substring}"/*.narrowPeak | sort -k1,1 -k2,2n | bedtools merge -i - > "${merged_peak_root}/${dataset}/${dataset}_${substring}_peaks_filtered.bed"; then
+			if cat "${input_peak_root}/${dataset}/${substring}"/*.narrowPeak | sort -k1,1V -k2,2n | bedtools merge -i - > "${merged_peak_root}/${dataset}/${dataset}_${substring}_peaks_filtered.bed"; then
 				echo "Merged all peak files in ${input_peak_root}/${dataset}/${substring}"
 			else
 				echo "Merge error occurred in ${input_peak_root}/${dataset}/${substring}. Please check."
@@ -93,7 +93,7 @@ for dataset in "${datasets[@]}"; do
 	done
 
 	# merge the filtered peaks for each dataset
-	if cat "${merged_peak_root}/${dataset}"/*filtered.bed | sort -k1,1 -k2,2n | bedtools merge -i - > "${output_master_merged}/${dataset}_rep_merged_peakset.tmp"; then
+	if cat "${merged_peak_root}/${dataset}"/*filtered.bed | sort -k1,1V -k2,2n | bedtools merge -i - > "${output_master_merged}/${dataset}_rep_merged_peakset.tmp"; then
 		echo "Merged all filtered peaks for ${dataset}."
 	else
 		echo "Merge error occurred for ${dataset}. Please check."
@@ -101,7 +101,7 @@ for dataset in "${datasets[@]}"; do
 done
 
 # merge the tmp files into a master peakset file 
-if cat "${output_master_merged}"/*rep_merged_peakset.tmp | sort -k1,1 -k2,2n | bedtools merge -i - > "${output_master_merged}/BRCA-master-peakset.bed"; then
+if cat "${output_master_merged}"/*rep_merged_peakset.tmp | sort -k1,1V -k2,2n | bedtools merge -i - > "${output_master_merged}/BRCA-master-peakset.bed"; then
 	echo "Merged all tmp files into a master peakset file."
 	# clean up the tmp files
 	if find "${output_master_merged}" -name "*_rep_merged_peakset.tmp" -type f -delete; then

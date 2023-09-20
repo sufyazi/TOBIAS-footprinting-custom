@@ -19,7 +19,7 @@ cores=64
 if [ "$run_type" == "union" ]; then
     true
 elif [ "$run_type" == "master" ]; then
-    peakfile="/scratch/users/ntu/suffiazi/inputs/peak_files/brca_subtype_merged/master_BRCA_merged_peaks/master_BRCA_merged_peaks-v1.bed"
+    peakfile="/home/users/ntu/suffiazi/scratch/inputs/peak_files/brca_subtype_merged/BRCA-master-peakset-natsorted.bed"
 else
     echo "Invalid run type. Please specify either <union> or <master>."
     exit 1
@@ -43,7 +43,7 @@ echo array val "${dataset_dict[@]}"
 # Print the dataset and experiment type pairs
 for dataset in "${!dataset_dict[@]}"; do
     # get the path of the dataset in the gathered_input_root
-    dataset_bam=$(find "${gathered_input_root}" -maxdepth 1 -mindepth 1 -type f -name "${dataset}*.bam")
+    dataset_bam=$(find "${gathered_input_root}" -maxdepth 1 -mindepth 1 -type f -name "${dataset}*merged.bam")
 	# check if the dataset path is empty; if it is empty, skip
 	if [ -z "${dataset_bam}" ]; then
         echo "Dataset ${dataset} merged bam file does not exist in input path. Skipping..."
@@ -57,5 +57,5 @@ for dataset in "${!dataset_dict[@]}"; do
     echo mkdir -p "/home/users/ntu/suffiazi/scratch/outputs/tobias-outs/RUN-${run_num}-${run_type}-BRCA/${dataset}"
     
     # run the script
-    qsub -v ANALYSIS_ID="${dataset}",EXP_TYPE="${experiment_type}",RUN="${run_num}",CORE="${cores}",PEAKS="${peakfile}",FILE="${dataset_bam}",TYPES="${run_type}" -N tobias-merged-run-"${dataset}" /home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/scripts/run_tobias_batch_aspire_main_BRCA-custom-submit.pbs
+    qsub -v ANALYSIS_ID="${dataset}",EXP_TYPE="${experiment_type}",RUN="${run_num}",CORE="${cores}",PEAKS="${peakfile}",FILE="${dataset_bam}",TYPES="${run_type}" -N BRCA-"${dataset}"-bias-corr-scorebw /home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/scripts/customs/run_tobias_batch_aspire_main_BRCA-custom-submit.pbs
 done
