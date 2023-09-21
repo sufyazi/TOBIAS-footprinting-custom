@@ -4,8 +4,8 @@
 # This script is used to run the job on the NSCC cluster.
 
 #PBS -N merged-BRCA-bindetect-repeat
-#PBS -l select=1:ncpus=64:mem=450GB
-#PBS -l walltime=2:00:00
+#PBS -l select=1:ncpus=64:mem=250GB
+#PBS -l walltime=4:00:00
 #PBS -j oe
 #PBS -P personal
 #PBS -q normal
