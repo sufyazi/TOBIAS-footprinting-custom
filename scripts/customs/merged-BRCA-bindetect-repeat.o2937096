@@ -1,0 +1,20 @@
+Datasets to be processed: 98JKPD8_LumA ANAB5F7_Basal S6R691V_Her2 PU24GB8_LumB 2GAMBDQ_Normal-like
+Initializing TOBIAS BinDetect run...
+ERROR: File "/home/users/ntu/suffiazi/scratch/outputs/tobias-outs/RUN-14-master-BRCA/98JKPD8_LumA/98JKPD8_LumA_merged_footprints.bw" does not exists
+ERROR: Failed to run TOBIAS footprinting for TCGA-BRCA merged data due to an error. Please see the log file for more details.
+======================================================================================
+
+			Resource Usage on 2023-09-21 16:19:42.891180:
+
+	JobId: 2937096.pbs101  
+	Project: personal-suffiazi 
+	Exit Status: 1
+	NCPUs Requested: 64				NCPUs Used: 64
+							CPU Time Used: 00:00:00
+	Memory Requested: 250gb 			Memory Used: 0b
+							Vmem Used: 8911380kb
+	Walltime requested: 04:00:00 			Walltime Used: 00:00:53
+	
+	Execution Nodes Used: (x1001c5s0b1n0:ncpus=64:mem=262144000kb)
+	
+ ======================================================================================

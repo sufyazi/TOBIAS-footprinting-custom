@@ -42,14 +42,14 @@ echo "Datasets to be processed: ${formatted_datalist[*]}"
 filepaths=()
 
 # Loop through datasets and construct filepaths
-for dataset in "${formatted_datalist[@]}"; do
+for dataset in "${!datasets[@]}"; do
     filepaths+=("/home/users/ntu/suffiazi/scratch/outputs/tobias-outs/RUN-${run_num}-${run_type}-BRCA/${dataset}/${dataset}_merged_footprints.bw")
 done
 
 echo "Initializing TOBIAS BinDetect run..."
 
 # call footprints
-if TOBIAS BINDetect --motifs /home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/motif-guided/joined_filt_combined_motifs.jaspar --signals "${filepaths[@]}" --genome /home/users/ntu/suffiazi/genomes/GRCh38_no_alt_GCA_000001405.15.fasta --peaks /home/users/ntu/suffiazi/scratch/inputs/peak_files/brca_subtype_merged/BRCA-master-peakset-natsorted.bed --outdir "/home/users/ntu/suffiazi/scratch/outputs/tobias-outs/RUN-${run_num}-${run_type}-BRCA/bindetect_outputs" --skip-excel --cond_names "${formatted_datalist[@]}" --cores 64 >> "/home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/logfiles/BRCA-merged-differential-footprinting-${run_num}-${run_type}.log"; then
+if TOBIAS BINDetect --motifs /home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/motif-guided/joined_filt_combined_motifs.jaspar --signals "${filepaths[@]}" --genome /home/users/ntu/suffiazi/genomes/GRCh38_no_alt_GCA_000001405.15.fasta --peaks /home/users/ntu/suffiazi/scratch/inputs/peak_files/brca_subtype_merged/BRCA-master-peakset-natsorted.bed --outdir "/home/users/ntu/suffiazi/scratch/outputs/tobias-outs/RUN-${run_num}-${run_type}-BRCA/bindetect_outputs" --skip-excel --cond_names "${formatted_datalist[@]}" --cores 64 >> "/home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/logfiles/BRCA-merged-differential-footprinting-${run_num}-${run_type}-repeat.log"; then
     echo "Successfully ran TOBIAS footprinting for TCGA-BRCA merged data."
 else
     echo "ERROR: Failed to run TOBIAS footprinting for TCGA-BRCA merged data due to an error. Please see the log file for more details."
