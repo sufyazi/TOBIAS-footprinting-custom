@@ -2,7 +2,7 @@
 #shellcheck disable=SC2016
 # Check if the required arguments are provided
 if [ $# -ne 3 ]; then
-    echo "Usage: $0 <input_prefix_file> <target_directory> <output_dir>"
+    echo "Usage: $0 <TF_prefix_file> <target_directory> <output_dir>"
     exit 1
 fi
 
@@ -14,8 +14,8 @@ output_dir=$3
 # Loop through each prefix in the input file
 while IFS= read -r prefix; do
     # check if the output file exists
-    if [ -f "$output_dir"/"$prefix"_binding_sites-basal-UP.txt ]; then
-        echo "Output file ${output_dir}/${prefix}_binding_sites-basal-UP.txt already exists. Skipping..."
+    if [ -f "$output_dir"/"$prefix"_binding_sites-BRCA.txt ]; then
+        echo "Output file ${output_dir}/${prefix}_binding_sites-BRCA.txt already exists. Skipping..."
         continue
     else
         echo "Processing $prefix..."
