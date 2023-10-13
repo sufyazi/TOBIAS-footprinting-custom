@@ -11,13 +11,15 @@
 # 4. overlap.optimal.narrowPeak true rep
 # 5. overlap.conservative.narrowPeak true rep
 
+######### UPDATE!!! #########
+# The list of selected peak files per samples are now:
+# 1. idr.conservative.narrowPeak true rep
+# 2. idr.optimal.narrowPeak true rep
+# 3. overlap.optimal.narrowPeak true rep
+# 4. overlap.conservative.narrowPeak true rep
+
 # let us gather the necessary files in one place first
 # make sure that a copy of 'peak' folder for each sample of a dataset (use the flag --relative with rsync) has been transferred from the storage server to where this merging would be done.
-
-# ensure that the structure in the peak_root folder below is as follows, with raw_peaks and merged_peaks as subfolders:
-# peak_root
-# ├── merged_peaks
-# └── raw_peaks
 
 # check if argument is provided
 if [ $# -ne 5 ]; then
@@ -69,25 +71,39 @@ for dataset in "${datasets[@]}"; do
 			# check the peak file array for each sample
 			echo "Peak files of ${sample_name}:"
 			printf '%s\n' "${peak_files[@]}"
+			
+			# remove any file that is already in the raw_peaks folder
+			if find "${input_peak_root}/${dataset}/${substring}" -name "*.narrowPeak" -type f -delete; then
+				echo "Removed all existing peak files in ${input_peak_root}/${dataset}/${substring}"
+            fi
+
 			# copy the peak files to raw_peaks folder
 			rsync -avhPz "${peak_files[@]}" "${input_peak_root}/${dataset}/${substring}/"
-
-            # unzip the peak files
+			
+			# unzip the peak files
             if gunzip "${input_peak_root}/${dataset}/${substring}"/*.gz; then
                 echo "Unzipped all peak files in ${input_peak_root}/${dataset}/${substring}"
             else
                 echo "No peak files to unzip in ${input_peak_root}/${dataset}/${substring}"
             fi
-
+			
 			# create directory for merged peaks
 			mkdir -p "${merged_peak_root}/${dataset}"
+
+			# remove any file that is already in the merged_peaks folder
+			
+			if [ -f "${merged_peak_root}/${dataset}/${dataset}_${substring}_peaks_filtered.bed" ]; then
+				echo "Merged peak file already exists for ${dataset}/${substring}. Deleting for re-merging."
+				rm "${merged_peak_root}/${dataset}/${dataset}_${substring}_peaks_filtered.bed"
+			fi
 
 			# merge the peak files using bedtools
 			ls "${input_peak_root}/${dataset}/${substring}"/
 			if cat "${input_peak_root}/${dataset}/${substring}"/*.narrowPeak | sort -k1,1V -k2,2n | bedtools merge -i - > "${merged_peak_root}/${dataset}/${dataset}_${substring}_peaks_filtered.bed"; then
 				echo "Merged all peak files in ${input_peak_root}/${dataset}/${substring}"
 			else
-				echo "Merge error occurred in ${input_peak_root}/${dataset}/${substring}. Please check."
+				echo "Merge error occurred in ${input_peak_root}/${dataset}/${substring}. Please check logs."
+				exit 1
 			fi
 		fi
 	done
@@ -96,12 +112,13 @@ for dataset in "${datasets[@]}"; do
 	if cat "${merged_peak_root}/${dataset}"/*filtered.bed | sort -k1,1V -k2,2n | bedtools merge -i - > "${output_master_merged}/${dataset}_rep_merged_peakset.tmp"; then
 		echo "Merged all filtered peaks for ${dataset}."
 	else
-		echo "Merge error occurred for ${dataset}. Please check."
+		echo "Merge error occurred for ${dataset}. Please check logs."
+		exit 1
 	fi
 done
 
 # merge the tmp files into a master peakset file 
-if cat "${output_master_merged}"/*rep_merged_peakset.tmp | sort -k1,1V -k2,2n | bedtools merge -i - > "${output_master_merged}/BRCA-master-peakset.bed"; then
+if cat "${output_master_merged}"/*rep_merged_peakset.tmp | sort -k1,1V -k2,2n | bedtools merge -i - > "${output_master_merged}/TCGA-BLUEPRINT-master-peakset.bed"; then
 	echo "Merged all tmp files into a master peakset file."
 	# clean up the tmp files
 	if find "${output_master_merged}" -name "*_rep_merged_peakset.tmp" -type f -delete; then
@@ -109,7 +126,9 @@ if cat "${output_master_merged}"/*rep_merged_peakset.tmp | sort -k1,1V -k2,2n | 
 		echo "Done!"
 	else
 		echo "Error occurred while cleaning up tmp files."
+		exit 1
 	fi
 else
-	echo "Merge error occurred for the tmp files. Please check."
+	echo "Merge error occurred for the tmp files. Please check logs."
+	exit 1
 fi
