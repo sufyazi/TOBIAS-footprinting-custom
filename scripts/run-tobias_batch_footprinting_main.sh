@@ -17,11 +17,12 @@ cores=64
 
 # Set peak file path based on run type
 if [ "$run_type" == "union" ]; then
-    PEAK_PATH="/home/users/ntu/suffiazi/tobias_input_peaks/merged_sample-specific_peaks"
+    echo "This option is deprecated. Please specify [master] instead for <run_type>"
+    exit 1
 elif [ "$run_type" == "master" ]; then
-    peakfile="/scratch/users/ntu/suffiazi/inputs/peak_files/master_merged_peakset/ALL_master_merged_peakset-v4.5.bed"
+    peakfile="/scratch/users/ntu/suffiazi/inputs/peak_files/master_merged_peakset/TCGA-BLUEPRINT-master-peakset.bed"
 else
-    echo "Invalid run type. Please specify either <union> or <master>."
+    echo "Invalid run type. Please specify [master]."
     exit 1
 fi
 
@@ -49,6 +50,8 @@ for dataset in "${!dataset_dict[@]}"; do
     # assign the experiment type to a variable
     experiment_type="${dataset_dict[$dataset]}"
     echo "Dataset: $dataset Experiment Type: $experiment_type"
+    echo "--------------------"
+    echo "Traversing into sample directories..."
 
     # iterate through each sample
 	for sample_dir in "${dataset_path}"/*; do
@@ -81,11 +84,26 @@ for dataset in "${!dataset_dict[@]}"; do
                 bam="${bam_files[0]}"
             fi
             echo "Bam file: $bam"
-            # create the output directory
-            mkdir -p "/home/users/ntu/suffiazi/scratch/outputs/tobias-outs/RUN-${run_num}-${run_type}/${dataset}_${sample_name}"
+            
+            # check if the bam file exists; if it does not exist, skip
+            if [ -n "$bam" ]; then
+                echo "Bam file was found. Submitting job..."
+                printf "\n"
+                # create the output directory
+                mkdir -p "/home/users/ntu/suffiazi/scratch/outputs/tobias-outs/RUN-${run_num}-${run_type}/${dataset}/${sample_name}"
 
-            # run the script
-            qsub -v ANALYSIS_ID="$dataset",SAMPLE="$sample_name",EXP_TYPE="$experiment_type",RUN="$run_num",CORE="$cores",PEAKS="$peakfile",FILE="$bam",TYPES="$run_type" /home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/scripts/run_tobias_batch_aspire_main-submit.pbs
+                # run the script
+                if qsub -v ANALYSIS_ID="$dataset",SAMPLE="$sample_name",EXP_TYPE="$experiment_type",RUN="$run_num",CORE="$cores",PEAKS="$peakfile",FILE="$bam",TYPES="$run_type" /home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/scripts/run-tobias_batch_footprinting_main.pbs; then
+                    echo "Submitted job for ${dataset}_${sample_name} via qsub!!"
+                    echo "--------------------"
+                else
+                    echo "ERROR: Failed to submit job for ${dataset}_${sample_name} due to an error. Please see the log file for more details."
+                fi
+            else
+                echo "Bam file could not be located. Skipping..."
+            fi
         fi
     done
 done
+
+echo "Job submission completed!"

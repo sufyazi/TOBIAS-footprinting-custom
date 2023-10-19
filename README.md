@@ -16,7 +16,7 @@ TOBIAS FormatMotifs --input combined-filt-individual-motifs/* --task join --outp
     (e) run `bam_merge_rep_files_v2` to merge all the replicated bam files if there are replicates. Additionally, a corresponding merged bigwig file is generated. Run this on Odin, where the outputs from step (d) are stored.
 
 2. Motif-guided footprinting workflow
-    (a) run `run_tobias_batch_aspire_main` script on the terminal to submit individual footprinting job with `run_tobias_batch_aspire_main-submit.pbs` to the scheduler.
+    (a) run `run_tobias_batch_footprinting_main` script on the terminal to submit individual footprinting job with `run_tobias_batch_footprinting_main.pbs` to the scheduler.
 
 3. Post-processing of raw footprint data from TOBIAS
     (a) run `bash_postprocess_tobias_output.sh` directly on the terminal to filter the raw output directory to keep only the most important raw output files. This script will loop through the target tobias-out directory to grab only raw files we want to keep, and then submit the actual `rsync` process as a job to the scheduler using the `bash_postprocess_tobias_output-submit.pbs` script.
