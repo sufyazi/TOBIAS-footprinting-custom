@@ -73,7 +73,7 @@ for dataset in "${datasets[@]}"; do
 						echo "Index file already exists. Transferring to remote server..."
 						eval "$(ssh-agent -s)"
           				ssh-add ~/.ssh/nscc_id_rsa
-						if rsync -havPz "/home/msazizan/cargospace/tobias-bam-input/${dataset}" suffiazi@aspire2antu.nscc.sg:/home/users/ntu/suffiazi/scratch/inputs/tobias-bam-input/"${dataset}"/; then
+						if rsync -havPz "/home/msazizan/cargospace/tobias-bam-input/${dataset}" suffiazi@aspire2antu.nscc.sg:/home/users/ntu/suffiazi/scratch/inputs/tobias-bam-input/; then
 							echo "Merged bam file and its index has been transfered to Aspire."
 						else
 							echo "Merged bam file and its index has NOT been transfered to Aspire due to rsync error."
@@ -84,7 +84,7 @@ for dataset in "${datasets[@]}"; do
 							echo "Merged bam file has been indexed. Transferring to remote server..."
 							eval "$(ssh-agent -s)"
           					ssh-add ~/.ssh/nscc_id_rsa
-							if rsync -havPz "/home/msazizan/cargospace/tobias-bam-input/${dataset}" suffiazi@aspire2antu.nscc.sg:/home/users/ntu/suffiazi/scratch/inputs/tobias-bam-input/"${dataset}"/; then
+							if rsync -havPz "/home/msazizan/cargospace/tobias-bam-input/${dataset}" suffiazi@aspire2antu.nscc.sg:/home/users/ntu/suffiazi/scratch/inputs/tobias-bam-input/; then
 								echo "Merged bam file and its index has been transfered to Aspire."
 							else
 								echo "Merged bam file and its index has NOT been transfered to Aspire due to rsync error."
@@ -103,7 +103,7 @@ for dataset in "${datasets[@]}"; do
 							echo "Transferring the merged bam file to remote server..."
 							eval "$(ssh-agent -s)"
           					ssh-add ~/.ssh/nscc_id_rsa
-							if rsync -havPz "/home/msazizan/cargospace/tobias-bam-input/${dataset}" suffiazi@aspire2antu.nscc.sg:/home/users/ntu/suffiazi/scratch/inputs/tobias-bam-input/"${dataset}"/; then
+							if rsync -havPz "/home/msazizan/cargospace/tobias-bam-input/${dataset}" suffiazi@aspire2antu.nscc.sg:/home/users/ntu/suffiazi/scratch/inputs/tobias-bam-input/; then
 								echo "Merged bam file and its index has been transfered to Aspire."
 							else
 								echo "Merged bam file and its index has NOT been transfered to Aspire due to rsync error."
@@ -126,7 +126,7 @@ for dataset in "${datasets[@]}"; do
 						eval "$(ssh-agent -s)"
           				ssh-add ~/.ssh/nscc_id_rsa
 						# rsync the folder to Aspire
-						rsync -havPz "/home/msazizan/cargospace/tobias-bam-input/${dataset}" suffiazi@aspire2antu.nscc.sg:/home/users/ntu/suffiazi/scratch/inputs/tobias-bam-input/"${dataset}"/
+						rsync -havPz "/home/msazizan/cargospace/tobias-bam-input/${dataset}" suffiazi@aspire2antu.nscc.sg:/home/users/ntu/suffiazi/scratch/inputs/tobias-bam-input/
 					else
 						echo "Index file has NOT been generated. One of the commands has failed."
 					fi
