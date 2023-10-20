@@ -22,7 +22,7 @@ for run in "${runs[@]}"; do
         for dataset in "${data_dir[@]}"; do
             echo "Current dataset directory: ${dataset}"
             echo "Submitting job to the cluster..."
-            qsub -v DATAID="${dataset}" /home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/scripts/postprocess-filter_tobias_output.pbs
+            qsub -v DATAPATH="${dataset}" /home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/scripts/postprocess-filter_tobias_output.pbs
         done
     fi
 done

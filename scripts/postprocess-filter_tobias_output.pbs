@@ -8,11 +8,14 @@
 #PBS -P 12003580
 #PBS -q normal
 
-dataset="$DATAID"
+dataset_path="$DATAPATH"
+
+# get the basename of the dataset
+dataset=$(basename "${dataset_path}")
 
 # initialize an array to store the sample directories
 sample_dir=()
-readarray -t sample_dir < <(find "${dataset}" -maxdepth 1 -mindepth 1 -type d -name "*sample*")
+readarray -t sample_dir < <(find "${dataset_path}" -maxdepth 1 -mindepth 1 -type d -name "*sample*")
 if [ "${#sample_dir[@]}" -eq 0 ]; then
     echo "No sample directories found in ${dataset}. Exiting job..."
     exit 1
