@@ -2,34 +2,50 @@
 # This script is used to run the job on the NSCC cluster.
 
 #PBS -N transfer-tobias-output
-#PBS -l select=1:ncpus=4:mem=30GB
-#PBS -l walltime=8:00:00
+#PBS -l select=1:ncpus=1:mem=30GB
+#PBS -l walltime=10:00:00
 #PBS -j oe
-#PBS -P personal
+#PBS -P 12003580
 #PBS -q normal
 
-sample_dir="$SAMP_DIR"
-analysis_id="$ANAL_ID"
-sample_id="$SAMP_ID"
+dataset="$DATAID"
 
-# find specific files in the sample directory and put them in an array
-readarray -t files < <(find "${sample_dir}" -type f \( -name "*_corrected.bw" -o -name "*_footprints.bw" -o -name "*_overview.txt" -o -name "bindetect_results.txt" \))
-
-for file in "${files[@]}"; do
-    echo "File: ${file}"
-    if [[ "$file" == *_overview.txt ]]; then
-        if rsync -avPhz -ii "${file}" /home/users/ntu/suffiazi/scratch/outputs/filtered-tobias/"${analysis_id}"/"${analysis_id}"_"${sample_id}"/overview_files/; then
-            echo "$file has been copied to a new location."
-        else
-            echo "File failed to be copied! Check logs."
-            exit 1
-        fi
-    else
-        if rsync -avPhz -ii "${file}" /home/users/ntu/suffiazi/scratch/outputs/filtered-tobias/"${analysis_id}"/"${analysis_id}"_"${sample_id}"/; then
-            echo "$file has been copied to a new location."
-        else
-            echo "File failed to be copied! Check logs."
-            exit 1
-        fi
-    fi
-done
+# initialize an array to store the sample directories
+sample_dir=()
+readarray -t sample_dir < <(find "${dataset}" -maxdepth 1 -mindepth 1 -type d -name "*sample*")
+if [ "${#sample_dir[@]}" -eq 0 ]; then
+    echo "No sample directories found in ${dataset}. Exiting job..."
+    exit 1
+else
+    # check elements in the array
+    echo "Sample directories found..."
+    echo "Sample directory count in ${dataset}: " "${#sample_dir[@]}"      
+    for ((i=0; i<${#sample_dir[@]}; i++)); do
+        echo "Sample directory $((i+1)): " "${sample_dir[i]}"
+        # get the basename of the sample directory
+        sample_id=$(basename "${sample_dir[i]}")
+        echo "Analysis ID: ${dataset}" "Sample ID: ${sample_id}"
+        # create copy directory
+        mkdir -p /home/users/ntu/suffiazi/scratch/outputs/filtered-tobias/"${dataset}"/"${dataset}"_"${sample_id}"/
+        # find specific files in the sample directory and put them in an array
+        readarray -t files < <(find "${sample_dir[i]}" -type f \( -name "*_footprints.bw" -o -name "*_overview.txt" -o -name "bindetect_results.txt" \))
+        for file in "${files[@]}"; do
+            echo "File: ${file}"
+            if [[ "$file" == *_overview.txt ]]; then
+                if rsync -avPhz -ii "${file}" /home/users/ntu/suffiazi/scratch/outputs/filtered-tobias/"${dataset}"/"${dataset}"_"${sample_id}"/overview_files/; then
+                    echo "$file has been copied to a new location."
+                else
+                    echo "File failed to be copied! Check logs."
+                    exit 1
+                fi
+            else
+                if rsync -avPhz -ii "${file}" /home/users/ntu/suffiazi/scratch/outputs/filtered-tobias/"${dataset}"/"${dataset}"_"${sample_id}"/; then
+                    echo "$file has been copied to a new location."
+                else
+                    echo "File failed to be copied! Check logs."
+                    exit 1
+                fi
+            fi
+        done
+    done
+fi
