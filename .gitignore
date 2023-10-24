@@ -159,6 +159,6 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 
-scripts/pbslogs/transfer-tobias-output.o2136734
-scripts/pbslogs/transfer-tobias-output.o2136734
-scripts/pbslogs/
+logfiles/pbslogs/transfer-tobias-output.o2136734
+logfiles/pbslogs/transfer-tobias-output.o2136734
+logfiles/pbslogs/
