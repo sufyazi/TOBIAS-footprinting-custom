@@ -3,27 +3,58 @@
 
 #PBS -N extract-tfbs
 #PBS -l select=1:ncpus=1:mem=10GB
-#PBS -l walltime=3:00:00
+#PBS -l walltime=4:00:00
 #PBS -j oe
 #PBS -P 12003580
 #PBS -q normal
 
 
 # Define the input file and new file directory
-file=$FILE_INP
-new_file_dir=$FILE_OUT
+sample_dir=$SAMPLEDIR
 
-# Start the extraction process
-echo "Extracting binding sites..."
+# find overview files in the sample directory
+readarray -t files < <(find "$sample_dir" -name "*_overview.txt" -type f)
+# extract sample id
+sample_id=$(basename "$sample_dir")
+file_count=0
 
-# Use AWK to process the file and extract selected columns
-if awk -F'\t' 'BEGIN {OFS="\t"} {
-    print $1, $2, $3, $6, $5, $10
-}' "$file" > "$new_file_dir"; then
-    echo "Extraction done!"
-else
-    echo "An error occurred. Check logs."
-fi
+for file in "${files[@]}"; do
+    ((file_count++))
+    echo "File: $file. [File no: $file_count]"
+    # extract motif_id from file name
+    motif_id=$(basename "$file" _overview.txt)
+    echo "Motif: $motif_id"
+    # create motif directory in the target directory
+    motif_dir="/home/users/ntu/suffiazi/scratch/outputs/extracted-tobias-tfbs/$motif_id"
+    if [ ! -d "$motif_dir" ]; then
+        echo "Motif directory does not exist. Creating directory..."
+        mkdir -p "$motif_dir"
+    fi
+    # create new file name
+    new_file_name="${sample_id}_${motif_id}_TFBS.txt"
+    new_file_path="$motif_dir/$new_file_name"
+    # check if the output file already exists
+    if [ -e "$new_file_path" ]; then
+        echo "Output file $new_file_name already exists. Skipping..."
+        continue
+    else
+        echo "Output file does not exist. Proceeding with extraction..."
+        echo "Output file: $new_file_path"
+		# Start the extraction process
+		echo "Extracting binding sites..."
+		# Use AWK to process the file and extract selected columns
+		if awk -F'\t' 'BEGIN {OFS="\t"} {
+    		print $1, $2, $3, $6, $5, $10
+		}' "$file" > "$new_file_path"; then
+    		echo "Extraction done!"
+		else
+    		echo "An error occurred. Check logs."
+		fi
+    fi
+done
+
+
+
 
 
   
