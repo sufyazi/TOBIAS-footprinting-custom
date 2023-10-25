@@ -53,6 +53,8 @@ for file in "${files[@]}"; do
     fi
 done
 
+echo "All files processed! Check logs for any processing errors."
+
 
 
 
