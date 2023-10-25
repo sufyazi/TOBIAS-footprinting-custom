@@ -37,6 +37,8 @@ for analysis_id in id_list:
                 if sample_folder_count % 80 == 0:
                     echo "Sleeping for 30 minutes..."
                     sleep 30m
+                    # run bash script to extract binding sites
+                    subprocess.run(f"qsub -v SAMPLEDIR={sample_dir} /home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/scripts/postprocess-tobias_extract_tfbs.pbs", shell=True, check=True)
                 else:
                     # run bash script to extract binding sites
                     subprocess.run(f"qsub -v SAMPLEDIR={sample_dir} /home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/scripts/postprocess-tobias_extract_tfbs.pbs", shell=True, check=True)
