@@ -94,7 +94,7 @@ for dataset in "${!dataset_dict[@]}"; do
 
                 # run the script
                 if qsub -v ANALYSIS_ID="$dataset",SAMPLE="$sample_name",EXP_TYPE="$experiment_type",RUN="$run_num",CORE="$cores",PEAKS="$peakfile",FILE="$bam",TYPES="$run_type" /home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/scripts/run-tobias_batch_footprinting_main.pbs; then
-                    echo "Submitted job for ${dataset}_${sample_name} via qsub!!"
+                    echo "Submitted job for ${dataset}_${sample_name} via qsub."
                     echo "--------------------"
                 else
                     echo "ERROR: Failed to submit job for ${dataset}_${sample_name} due to an error. Please see the log file for more details."
