@@ -1,0 +1,9 @@
+UYX1M7A	dnaseseq
+P7IG2M6	dnaseseq
+2DZJ8RE	dnaseseq
+O3F124I	dnaseseq
+3WR61X3	dnaseseq
+37F102B	dnaseseq
+0J51BG1	atacseq
+C3U9158	atacseq
+7E1MMFH	atacseq
