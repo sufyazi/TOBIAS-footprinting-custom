@@ -34,8 +34,9 @@ for analysis_id in id_list:
                 sample_dir_name = os.path.basename(sample_dir)
                 sample_id = sample_dir_name.split('_')[1]
                 print(f"Analysis & sample ID: {analysis_id}_{sample_id}")
-                if sample_folder_count % 10 == 0:
-                    sleep 5h
+                if sample_folder_count % 80 == 0:
+                    sleep 30m
+                    echo "Sleeping for 30 minutes..."
                 else:
                     # run bash script to extract binding sites
                     subprocess.run(f"qsub -v SAMPLEDIR={sample_dir} /home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/scripts/postprocess-tobias_extract_tfbs.pbs", shell=True, check=True)
