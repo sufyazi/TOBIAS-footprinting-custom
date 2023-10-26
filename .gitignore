@@ -162,3 +162,5 @@ cython_debug/
 logfiles/pbslogs/transfer-tobias-output.o2136734
 logfiles/pbslogs/transfer-tobias-output.o2136734
 logfiles/pbslogs/
+
+.vscode/
