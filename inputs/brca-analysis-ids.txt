@@ -1,5 +1,0 @@
-ANAB5F7	Basal
-S6R691V	Her2
-98JKPD8	LumA
-PU24GB8	LumB
-2GAMBDQ	Normal-like

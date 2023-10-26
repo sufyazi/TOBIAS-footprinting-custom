@@ -38,10 +38,10 @@ for analysis_id in id_list:
                     echo "Sleeping for 30 minutes..."
                     sleep 30m
                     # run bash script to extract binding sites
-                    subprocess.run(f"qsub -v SAMPLEDIR={sample_dir} /home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/scripts/postprocess-tobias_extract_tfbs.pbs", shell=True, check=True)
+                    subprocess.run(f"qsub -v SAMPLEDIR={sample_dir} /home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/scripts/postprocess-extract_tobias_tfbs.pbs", shell=True, check=True)
                 else:
                     # run bash script to extract binding sites
-                    subprocess.run(f"qsub -v SAMPLEDIR={sample_dir} /home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/scripts/postprocess-tobias_extract_tfbs.pbs", shell=True, check=True)
+                    subprocess.run(f"qsub -v SAMPLEDIR={sample_dir} /home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/scripts/postprocess-extract_tobias_tfbs.pbs", shell=True, check=True)
                 print(f"Current sample directory count: {sample_folder_count}")
     else:
         print(f"Analysis directory {analysis_id} does not exist. Skipping...")
