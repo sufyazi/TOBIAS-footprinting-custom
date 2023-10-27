@@ -1,0 +1,13 @@
+VRO3Y37	atacseq
+91W50K2	atacseq
+IO8L3WL	atacseq
+IYRVLF5	atacseq
+C5J912G	atacseq
+ERUH8Y4	atacseq
+I9178W9	atacseq
+F27B011	atacseq
+314Z52D	atacseq
+9M7H5EI	atacseq
+O697I0L	atacseq
+0QJ6J2T	dnaseseq
+BYPLWTE	atacseq
