@@ -113,7 +113,7 @@ for dataset in "${datasets[@]}"; do
 						# find bam file 
 						bam_file=$(find "/home/msazizan/cargospace/tobias-bam-input/${dataset}/${substring}" -name "*.bam" -type f)
 						# generate an index file
-						if samtools index -@ 8 "{$bam_file}"; then
+						if samtools index -@ 8 "$bam_file"; then
 							echo "The index file has been generated."
 						else
 							echo "Index file has NOT been generated for ${sample_name}. One of the commands has failed."
