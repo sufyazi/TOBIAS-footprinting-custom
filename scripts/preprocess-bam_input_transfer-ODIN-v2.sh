@@ -70,77 +70,71 @@ for dataset in "${datasets[@]}"; do
 				if [ -f "/home/msazizan/cargospace/tobias-bam-input/${dataset}/${substring}/${sample_name}.trim.srt.nodup.rep-merged.bam" ]; then
 					echo "Merged bam file already exists. Checking if there is an index file..."
 					if [ -f "/home/msazizan/cargospace/tobias-bam-input/${dataset}/${substring}/${sample_name}.trim.srt.nodup.rep-merged.bam.bai" ]; then
-						echo "Index file already exists. Transferring to remote server..."
-						eval "$(ssh-agent -s)"
-          				ssh-add ~/.ssh/nscc_id_rsa
-						if rsync -havPz "/home/msazizan/cargospace/tobias-bam-input/${dataset}" suffiazi@aspire2antu.nscc.sg:/home/users/ntu/suffiazi/scratch/inputs/tobias-bam-input/; then
-							echo "Merged bam file and its index has been transfered to Aspire."
-						else
-							echo "Merged bam file and its index has NOT been transfered to Aspire due to rsync error."
-						fi
+						echo "Index file already exists."
 					else
 						echo "Index file does not exist. Indexing..."
 						if samtools index -@ 8 "/home/msazizan/cargospace/tobias-bam-input/${dataset}/${substring}/${sample_name}.trim.srt.nodup.rep-merged.bam" "/home/msazizan/cargospace/tobias-bam-input/${dataset}/${substring}/${sample_name}.trim.srt.nodup.rep-merged.bam.bai"; then
-							echo "Merged bam file has been indexed. Transferring to remote server..."
-							eval "$(ssh-agent -s)"
-          					ssh-add ~/.ssh/nscc_id_rsa
-							if rsync -havPz "/home/msazizan/cargospace/tobias-bam-input/${dataset}" suffiazi@aspire2antu.nscc.sg:/home/users/ntu/suffiazi/scratch/inputs/tobias-bam-input/; then
-								echo "Merged bam file and its index has been transfered to Aspire."
-							else
-								echo "Merged bam file and its index has NOT been transfered to Aspire due to rsync error."
-							fi
+							echo "Merged bam file has been indexed."
+						else
+							echo "Index file has NOT been generated for ${sample_name}. One of the commands has failed."
+							continue
 						fi
 					fi
 				else
 					echo "Merging the bam files..."
 					# merge the bam files
 					if samtools merge -@ 8 -o "/home/msazizan/cargospace/tobias-bam-input/${dataset}/${substring}/${sample_name}.trim.srt.nodup.rep-merged.bam" "${bam_files[@]}"; then
-						echo "Replicated bam files have been merged. Indexing..."
-						# index the merged bam file
-						if samtools index -@ 8 "/home/msazizan/cargospace/tobias-bam-input/${dataset}/${substring}/${sample_name}.trim.srt.nodup.rep-merged.bam" "/home/msazizan/cargospace/tobias-bam-input/${dataset}/${substring}/${sample_name}.trim.srt.nodup.rep-merged.bam.bai"; then
-							echo "Replicated sorted bam files have been merged and indexed."
-							# transfer the merged bam file to Aspire
-							echo "Transferring the merged bam file to remote server..."
-							eval "$(ssh-agent -s)"
-          					ssh-add ~/.ssh/nscc_id_rsa
-							if rsync -havPz "/home/msazizan/cargospace/tobias-bam-input/${dataset}" suffiazi@aspire2antu.nscc.sg:/home/users/ntu/suffiazi/scratch/inputs/tobias-bam-input/; then
-								echo "Merged bam file and its index has been transfered to Aspire."
-							else
-								echo "Merged bam file and its index has NOT been transfered to Aspire due to rsync error."
-							fi
+						echo "Replicated bam files have been merged. Checking if there is an index file..."
+						if [ -f "/home/msazizan/cargospace/tobias-bam-input/${dataset}/${substring}/${sample_name}.trim.srt.nodup.rep-merged.bam.bai" ]; then
+							echo "Index file already exists. Transferring to remote server..."
 						else
-							echo "Index file has NOT been generated. One of the commands has failed."
+							# index the merged bam file
+							if samtools index -@ 8 "/home/msazizan/cargospace/tobias-bam-input/${dataset}/${substring}/${sample_name}.trim.srt.nodup.rep-merged.bam" "/home/msazizan/cargospace/tobias-bam-input/${dataset}/${substring}/${sample_name}.trim.srt.nodup.rep-merged.bam.bai"; then
+								echo "Replicated sorted bam files have been merged and indexed."
+							else
+								echo "Index file has NOT been generated for ${sample_name}. One of the commands has failed."
+								continue
+							fi
 						fi
 					else
-						echo "Replicated sorted bam files failed to be merged due to samtools error."
+						echo "Replicated sorted bam files of ${sample_name} failed to be merged due to samtools error. Skipping..."
+						continue
 					fi
 				fi
 			else
 				echo "There are no replicated sorted bam files for ${sample_name}. Copying the bam file..."
 				# copy the bam files to created folder
 				if rsync -avPhz "${bam_files[@]}" "/home/msazizan/cargospace/tobias-bam-input/${dataset}/${substring}/"; then
-					# generate an index file
-					if samtools index -@ 8 /home/msazizan/cargospace/tobias-bam-input/"${dataset}"/"${substring}"/*.bam; then
-						echo "The index file has been generated."
-						echo "Transferring the bam file to remote server..."
-						eval "$(ssh-agent -s)"
-          				ssh-add ~/.ssh/nscc_id_rsa
-						# rsync the folder to Aspire
-						rsync -havPz "/home/msazizan/cargospace/tobias-bam-input/${dataset}" suffiazi@aspire2antu.nscc.sg:/home/users/ntu/suffiazi/scratch/inputs/tobias-bam-input/
+					# check if there is an index file
+					if find "/home/msazizan/cargospace/tobias-bam-input/${dataset}/${substring}" -name "*.bam.bai" -print -quit | grep -q .; then
+						echo "Index file already exists."
 					else
-						echo "Index file has NOT been generated. One of the commands has failed."
+						echo "Index file does not exist. Indexing..."
+						# generate an index file
+						if samtools index -@ 8 "/home/msazizan/cargospace/tobias-bam-input/${dataset}/${substring}/${sample_name}.trim.srt.nodup.no_chrM_MT.bam" "/home/msazizan/cargospace/tobias-bam-input/${dataset}/${substring}/${sample_name}.trim.srt.nodup.no_chrM_MT.bam.bai"; then
+							echo "The index file has been generated."
+						else
+							echo "Index file has NOT been generated for ${sample_name}. One of the commands has failed."
+							continue
+						fi
+
 					fi
 				else
-					echo "Replicated sorted bam files failed to be copied due to rsync error."
+					echo "Replicated sorted bam files of ${sample_name} failed to be copied due to rsync error."
+					continue
 				fi
 			fi
 		fi
+	# transfer the sample dir to remote server
+	eval "$(ssh-agent -s)"
+    ssh-add ~/.ssh/nscc_id_rsa
+	if rsync -havPz "/home/msazizan/cargospace/tobias-bam-input/${dataset}" suffiazi@aspire2antu.nscc.sg:/home/users/ntu/suffiazi/scratch/inputs/tobias-bam-input/; then
+		echo "Dataset ${dataset} has been transferred to Aspire."
+	else
+		echo "Dataset ${dataset} have NOT been transferred to Aspire due to rsync error."
+		continue
+	fi
 	done
-	# # rsync the bam folder to Gekko
-	# if rsync -avPhz --remove-source-files /home/msazizan/cargospace/encd-atac-pl/prod/tobias_raw_input_files/"${dataset}" suffi.azizan@gekko.hpc.ntu.edu.sg:/home/suffi.azizan/scratchspace/outputs/tobias-io/tobias_raw_input_files/; then
-	# 	printf "Rsync transfer of %s input files to Gekko for TOBIAS is successful. \n" "${dataset}"
-	# else
-	# 	printf "Rsync transfer of %s input files to Gekko for TOBIAS is NOT successful. \n" "${dataset}"
-	# fi
 done
+
 echo "Input bam file collation, merging,and transfer to remote server have been completed."
