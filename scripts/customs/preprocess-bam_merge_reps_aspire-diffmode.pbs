@@ -2,7 +2,7 @@
 # shellcheck disable=SC1091
 
 #PBS -l select=1:ncpus=16:mem=100GB
-#PBS -l walltime=1:00:00
+#PBS -l walltime=9:00:00
 #PBS -j oe
 #PBS -P personal
 #PBS -q normal
@@ -22,11 +22,11 @@ echo "Bam files to be merged:" "${bam_files[@]}"
 echo "Dataset:" "${dataset}"
 
 echo "Merging bam files..."
-if samtools merge -@ 16 -o "/home/users/ntu/suffiazi/scratch/outputs/merged_bams/${dataset}.trim.srt.nodup.merged.bam" "${bam_files[@]}"; then
+if samtools merge -@ 16 -o "/home/users/ntu/suffiazi/scratch/outputs/merged_BRCA_bams/${dataset}_all-sample-merged.bam" "${bam_files[@]}"; then
 	echo "Bam files have been merged. Indexing..."
 	# index the merged bam file if not already
-    if [ ! -f "/home/users/ntu/suffiazi/scratch/outputs/merged_bams/${dataset}.trim.srt.nodup.merged.bam.bai" ]; then
-	    if samtools index -@ 64 -o "/home/users/ntu/suffiazi/scratch/outputs/merged_bams/${dataset}.trim.srt.nodup.merged.bam.bai" "/home/users/ntu/suffiazi/scratch/outputs/merged_bams/${dataset}.trim.srt.nodup.merged.bam"; then
+    if [ ! -f "/home/users/ntu/suffiazi/scratch/outputs/merged_BRCA_bams/${dataset}_all-sample-merged.bam.bai" ]; then
+	    if samtools index -@ 16 -o "/home/users/ntu/suffiazi/scratch/outputs/merged_BRCA_bams/${dataset}_all-sample-merged.bam.bai" "/home/users/ntu/suffiazi/scratch/outputs/merged_BRCA_bams/${dataset}_all-sample-merged.bam"; then
 		    echo "Merged bam file has been indexed."
 	    else
             echo "Merged bam file failed to be merged due to samtools error."

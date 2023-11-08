@@ -6,7 +6,7 @@
 # UPDATE: for master peakset v3 and v4: use 800GB memory and 64 cores for 5h
 
 #PBS -N tobias-rerun2
-#PBS -l select=1:ncpus=64:mem=500GB
+#PBS -l select=1:ncpus=64:mem=420GB
 #PBS -l walltime=4:00:00
 #PBS -j oe
 #PBS -P 12003580

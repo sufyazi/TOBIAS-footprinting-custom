@@ -46,7 +46,7 @@ for dataset in "${datasets[@]}"; do
 			echo "Current directory: ${sample_name} of ${dataset}"
 
 			# find the bam files and store the paths in an array
-			readarray -t temp_arr < <(find "${sample_dir}" -type f \( -name "*.trim.srt.nodup.no_chrM_MT.bam" -o -name "*.nodup.no_chrM_MT.bam" \))
+			readarray -t temp_arr < <(find "${sample_dir}" -type f \( -name "*.trim.srt.nodup.no_chrM_MT.bam" -o -name "*.nodup.no_chrM_MT.bam" -o -name "*srt.nodup.rep-merged.bam" \))
 
 			# check the bam file array for each sample
 			echo "Bam files of ${dataset}_${sample_name}:" "${temp_arr[@]}"
@@ -61,6 +61,6 @@ for dataset in "${datasets[@]}"; do
 	echo "Total number of bam files for ${dataset}:" "${#bam_files[@]}"
 	echo "Merging the bam files..."
 	bam_files_str="${bam_files[*]}"
-	qsub -v BAM="${bam_files_str}",DATA="${dataset}" -N "${dataset}"-bam-merge /home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/scripts/preprocess-bam_merge_reps_aspire.pbs
+	qsub -v BAM="${bam_files_str}",DATA="${dataset}" -N "${dataset}"-bam-merge /home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/scripts/customs/preprocess-bam_merge_reps_aspire-diffmode.pbs
 done			
 echo "Queue submission completed."
