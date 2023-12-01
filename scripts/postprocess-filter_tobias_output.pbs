@@ -52,3 +52,5 @@ else
         done
     done
 fi
+
+echo "Job finished!"
