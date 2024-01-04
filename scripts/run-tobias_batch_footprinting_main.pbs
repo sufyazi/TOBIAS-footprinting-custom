@@ -12,9 +12,7 @@
 #PBS -P 12003580
 #PBS -q normal
 
-# load conda environment
-module load miniconda3/py38_4.8.3
-
+eval "$(conda shell.bash hook)"
 conda activate /home/users/ntu/suffiazi/apps/mambaforge/envs/tobias-footprinting
 
 dataset=$ANALYSIS_ID

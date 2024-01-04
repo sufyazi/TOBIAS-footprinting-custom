@@ -1,0 +1,62 @@
+<embedded code object>:685: SyntaxWarning: "is" with a literal. Did you mean "=="?
+<embedded code object>:697: SyntaxWarning: "is" with a literal. Did you mean "=="?
+<embedded code object>:1505: SyntaxWarning: "is" with a literal. Did you mean "=="?
+<embedded code object>:2105: SyntaxWarning: "is" with a literal. Did you mean "=="?
+Module load successful
+Testing loaded environment...
+ ______________________________________________________________________________
+|                                                                              |
+|                                ~ T O B I A S ~                               |
+|                   Transcription factor Occupancy prediction                  |
+|                       By Investigation of ATAC-seq Signal                    |
+|______________________________________________________________________________|
+
+Usage: TOBIAS <TOOLNAME> [arguments]
+
+Tools for footprinting analysis:
+   ATACorrect		Correct reads with regards to Tn5 sequence bias
+   ScoreBigwig		Calculate scores such as footprints from cutsites
+   BINDetect		Detect TF binding from footprints and motifs
+
+Tools for working with motifs/TFBS:
+   TFBScan		Identify positions of TFBS given sequence and motifs
+   FormatMotifs		Utility to deal with motif files
+   ClusterMotifs	Cluster motifs by similarity
+   ScoreBed		Score .bed-file with signal from .bigwig-file(s)
+
+Visualization tools:
+   PlotAggregate	Aggregate of .bigwig-signal across TF binding sites
+   PlotHeatmap		Heatmap of .bigwig-signal across TF binding sites
+   PlotChanges		Plot changes in TF binding across multiple conditions (from BINDetect output)
+   PlotTracks		Plot genomic tracks using the svist4get package
+
+Miscellaneous tools:
+   DownloadData		Download test data for the TOBIAS tools
+   MergePDF		Merge pdf files to one
+   MaxPos		Get .bed-positions of highest bigwig signal within .bed-regions
+   SubsampleBam		Subsample a .bam-file using samtools
+   CreateNetwork	Create TF-gene network from annotated TFBS
+   Log2Table		Convert logs from PlotAggregate to tab-delimitered tables of footprint stats
+   FilterFragments	Tool for filtering fragments from a .bam-file based on the overlap of reads with .bed-regions
+
+For help on each tool, please run: TOBIAS <TOOLNAME> --help
+For version number: TOBIAS --version
+
+  
+TOBIAS loaded successfully
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+			Resource Usage on 2024-01-04 18:23:43.073468:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	JobId: 5911792.pbs101
+	Project: 12003580
+	Exit Status: 0
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	NCPUs: Requested(1), Used(1)
+	CPU Time Used: 00:00:04
+	Memory: Requested(10gb), Used(82936kb)
+	Vmem Used: 146652kb
+	Walltime: Requested(04:00:00), Used(00:00:16)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	Execution Nodes Used: (x1001c0s1b1n1:ncpus=1:mem=10485760kb)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	No GPU-related information available for this job.

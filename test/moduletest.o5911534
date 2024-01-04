@@ -1,0 +1,26 @@
+<embedded code object>:685: SyntaxWarning: "is" with a literal. Did you mean "=="?
+<embedded code object>:697: SyntaxWarning: "is" with a literal. Did you mean "=="?
+<embedded code object>:1505: SyntaxWarning: "is" with a literal. Did you mean "=="?
+<embedded code object>:2105: SyntaxWarning: "is" with a literal. Did you mean "=="?
+usage: conda [-h] [--no-plugins] [-V] COMMAND ...
+conda: error: argument COMMAND: invalid choice: 'activate' (choose from 'clean', 'compare', 'config', 'create', 'info', 'init', 'install', 'list', 'notices', 'package', 'remove', 'uninstall', 'rename', 'run', 'search', 'update', 'upgrade', 'doctor', 'env')
+Module load failed
+Testing loaded environment...
+/var/spool/pbs/mom_priv/jobs/5911534.pbs101.SC: line 22: TOBIAS: command not found
+TOBIAS failed to load
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+			Resource Usage on 2024-01-04 18:08:51.607090:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	JobId: 5911534.pbs101
+	Project: 12003580
+	Exit Status: 0
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	NCPUs: Requested(1), Used(1)
+	CPU Time Used: 00:00:01
+	Memory: Requested(10gb), Used(45688kb)
+	Vmem Used: 69884kb
+	Walltime: Requested(04:00:00), Used(00:00:09)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	Execution Nodes Used: (x1001c0s0b1n0:ncpus=1:mem=10485760kb)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	No GPU-related information available for this job.
