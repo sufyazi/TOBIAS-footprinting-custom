@@ -3,7 +3,7 @@
 
 #PBS -N filter-tobias-output
 #PBS -l select=1:ncpus=1:mem=30GB
-#PBS -l walltime=15:00:00
+#PBS -l walltime=20:00:00
 #PBS -j oe
 #PBS -P personal
 #PBS -q normal
