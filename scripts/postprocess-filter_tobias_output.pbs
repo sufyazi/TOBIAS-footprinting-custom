@@ -5,7 +5,7 @@
 #PBS -l select=1:ncpus=1:mem=30GB
 #PBS -l walltime=20:00:00
 #PBS -j oe
-#PBS -P personal
+#PBS -P 12003580
 #PBS -q normal
 
 dataset_path="$DATAPATH"
