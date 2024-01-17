@@ -19,7 +19,7 @@ fi
 
 croo_root=$1
 dataset_list=$2
-
+echo "dataset_list:" "${dataset_list}"
 # grab the basename of all the datasets listed in the dataset list text file
 readarray -t datasets < "${dataset_list}"
 
