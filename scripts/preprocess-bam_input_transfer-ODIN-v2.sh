@@ -127,16 +127,17 @@ for dataset in "${datasets[@]}"; do
 				fi
 			fi
 		fi
-	# transfer the sample dir to remote server
-	eval "$(ssh-agent -s)"
-    ssh-add ~/.ssh/nscc_id_rsa
-	if rsync -havPz "/home/msazizan/cargospace/tobias-bam-input/${dataset}" suffiazi@aspire2antu.nscc.sg:/home/users/ntu/suffiazi/scratch/inputs/tobias-bam-input/; then
-		echo "Dataset ${dataset} has been transferred to Aspire."
-	else
-		echo "Dataset ${dataset} have NOT been transferred to Aspire due to rsync error."
-		continue
-	fi
 	done
 done
 
-echo "Input bam file collation, merging,and transfer to remote server have been completed."
+# transfer the sample dir to remote server
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/nscc_id_rsa
+if rsync -havPz "/home/msazizan/cargospace/tobias-bam-input/" suffiazi@aspire2antu.nscc.sg:/home/users/ntu/suffiazi/scratch/inputs/tobias-bam-input/; then
+	echo "Datasets have been transferred to Aspire."
+	echo "Input bam file collation, merging,and transfer to remote server have been completed."
+else
+	echo "Dataset transfer was interrupted."
+fi
+
+
