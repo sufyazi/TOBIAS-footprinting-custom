@@ -26,7 +26,7 @@ TOBIAS FormatMotifs --input combined-filt-individual-motifs/* --task join --outp
 
     (b) run `postprocess-extract_tobias_tfbs.xsh` to submit jobs (with the companion `.pbs` script) that would extract the TFBS scores of each TF motif from the raw output file of individual samples and gather them into one master directory per TF motif. This is a Xonsh script so make sure you run it on a Xonsh-aware interpreter.
 
-    (c) run `postprocess-merge_tfbs_into_bigmatrix.py` to merge the TFBS scores from all samples into a big matrix per motif. The number of output files should match the number of motifs analysed.
+    (c) run `postprocess-merge_tfbs_to_mastermtrx.py` to merge the TFBS scores from all samples into a big matrix per motif. The number of output files should match the number of motifs analysed.
 
     (d) run `postprocess-rsync_filtered_output-ODIN.sh` to transfer the TFBS score big matrices from Aspire to Odin for persistent storage.
     
