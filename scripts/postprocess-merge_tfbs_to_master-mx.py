@@ -11,7 +11,7 @@ try:
     process_flag = sys.argv[3]
 except IndexError:
     print("ERROR: Missing second argument <process_flag>.")
-    print("Usage: merge-tobias-tfbs-matrix-v2.py <parent_directory> <process_flag [`all` | `subset`]> [<path_to_ID_list_file>; set only if 'subset' is set to `process_flag`]")
+    print("Usage: postprocess-merge_tfbs_to_master-mx.py <parent_directory> <process_flag [`all` | `subset`]> [<path_to_ID_list_file>; set only if 'subset' is set to `process_flag`]")
     sys.exit(1)
 else:
     # check the validity of input directory path
