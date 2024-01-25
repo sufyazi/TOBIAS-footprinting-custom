@@ -75,7 +75,7 @@ for counter, motif in enumerate(motif_dir, start=1):
     if counter > 20 and counter % 10 == 0:
         # check if the merged dataframe file exists
         if os.path.exists(f'{output_directory}/{motif}_tfbs_merged_matrix-full.parquet'):    
-            print(f"File of {motif} TFBS merged matrix already exists. Skipping {motif}...")
+            print(f"File no. {counter} of {motif} TFBS merged matrix already exists. Skipping {motif}...")
             continue
         else:
             print("Counter is at the limiter mark. Sleeping for 15 minutes...")
@@ -85,7 +85,7 @@ for counter, motif in enumerate(motif_dir, start=1):
     # submit job to cluster
     # check if the merged dataframe file exists
     if os.path.exists(f'{output_directory}/{motif}_tfbs_merged_matrix-full.parquet'):    
-        print(f"File of {motif} TFBS merged matrix already exists. Skipping {motif}...")
+        print(f"File no. {counter} of {motif} TFBS merged matrix already exists. Skipping {motif}...")
         continue
     else:
         print(f"File of {motif} TFBS merged matrix does not exist. Proceeding...")
