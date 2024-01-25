@@ -73,7 +73,7 @@ for motif in motif_dir:
     counter += 1
     # if counter > 1: ### only for debugging/testing
     #     break
-    if counter % 90 == 0:
+    if counter % 30 == 0:
         # sleep for 10 minutes
         print("Sleeping for 10 minutes...")
         time.sleep(600)
