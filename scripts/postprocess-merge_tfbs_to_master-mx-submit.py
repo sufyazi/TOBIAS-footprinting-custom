@@ -65,23 +65,22 @@ else:
 motif_dir = [d for d in os.listdir(input_directory) if os.path.isdir(os.path.join(input_directory, d))]
 print(f"Number of subdirectories: {len(motif_dir)}")
 
-# Start counter
-counter = 0
 # Loop through the subdirectories
-for motif in motif_dir:
-    # Increment counter
-    counter += 1
-    # if counter > 1: ### only for debugging/testing
-    #     break
-    if counter % 30 == 0:
-        # sleep for 10 minutes
-        print("Sleeping for 10 minutes...")
-        time.sleep(600)
+for counter, motif in enumerate(motif_dir, start=1):
     # check if the merged dataframe file exists
     if os.path.exists(f'{output_directory}/{motif}_tfbs_merged_matrix-full.parquet'):    
         print(f"File of {motif} TFBS merged matrix already exists. Skipping {motif}...")
-        continue
     else:
+        if counter == 20:
+            print("Current job count has reached 20. Submission limiter will henceforth be applied to 10 jobs per 15 minutes.")
+        
+        # check if the current counter is a multiple of 10
+        if counter > 20 and counter % 10 == 0:
+            print("Counter is at the limiter mark. Sleeping for 15 minutes...")
+            time.sleep(900)
+            print("15 minutes have passed. Resuming submission...")
+        
+        # submit job to cluster
         print(f"File of {motif} TFBS merged matrix does not exist. Proceeding...")
         print(f"Processing {motif}...")
         if id_list_file:
@@ -96,7 +95,6 @@ for motif in motif_dir:
             print(f"Command to submit: {command}")
             subprocess.run(command, shell=True, check=True)
             print(f"Submitted job for motif {motif} [no. {counter}].")
-    
 
 print("All jobs submitted. Exiting submission script...")
     
