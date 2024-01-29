@@ -7,7 +7,7 @@ from modules.utilities import downcast_df
 
 # check arguments 
 if len(sys.argv) != 2:
-    print("Usage: interconvert_tsv-parquet.py <input_file>")
+    print("Usage: format-interconversion.py <input_file>")
     sys.exit(1)
 
 # get arguments

@@ -17,7 +17,7 @@ eval "$(conda shell.bash hook)"
 conda activate /home/users/ntu/suffiazi/apps/mambaforge/envs/plots
 
 # run python script
-python /home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/scripts/postprocess-convert_tsv_to_parquet.py "${input_dir}"
+python /home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/scripts/format-interconversion.py "${input_dir}"
 
 
 
