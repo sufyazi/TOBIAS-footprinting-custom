@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+# This script is used to run the job on the NSCC cluster.
+
+#PBS -N merge_tfbs_to_parquet
+#PBS -l select=1:ncpus=1:mem=100GB
+#PBS -l walltime=4:00:00
+#PBS -j oe
+#PBS -P 12003580
+#PBS -q normal
+
+
+# Define the input file and new file directory
+input_dir=$INP_DIR
+output_dir=$OUT_DIR
+proc_flag=$FLAG
+motif=$MOT
+motif_cnt=$MOT_CNT
+id_list=$MOT_LIST
+
+
+# load the python environment
+eval "$(conda shell.bash hook)"
+conda activate /home/users/ntu/suffiazi/apps/mambaforge/envs/plots
+
+if [ -z "$id_list" ]; then
+    echo "Running for all motifs..."
+    python /home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/scripts/postprocess-merge_tfbs_to_master-mx-core.py "${input_dir}" "${output_dir}" "${proc_flag}" "${motif}" "${motif_cnt}"
+else
+    echo "Running for motifs in list..."
+    python /home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/scripts/postprocess-merge_tfbs_to_master-mx-core.py "${input_dir}" "${output_dir}" "${proc_flag}" "${motif}" "${motif_cnt}" "${id_list}"
+fi

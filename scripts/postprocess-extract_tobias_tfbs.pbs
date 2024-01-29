@@ -18,6 +18,11 @@ readarray -t files < <(find "$sample_dir" -name "*_overview.txt" -type f)
 sample_id=$(basename "$sample_dir")
 file_count=0
 
+if [ ${#files[@]} -eq 0 ]; then
+    echo "No overview files found in the sample directory. Exiting..."
+    exit 1
+fi
+
 for file in "${files[@]}"; do
     ((file_count++))
     echo "File: $file. [File no: $file_count]"

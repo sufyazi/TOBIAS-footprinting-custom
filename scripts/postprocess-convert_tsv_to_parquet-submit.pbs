@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+# This script is used to run the job on the NSCC cluster.
+
+#PBS -N to-parquet
+#PBS -l select=1:ncpus=1:mem=32GB
+#PBS -l walltime=4:00:00
+#PBS -j oe
+#PBS -P 12003580
+#PBS -q normal
+
+
+# Define the input file and new file directory
+input_dir=$INP_DIR
+
+# load the python environment
+eval "$(conda shell.bash hook)"
+conda activate /home/users/ntu/suffiazi/apps/mambaforge/envs/plots
+
+# run python script
+python /home/users/ntu/suffiazi/scripts/footprinting-workflow-scripts/scripts/format-interconversion.py "${input_dir}"
+
+
+
+
+  
