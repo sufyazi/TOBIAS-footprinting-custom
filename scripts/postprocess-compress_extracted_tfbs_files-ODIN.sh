@@ -28,9 +28,11 @@ readarray -t MOTIF_DIRS < <(find "${INP_DIRPATH}" -mindepth 1 -type d -printf '%
 echo "Number of motif directories: ${#MOTIF_DIRS[@]}"
 
 if [ $MODE == "compress" ]; then
+	counter=0
 	# check if there are already compressed files in the subdirectories of the input directory path
 	for MOTIF_DIR in "${MOTIF_DIRS[@]}"; do
-		echo $MOTIF_DIR
+		((counter++))
+		echo $MOTIF_DIR "[motif directory number: $counter]"
 		COMP_FILES=$(find "${INP_DIRPATH}/${MOTIF_DIR}" -mindepth 1 -type f -name "*.lz4" | wc -l)
 		echo "Number of compressed files in ${MOTIF_DIR}: ${COMP_FILES}"
 		if [ $COMP_FILES -eq 654 ]; then
@@ -49,11 +51,16 @@ if [ $MODE == "compress" ]; then
 			echo "The compression of files in ${MOTIF_DIR} are partially complete."
 			echo "Looping through each file in ${MOTIF_DIR} to check if it is compressed."
 			for FILE in $(find "${INP_DIRPATH}/${MOTIF_DIR}" -mindepth 1 -type f -name "*.txt"); do
+				# check if FILE is empty
+				if [ -z "${FILE}" ]; then
+					echo "No .txt files found in ${MOTIF_DIR}. Aborting script..."
+					exit 1
+				fi
 				# check if there is a compressed file with the same name as the file
 				if [ -f "${FILE}.lz4" ]; then
 					echo "$(basename "${FILE}") has been compressed."
 					# check if the compressed file is valid
-					echo "Validating the compressed file ${FILE}.lz4" 
+					echo "Validating the compressed file ${FILE}.lz4..." 
 					if lz4 -t "${FILE}.lz4"; then
 						echo "Validation of $(basename "${FILE}").lz4 successful."
 					else
@@ -72,19 +79,25 @@ if [ $MODE == "compress" ]; then
 			done
 		fi
 	done
+	echo "Compression of all files in all subdirectories of ${INP_DIRPATH} complete."
 elif [ $MODE == "validate" ]; then
 	echo "Validating the compression of files in each subdirectory of ${INP_DIRPATH}."
+	counter=0
 	for MOTIF_DIR in "${MOTIF_DIRS[@]}"; do
-		echo $MOTIF_DIR
+		# increment counter
+		((counter++))
+		echo $MOTIF_DIR "[motif directory number: $counter]"
+		echo "Validating the compressed files in ${MOTIF_DIR}..."
 		for FILE in $(find "${INP_DIRPATH}/${MOTIF_DIR}" -mindepth 1 -type f -name "*.lz4"); do
-			echo "Validating the compressed file: $(basename "${FILE}")"
 			if lz4 -t "${FILE}"; then
 				echo "Validation of $(basename "${FILE}") successful."
 			else
 				echo "Validation of $(basename "${FILE}") failed."
+				exit 1
 			fi
 		done
 	done
+	echo "Validation of all compressed files complete."
 else
 	echo "Invalid mode. Please provide a valid mode (compress or validate)."
 	exit 1
