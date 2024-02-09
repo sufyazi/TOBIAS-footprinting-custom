@@ -78,6 +78,7 @@ if [ $MODE == "compress" ]; then
 				fi
 			done
 		fi
+		echo "Processing of ${MOTIF_DIR} [no. ${counter}] complete."
 	done
 	echo "Compression of all files in all subdirectories of ${INP_DIRPATH} complete."
 elif [ $MODE == "validate" ]; then
@@ -96,6 +97,7 @@ elif [ $MODE == "validate" ]; then
 				exit 1
 			fi
 		done
+		echo "Validation of ${MOTIF_DIR} [no. ${counter}] complete."
 	done
 	echo "Validation of all compressed files complete."
 else
